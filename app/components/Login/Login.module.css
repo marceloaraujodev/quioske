@@ -1,0 +1,17 @@
+.cont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.logo{
+  width: 80px;
+}
+.loginCont{
+  margin-top: 15px;
+  width: 400px;
+  height: 300px;
+  border: 1px solid white;
+  color: white
+}
