@@ -12,13 +12,14 @@ export default function SignedInAs() {
       router.push("/api/auth/signin");
     }
   }, [status, router]);
+  console.log(session);
 
   return (
     <div className={c.cont}>
       {session ? (
         <>
-          <p>{session.user.email}</p>
-          <button onClick={() => signOut()}>Sign out</button>
+          <p>{session.user?.email}</p>
+          <button onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}>Sign out</button>
         </>
       ) : null}
     </div>

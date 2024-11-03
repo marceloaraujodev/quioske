@@ -3,7 +3,7 @@ import User from '../../models/users';
 import { createError, handleError } from '../../utils/errorHandler';
 import validatePassword from "@/app/utils/passwordValidator";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
-import hashPassword from "@/app/utils/hashPassword";
+import {hashPassword} from "@/app/utils/hashAndCheckPassword";
 
 
 export async function POST(req){
@@ -47,6 +47,7 @@ export async function POST(req){
       email: cleanEmail,
       phone: cleanPhone,
       password: hashedPassword,
+      isCredentialUser: true,
     }
 
     // creates user in db

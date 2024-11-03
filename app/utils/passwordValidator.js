@@ -9,6 +9,6 @@ schema
 .has().digits(2)
 
 
-export default function validatePassword(password) {
+export default async function validatePassword(password) {
   return schema.validate(password)
 }

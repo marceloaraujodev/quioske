@@ -5,7 +5,7 @@ function createError(statusCode = 500, message) {
   return { message, statusCode, isOperational: true };
 }
 
-// unexpected error or created error can handle both
+// For unexpected error. Can handle both
 function handleError(error) {
   if (error.isOperational) {
     return NextResponse.json(

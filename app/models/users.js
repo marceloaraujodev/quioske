@@ -3,32 +3,27 @@ import mongoose from 'mongoose';
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    // required: true,
+    required: true,
   },
   email: {
     type: String,
-    // required: true,
+    required: true,
     unique: true,
     match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   },
   password: {
     type: String,
-    // required: true,
+    required: function () { return this.isCredentialUser; }, // Only required for credential users,
     minlength: 8,
   },
   phone: {
     type: String,
-    // required: true,
+    required: false,
   },
-  // role: {
-  //   type: String,
-  //   enum: ['user', 'admin'],
-  //   default: 'user',
-  // },
-  // isActive: {
-  //   type: Boolean,
-  //   default: true,
-  // },
+  isCredentialUser: {
+    type: Boolean,
+    default: false, // Track if the user signed up with credentials
+  },
   createdAt: {
     type: Date,
     default: Date.now,
