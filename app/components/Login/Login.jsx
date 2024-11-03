@@ -9,7 +9,7 @@ import c from './Login.module.css';
 
 export default function Login() {
   const [isCredentials, setIsCredentials] = useState(false);
-  const [isLogIn, setIsLogIn] = useState(false);
+  const [isLogIn, setIsLogIn] = useState(true);
 
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -34,15 +34,27 @@ export default function Login() {
               <CredentialsButtons setIsCredentials={setIsCredentials} />
             )}
             <p className={c.text}>
-              Don't have an account? Sign up &nbsp;
-              <a href="/signup" onClick={() => setIsLogIn(false)}>
+              Don't have an account? Sign up{" "}
+              <a href="/#" onClick={() => setIsLogIn(false)}>
                 here
               </a>
               .
             </p>
           </>
         ) : (
+          <>
           <SignUpForm />
+          <p className={c.text}>
+              Already have an account? Log in{" "}
+              <a href="/#" onClick={() => {
+                setIsCredentials(false)
+                setIsLogIn(true)
+              }}>
+                here
+              </a>
+              .
+            </p>
+          </>
         )}
       </div>
     </div>

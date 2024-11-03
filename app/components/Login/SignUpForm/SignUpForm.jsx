@@ -1,23 +1,42 @@
-import { useState } from 'react';
-import axios from 'axios';
-import c from '../Login.module.css';
+import { useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import c from "../Login.module.css";
 
 export default function SignUpForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState(''); // pass this to db its informatted
-  const [formattedPhone, setFormattedPhone] = useState('');
+  const [formattedPhone, setFormattedPhone] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  // function provided by react-hook-form, it receives form data as an object
+  const onSubmit = async (formData) => {
+    console.log('onSubmitForm:', formData);
+
+    try {
+      const res = await axios.post("/api/signup", formData);
+
+      console.log(res.data);
+      // Redirect to login page or display success message
+    } catch (error) {
+      console.error("Error during signup", error);
+    }
+  };
 
   const handlePhoneChange = (e) => {
-    const inputValue = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-    setPhone(inputValue); // Store the raw number
+    const inputValue = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
     setFormattedPhone(formatPhoneNumber(inputValue)); // Format for display
+    // setPhone(inputValue); // Store the raw number old one
+    setValue("phone", inputValue); // Update hidden field with raw number
   };
 
   function formatPhoneNumber(number) {
     console.log(number);
-    let formattedNumber = '';
+    let formattedNumber = "";
     if (number > 0) {
       const areaCode = `(${number.slice(0, 2)})`;
       formattedNumber += areaCode;
@@ -34,61 +53,48 @@ export default function SignUpForm() {
     return formattedNumber.trim();
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    
-    const formData = {
-      name,
-      email,
-      password,
-      phone,
-    }
-    
-    console.log(formData);
-    try {
-      const res = await axios.post('/api/signup', formData)
-    } catch (error) {
-      
-    }
-    
-  }
-
   return (
     <>
       <p>Sign Up</p>
-      <form className={c.formCont} onSubmit={handleSubmit}>
-        <input
-          type="name"
-          placeholder="Nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+      <form className={c.formCont} onSubmit={handleSubmit(onSubmit)}>
+        <input 
+          {...register("name", { required: true })} 
+          type="text" 
+          placeholder="Nome" 
         />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+        {errors.name && <p>{errors.name.message}</p>}
+
+        <input 
+          {...register("email", { required: "Email is required" })} 
+          type="email" 
+          placeholder="Email" 
         />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+        {errors.email && <p>{errors.email.message}</p>}
+
+        <input 
+          {...register("password", { required: "Password is required" })} 
+          type="password" 
+          placeholder="Password" 
         />
-        <input
-          type="tel"
-          placeholder="Telefone"
-          value={formattedPhone}
-          onChange={(e) => handlePhoneChange(e)}
-          maxLength={15}
-          required
+        {errors.password && <p>{errors.password.message}</p>}
+
+        <input 
+          type="tel" 
+          placeholder="Telefone" 
+          value={formattedPhone} 
+          onChange={handlePhoneChange} 
+          maxLength={15} 
         />
+        {errors.phone && <p>{errors.phone.message}</p>}
+
+        {/* Hidden input to store the raw phone number */}
+        <input 
+          {...register("phone", { required: "Phone is required" })} type="hidden" 
+        />
+
         <button type="submit">
           {/* <button onClick={() => signIn('credentials', { email, password })}> */}
-          Sign in
+          Sign Up
         </button>
       </form>
     </>
