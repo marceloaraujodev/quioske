@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export async function mongooseConnect(){
-  if(mongooseConnect.connection.readyState === 1){
+  if(mongoose.connection.readyState === 1){
     return mongoose.connection.asPromise();
   }else{
     const uri = process.env.MONGODB_URI;
