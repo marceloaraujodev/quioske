@@ -1,8 +1,10 @@
 import NextAuth from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
 import { authOptions } from '../../../lib/auth';
 import { configDotenv } from 'dotenv';
+import { mongooseConnect } from '../../../lib/mongooseConnect';
 configDotenv();
+
+mongooseConnect();
 
 // authOptions directly here - lib folder need it.
 const handler = NextAuth(authOptions)

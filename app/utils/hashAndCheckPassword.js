@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { handleError, createError } from './errorHandler';
+import { handleError } from './errorHandler';
 
 async function hashPassword(password) {
   const saltRounds = 10; 
@@ -12,9 +12,9 @@ async function hashPassword(password) {
   }
 }
 
-async function checkPassword(user, password) {
+async function checkPassword(credentialsPassword, hashedPassword) {
   //... fetch user from a db etc.
-  const match = await bcrypt.compare(password, user.passwordHash);
+  const match = await bcrypt.compare(credentialsPassword, hashedPassword);
 
   if(match) {
       //login

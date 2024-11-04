@@ -3,18 +3,21 @@ import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import c from "../Login.module.css";
 
-export default function SignInForm({ isCredentials, setIsCredentials }) {
+export default function SignInForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  // sends data to the auth options in the lib 
   const onSubmit = async (data) => {
-    console.log(data);
-    //// pass form data to backend API here
-    // await signIn('credentials', { email, password });
-    // setIsCredentials(false);
+    const { email, password } = data;
+    signIn('credentials', {
+      email, 
+      password, 
+      callbackUrl: 'http://localhost:3000/protected'
+    })
   };
 
   return (

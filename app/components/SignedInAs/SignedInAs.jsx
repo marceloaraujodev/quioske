@@ -12,7 +12,7 @@ export default function SignedInAs() {
       router.push("/api/auth/signin");
     }
   }, [status, router]);
-  console.log(session);
+  console.log('SignedInAs.jsx session log',session);
 
   return (
     <div className={c.cont}>

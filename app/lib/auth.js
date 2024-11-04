@@ -6,11 +6,11 @@ import GoogleProvider from 'next-auth/providers/google';
 import EmailProvider from 'next-auth/providers/email';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import User from '../models/users';
-import { checkPassword } from '../utils/hashAndCheckPassword';
 import { handleError, createError } from '../utils/errorHandler';
+import { checkPassword } from '../utils/hashAndCheckPassword';
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 export const authOptions = {
   providers: [
@@ -18,18 +18,31 @@ export const authOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "Enter your username" },
-        password: { label: "Password", type: "password", placeholder: "Enter your password" },
+        username: {
+          label: 'Username',
+          type: 'text',
+          placeholder: 'Enter your username',
+        },
+        password: {
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Enter your password',
+        },
       },
       async authorize(credentials) {
+        console.log('credentials autorize async', credentials);
         try {
-          const user = await User.findOne({ email: credentials.email});
-          if(!user){
+          const user = await User.findOne({ email: credentials.email });
+          console.log('user inside authorize credentials', user);
+          if (!user) {
             return null;
           }
-          const isValidPassword = await checkPassword(credentials.password, user.password);
-          if(!isValidPassword){
-            
+
+          const isValidPassword = await checkPassword(
+            credentials.password,
+            user.password
+          );
+          if (!isValidPassword) {
             return null;
           }
           return user;
@@ -55,20 +68,20 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_SECRET,
       authorization: {
         params: {
-          scope: 'email profile'
-        }
-      }
-    })
+          scope: 'email profile',
+        },
+      },
+    }),
   ],
   // // custom signIn page
   // pages: {
   //   signIn: '/auth/signin'
   // },
-  // signIn and register with google account
+  // SignIn and or register with google account
   callbacks: {
     async signIn(user, account, profile) {
-      console.log('user-----', user.user.email); 
-      console.log('user-----', user.user); 
+      // console.log('user-----', user.user.email);
+      // console.log('user-----', user.user);
       // Check if the user already exists in your database
       const existingUser = await User.findOne({ email: user.user.email });
 
@@ -92,7 +105,7 @@ export const authOptions = {
       return true; // Return true to indicate successful sign-in
     },
     async session(session, user) {
-      if(user && user._id){
+      if (user && user._id) {
         session.user.id = user._id;
       }
       // Attach user ID to the session
