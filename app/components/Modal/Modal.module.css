@@ -1,0 +1,132 @@
+
+.cont{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay with 50% opacity */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+  color: black;
+}
+
+.modal{
+  /* border: 6px solid greenyellow; */
+  position: relative;
+  width: 400px;
+  height: 40vh;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+}
+
+.closeBtn{
+    position: absolute;
+    color: rgb(255, 255, 255);
+    z-index: 5002;
+    top: -50px;
+    right: 0;
+    font-size: 2rem;
+    background-color: transparent;
+    z-index: 10000;
+    border: none;
+  }
+.wrapper{
+  position: fixed;
+  max-height: 80vh;
+  width: 100%;
+  max-width: 570px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  z-index: 1000;
+  /* overflow-y: auto; */
+}
+.modalContent{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.title{
+  /* border: 1px solid green; */
+  font-size: 4rem;
+  font-weight: bold;
+  line-height: 1;
+  position: relative;
+  margin-bottom: -10px;
+  width: 100%;
+  grid-column: 1 / -1;
+}
+.title span{
+  display: block;
+  z-index: 2000;
+}
+.modalContent div{
+  width: 170px;
+  height: 170px;
+  cursor: pointer;
+}
+.modalContent p{
+  font-size: 1.3rem;
+  font-weight: bold;
+  max-width: 510px;
+  grid-column: 1 / -1;
+}
+.modal img{
+  width: 170px;
+  height: 170px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.wrapper::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f1f1f1;
+}
+.wrapper::-webkit-scrollbar-track {
+  background: #e0e0e0;
+  border-radius: 10px;
+}
+.wrapper::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 3px solid #e0e0e0; /* optional border for rounded look */
+}
+@media screen and (max-width: 768px) {
+  .modal{
+    width: 95%;
+    max-width: 420px;
+  }
+  .wrapper{
+    width: 95%;
+    max-width: 350px;
+    padding: 0 8px;
+  }
+  .modalContent{
+    max-width: 320px;
+  }
+  .title{
+    margin-bottom: 0px;
+    font-size: 3rem;
+  }
+  .modalContent div{
+    width:100px;
+    height:100px;
+  }
+  .modal img{
+    width:100px;
+    height:100px;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+  .modalContent p{
+    max-width: 300px;
+    font-size: 1.1rem;
+  }
+}

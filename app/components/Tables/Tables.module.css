@@ -1,0 +1,43 @@
+.cont{
+  border: 1px solid rgb(199, 253, 1);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.tablesCont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 20px;
+  border: 1px solid white;
+}
+.tablesCont a {
+  color: white;
+  text-decoration: none;
+}
+.table{
+  border: 1px solid gray;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tableImgCont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+.tableImg{
+  width: 80%;
+  object-fit: cover;
+
+}

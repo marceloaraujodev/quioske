@@ -1,0 +1,29 @@
+
+
+.itemsCont{
+  border: 1px solid white;
+}
+.item{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.item p{
+  margin: 5px;
+}
+.itemName{
+  font-weight: bold;
+
+}
+.itemDetails{
+  display: flex;
+}
+.label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.label input{
+  max-width: 60px;
+  padding: 5px 8px;
+}
