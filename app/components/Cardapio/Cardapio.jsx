@@ -2,7 +2,7 @@
 import Modal from '../Modal/Modal';
 import { useOrderContext } from '../../Providers/OrderContext';
 import { useForm } from 'react-hook-form';
-// import axios from 'axios';
+import axios from 'axios';
 import c from './Cardapio.module.css';
 // import io from 'socket.io-client';
 
@@ -100,11 +100,12 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
     handleSubmit,
     setValue,
     watch,
+    reset: resetQuantityFields,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     // console.log(order);
     const newOrder = Object.entries(data).reduce(
       (order, [key, quantity]) => {
@@ -117,18 +118,19 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
       []
     );
     console.log(newOrder);
-    addOrder(...newOrder);
+    addOrder(newOrder);
     setIsModalOpen(true);
   };
 
   async function confirmOrder() {
     try {
-      // const res = await axios.post('/api/orders', orderDetails)
+      const res = await axios.post('/api/orders', orders)
       // if (res.status === 200) {
       //   socket.emit('order', orderDetails);
-      alert('Pedido enviado com sucesso');
       resetOrders();
       onClose();
+      resetQuantityFields();
+      // alert('Pedido enviado com sucesso');
       // } else {
       //   throw new Error('Failed to send order');
       // }
@@ -152,7 +154,6 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
   return (
     <>
       <Modal isModalOpen={isModalOpen} onClose={onClose}>
-        {/* Render the order preview in the modal */}
         <div id='modalContent'>
           <h2>Confirm Your Order</h2>
           {orders.length > 0 ? (

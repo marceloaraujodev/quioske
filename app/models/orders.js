@@ -1,22 +1,22 @@
 import mongoose from 'mongoose';
 
-const OrderItemSchema = new Schema({
-  itemId: {
-    type: Number,
-  }, 
-  itemName: {
-    type: String,
-  },
-  quantity: {
-    type: Number,
-    required: true,
-    min: [1, 'Quantity must be at least 1']
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: [0.01, 'Price must be at least $0.01']
-  }
+const OrderItemSchema = new mongoose.Schema({
+    itemId: {
+      type: Number,
+    }, 
+    itemName: {
+      type: String,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: [1, 'Quantity must be at least 1']
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: [0.01, 'Price must be at least $0.01']
+    }
 })
 
 const OrderSchema = new mongoose.Schema({
@@ -29,7 +29,7 @@ const OrderSchema = new mongoose.Schema({
   },
   totalAmount: {
     type: Number,
-    required: true,
+    // required: true,
     min: [0.01, 'Total amount must be at least $0.01']
   },
   createdAt: {

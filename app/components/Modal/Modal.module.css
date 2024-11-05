@@ -15,21 +15,21 @@
 }
 
 .modal{
-  /* border: 6px solid greenyellow; */
   position: relative;
   width: 400px;
-  height: 40vh;
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
-  display: flex; /* Use flexbox for centering */
-  flex-direction: column; /* Stack children vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
-  padding: 20px; /* Add some padding */
-  overflow-y: auto; /* Enable scrolling if content overflows */
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  padding: 20px; 
+  overflow-y: auto; 
   /* color: blue; */
 }
-
+.wrapper{
+  padding: 5px;
+}
 .closeBtn{
     position: absolute;
     color: rgb(255, 255, 255);
