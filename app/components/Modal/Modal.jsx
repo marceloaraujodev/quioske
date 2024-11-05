@@ -11,9 +11,6 @@ export default function Modal({ children, isModalOpen, onClose, item }) {
           </button>
           <div className={c.wrapper}>
             <div className={c.modalContent}>
-                <span className={c.title}>
-                 {item.name}
-                </span>
               {children}
             </div>
           </div>

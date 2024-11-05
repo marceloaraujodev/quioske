@@ -1,7 +1,8 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import Modal from '../Modal/Modal';
+import { useOrderContext } from '../../Providers/OrderContext';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+// import axios from 'axios';
 import c from './Cardapio.module.css';
 // import io from 'socket.io-client';
 
@@ -18,130 +19,233 @@ import c from './Cardapio.module.css';
 //   // More tables...
 // };
 
-export default function Cardapio({ isModalOpen, onClose }) {
-  // will get table id from the qrcode scanner 
-  const [order, setOrder] = useState([]);
-  const [quantities, setQuantities] = useState({});
-  const { register, handleSubmit, formState: { errors } } = useForm();
+const menuData = {
+  'Bebidas Alcoólicas': {
+    Lata: [
+      { itemId: 1, name: 'Skol', price: 10.0, ml: 350, img: '/skol-lata.jpeg' },
+      {
+        itemId: 2,
+        name: 'Brahma',
+        price: 11.0,
+        ml: 350,
+        img: '/brahma-lata.jpeg',
+      },
+      {
+        itemId: 3,
+        name: 'Heineken',
+        price: 9.0,
+        ml: 350,
+        img: '/heineken-lata.jpeg',
+      },
+    ],
+    Garrafa: [
+      { itemId: 4, name: 'Heineken', price: 12.0, ml: 500 },
+      { itemId: 5, name: 'Budweiser', price: 14.0, ml: 500 },
+    ],
+    Longneck: [{ itemId: 6, name: 'Corona', price: 15.0, ml: 330 }],
+  },
+  Entradas: {
+    Frios: [
+      {
+        itemId: 7,
+        name: 'Queijo',
+        price: 20.0,
+        description: 'Assorted cheeses',
+      },
+      { itemId: 8, name: 'Salame', price: 18.0, description: 'Italian salami' },
+    ],
+    Quentes: [
+      {
+        itemId: 9,
+        name: 'Bolinho de Bacalhau',
+        price: 22.0,
+        description: 'Codfish balls',
+      },
+    ],
+  },
+  Porções: {
+    Pequenas: [
+      {
+        itemId: 10,
+        name: 'Frango a Passarinho',
+        price: 25.0,
+        description: 'Fried chicken',
+      },
+    ],
+    Grandes: [
+      {
+        itemId: 11,
+        name: 'Batata Frita',
+        price: 30.0,
+        description: 'French fries',
+      },
+    ],
+  },
+  Caipirinhas: {
+    Tradicional: [
+      { itemId: 12, name: 'Caipirinha de Limão', price: 18.0, ml: 300 },
+      { itemId: 13, name: 'Caipirinha de Morango', price: 20.0, ml: 300 },
+    ],
+    'Sabores Diversos': [
+      { itemId: 14, name: 'Caipirinha de kiwi', price: 20.0, ml: 300 },
+    ],
+  },
+};
+
+export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
+  // const [orderDetails, addOrderDetails] = useState([]);
+  const { addOrder, orders, resetOrders } = useOrderContext();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data)
-  
-    console.log(order);
-    // const res = await axios.post('/api/orders', order)
-    
+    console.log(data);
+    // console.log(order);
+    const newOrder = Object.entries(data).reduce(
+      (order, [key, quantity]) => {
+        const [itemId, itemName, itemPrice] = key.split('_');
+        if (quantity > 0) {
+          order.push({ itemId, itemName, price: itemPrice, quantity });
+        }
+        return order;
+      },
+      []
+    );
+    console.log(newOrder);
+    addOrder(...newOrder);
+    setIsModalOpen(true);
   };
 
-  const handleQuantityChange = (item, quantity) => {
-    // console.log(id, quantity, itemName);
-    setQuantities(prevQuantities => ({
-      ...prevQuantities,
-      [item.itemId]: quantity,
-    }));
-    setOrder((prevOrder) => {
-      const existingItemIndex = prevOrder.findIndex(i => i.itemId === item.itemId);
-
-      if(existingItemIndex !== -1){
-        // update item quantity 
-        const updateOrder = [...prevOrder] // gets all previous orders
-        updateOrder[existingItemIndex].quantity = quantity;
-        return updateOrder;
-      }else{
-        // add new if no orders exist
-        return [...prevOrder, { ...item, quantity }];
-      }
+  async function confirmOrder() {
+    try {
+      // const res = await axios.post('/api/orders', orderDetails)
+      // if (res.status === 200) {
+      //   socket.emit('order', orderDetails);
+      alert('Pedido enviado com sucesso');
+      resetOrders();
+      onClose();
+      // } else {
+      //   throw new Error('Failed to send order');
+      // }
+    } catch (error) {
+      alert('Alguma coisa deu errado, por favor tente novamente');
+      console.error(error);
     }
-  )
+  }
+
+  const handleIncrement = (fieldName) => {
+    setValue(fieldName, (watch(fieldName) || 0) + 1); // Increase quantity by 1
   };
 
-
-
-  const menuData = {
-    "Bebidas Alcoólicas": {
-      Lata: [
-        { itemId: 1, name: "Skol", price: 10.00, ml: 350 },
-        { itemId: 2, name: "Brahma", price: 11.00, ml: 350 },
-        { itemId: 3, name: "Heineken", price: 9.00, ml: 350 }
-      ],
-      Garrafa: [
-        { itemId: 4, name: "Heineken", price: 12.00, ml: 500 },
-        { itemId: 5, name: "Budweiser", price: 14.00, ml: 500 }
-      ],
-      Longneck: [
-        { itemId: 6, name: "Corona", price: 15.00, ml: 330 }
-      ]
-    },
-    Entradas: {
-      "Frios": [
-        { itemId: 7, name: "Queijo", price: 20.00, description: "Assorted cheeses" },
-        { itemId: 8, name: "Salame", price: 18.00, description: "Italian salami" }
-      ],
-      "Quentes": [
-        { itemId: 9, name: "Bolinho de Bacalhau", price: 22.00, description: "Codfish balls" }
-      ]
-    },
-    Porções: {
-      "Pequenas": [
-        { itemId: 10, name: "Frango a Passarinho", price: 25.00, description: "Fried chicken" }
-      ],
-      "Grandes": [
-        { itemId: 11, name: "Batata Frita", price: 30.00, description: "French fries" }
-      ]
-    },
-    Caipirinhas: {
-      Tradicional: [
-        { itemId: 12, name: "Caipirinha de Limão", price: 18.00, ml: 300 }, 
-        { itemId: 13, name: "Caipirinha de Morango", price: 20.00, ml: 300 }
-      ],
-      "Sabores Diversos": [
-        { itemId: 14, name: "Caipirinha de kiwi", price: 20.00, ml: 300 }
-      ]
+  const handleDecrement = (fieldName) => {
+    const currentValue = watch(fieldName) || 0;
+    if (currentValue > 0) {
+      setValue(fieldName, currentValue - 1); // Decrease quantity by 1, but not below 0
     }
   };
 
   return (
     <>
-      <Modal isModalOpen={isModalOpen} onClose={onClose} />
-      <div className={c.cardapioContainer}>
-        {Object.entries(menuData).map(([category, types]) => (
-          <div key={category} className={c.categorySection}>
-            <h3>{category}</h3>
-            {Object.entries(types).map(([type, items]) => (
-              <div key={type} className={c.typeSection}>
-                <h4>{type}</h4>
-                <div className={c.itemsCont}>
-                  {items.map((item, index) => (
-                    <form key={`${item.name}-${index}`} className={c.item} onSubmit={handleSubmit(onSubmit)}>
-                      <div>
-                        <p className={c.itemName}>{item.name}</p>
-                        {item.description && (
-                          <span className={c.itemDescription}>{item.description}</span>
-                        )}
-                      </div>
-                      <div className={c.itemDetails}>
-                        <div className={c.priceCont}>
-                          <p>R$ {item.price.toFixed(2)}</p>
-                          {item.ml && <p>({item.ml} ml)</p>}
-                        </div>
-                        <label className={c.label} htmlFor={`quantity-${index}`}>Qt
-                          <input 
-                            {...register(item.name)} 
-                            type="number"
-                            value={quantities[item.itemId] || 0}
-                            min={0}
-                            onChange={(e) => handleQuantityChange(item, +e.target.value)}
-                          />
-                          {errors.name && <p>{errors.name.message}</p>}
-                        </label>
-                      </div>
-                    </form>
-                  ))}
-                </div>
-              </div>
-            ))}
+      <Modal isModalOpen={isModalOpen} onClose={onClose}>
+        {/* Render the order preview in the modal */}
+        <div id='modalContent'>
+          <h2>Confirm Your Order</h2>
+          {orders.length > 0 ? (
+            <ul>
+              {orders.map((item) => (
+                <li key={item.itemId}>
+                  {item.itemName} x{item.quantity} - R${' '}
+                  {(item.price * item.quantity).toFixed(2)}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No items in your order.</p>
+          )}
+          <div id='modalBtn-Cancel-Confirm-Cont'>
+            <button onClick={onClose}>Cancel</button>
+            <button onClick={confirmOrder}>Confirm Order</button>
           </div>
-        ))}
-        <button onClick={handleSubmit(onSubmit)}>Pedir</button>
+        </div>
+      </Modal>
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
+          {Object.entries(menuData).map(([category, types], index) => (
+            <div key={category} className={c.categorySection}>
+              <h3>{category}</h3>
+              {Object.entries(types).map(([type, items]) => (
+                <div key={type} className={c.typeSection}>
+                  <h4>{type}</h4>
+                  <div className={c.itemsCont}>
+                    {items.map((item) => {
+                      const fieldName = `${item.itemId}_${item.name}_${item.price}`;
+
+                      return (
+                        <div key={item.itemId} className={c.item}>
+                          <div className={c.imgCont}>
+                            {item.img ? (
+                              <img
+                                src={item.img}
+                                alt={item.name}
+                                className={c.itemImg}
+                              />
+                            ) : (
+                              ''
+                            )}
+
+                            <p className={c.itemName}>{item.name}</p>
+                            {item.description ? (
+                              <p className={c.itemDescription}>
+                                {item.description}
+                              </p>
+                            ) : null}
+                          </div>
+                          {/* 
+                          <div className={c.description}>
+                            <p>{item.description}</p>
+                          {errors.email && <p>{errors.email.message}</p>}
+                          </div> */}
+
+                          <div className={c.itemDetails}>
+                            <div className={c.priceCont}>
+                              <p>R$ {item.price.toFixed(2)}</p>
+                            </div>
+                            <div className={c.label}>
+                              <button
+                                type="button"
+                                onClick={() => handleDecrement(fieldName)}>
+                                -
+                              </button>
+                              <input
+                                type="number"
+                                min={0}
+                                {...register(fieldName, {
+                                  valueAsNumber: true,
+                                })}
+                                value={watch(fieldName) || 0} // Display 0 when field is empty
+                              />
+                              <button
+                                type="button"
+                                onClick={() => handleIncrement(fieldName)}>
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+          <button type="submit">Pedir</button>
+        </form>
       </div>
     </>
   );

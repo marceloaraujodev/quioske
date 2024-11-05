@@ -1,45 +1,99 @@
 
-
 .itemsCont{
   border: 1px solid black;
 }
 .item{
   display: flex;
   justify-content: space-between;
-  padding:0;
+  border: 1px solid green;
 }
-.item p{
+/* .item p{
   margin: 5px;
-}
+} */
 .itemName{
   font-weight: bold;
-
+  margin: 0;
+}
+.itemName p{
+  margin: 0;
+  padding: 0;
+}
+.imgCont{
+  /* border: 1px solid blue; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 90px;
+}
+.itemImg{
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+.description{
+  width: 30%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.itemDescription{
+  padding: 0;
 }
 .itemDetails{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
+  justify-content: center;
   max-width: 230px;
   gap: 5px;
   /* border: 1px solid green; */ 
 }
-.priceCont{
+/* .priceCont{
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  /* border: 1px solid blue; */
-}
+  flex-direction: column;
+  justify-content: center;
+  max-width: 230px;
+  gap: 5px;
+
+} */
 .priceCont p{
   margin: 0;
+  text-align: center;
 }
 .label{
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  /* gap: 5px; */
+}
+.label button{
+  padding: 10px 10px;
+  margin: 0;
+  border: none;
 }
 .label input{
-  max-width: 60px;
-  padding: 5px 8px;
+  max-width: 50px;
+  padding: 10px 10px;
+  text-align: center;
+  border: none;
+}
+.label input[type="number"]::-webkit-inner-spin-button,
+.label input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.label input[type="number"] {
+  -moz-appearance: textfield;
+  appearance:none;
+}
+
+
+.label input[type="number"] {
+  width: 50px; 
+  text-align: center; 
 }
