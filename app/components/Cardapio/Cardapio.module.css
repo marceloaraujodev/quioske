@@ -1,12 +1,12 @@
 
 
 .itemsCont{
-  border: 1px solid white;
+  border: 1px solid black;
 }
 .item{
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
+  padding:0;
 }
 .item p{
   margin: 5px;
@@ -17,11 +17,27 @@
 }
 .itemDetails{
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 230px;
+  gap: 5px;
+  /* border: 1px solid green; */ 
+}
+.priceCont{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  /* border: 1px solid blue; */
+}
+.priceCont p{
+  margin: 0;
 }
 .label{
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 5px;
 }
 .label input{
   max-width: 60px;
