@@ -155,7 +155,7 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
     <>
       <Modal isModalOpen={isModalOpen} onClose={onClose}>
         <div id='modalContent'>
-          <h2>Confirm Your Order</h2>
+          <h2>Confirmar Pedido</h2>
           {orders.length > 0 ? (
             <ul>
               {orders.map((item) => (
