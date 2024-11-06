@@ -1,4 +1,5 @@
-// import { useState } from 'react';
+'use client'
+import { useState, useEffect } from 'react';
 import Modal from '../Modal/Modal';
 import { useOrderContext } from '../../Providers/OrderContext';
 import { useForm } from 'react-hook-form';
@@ -92,9 +93,9 @@ const menuData = {
   },
 };
 
-export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
+export default function Cardapio({ tableNumber, quioskeName }) {
   // const [orderDetails, addOrderDetails] = useState([]);
-  const { addOrder, orders, resetOrders } = useOrderContext();
+  const { addOrder, orders, resetOrders, setOrdersToFill,isModalOpen, setIsModalOpen } = useOrderContext();
   const {
     register,
     handleSubmit,
@@ -103,6 +104,8 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
     reset: resetQuantityFields,
     formState: { errors },
   } = useForm();
+
+  // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
     // console.log(data);
@@ -124,12 +127,13 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
 
   async function confirmOrder() {
     try {
-      const res = await axios.post('/api/orders', orders)
+      const res = await axios.post('/api/orders', {tableNumber, userId: quioskeName, orders})
       // if (res.status === 200) {
       //   socket.emit('order', orderDetails);
       resetOrders();
-      onClose();
+      setIsModalOpen(false);
       resetQuantityFields();
+      // setOrdersToFill(res.data)
       // alert('Pedido enviado com sucesso');
       // } else {
       //   throw new Error('Failed to send order');
@@ -153,7 +157,7 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
 
   return (
     <>
-      <Modal isModalOpen={isModalOpen} onClose={onClose}>
+      <Modal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div id='modalContent'>
           <h2>Confirmar Pedido</h2>
           {orders.length > 0 ? (
@@ -169,7 +173,7 @@ export default function Cardapio({ isModalOpen, setIsModalOpen, onClose }) {
             <p>No items in your order.</p>
           )}
           <div id='modalBtn-Cancel-Confirm-Cont'>
-            <button onClick={onClose}>Cancel</button>
+            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
             <button onClick={confirmOrder}>Confirm Order</button>
           </div>
         </div>

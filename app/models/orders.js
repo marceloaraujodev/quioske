@@ -20,6 +20,11 @@ const OrderItemSchema = new mongoose.Schema({
 })
 
 const OrderSchema = new mongoose.Schema({
+  userId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User',  // Refers to the 'User' collection
+    required: true 
+  },
   tableNumber: {
     type: String,
   },

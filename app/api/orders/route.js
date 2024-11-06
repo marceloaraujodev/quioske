@@ -1,19 +1,21 @@
 import { NextResponse } from "next/server";
-import { createError, handleError } from '../../utils/errorHandler';
+import { handleError } from '../../utils/errorHandler';
 import Order from "@/app/models/orders";
+import generateQRCode from "@/app/utils/generateQRCode";
+import { mongooseConnect } from "@/app/lib/mongooseConnect";
 
 export async function POST(req){
+  mongooseConnect();
+
   try {
     const data = await req.json()
     console.log(data);
 
-    const order = await Order.create({
-      tableNumber: 4,
-      orders: data,
-      totalAmount: 10
-    })
+    // console.log(await generateQRCode('http://localhost:3000/customer/table/2')) // only for qrcode generation
 
-    console.log(order);
+    const order = await Order.create(data)
+
+    console.log('This is the order confirmation saved on db', order);
 
     return NextResponse.json({message: 'success'});
   } catch (error) {

@@ -5,6 +5,8 @@ const OrderContext = createContext();
 
 export const OrderProvider = ({children}) => {
   const [orders, setOrders] = useState([]);
+  const [ordersToFill, setOrdersToFill] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const addOrder = (newOrder) => {
     setOrders(newOrder);
@@ -14,7 +16,13 @@ export const OrderProvider = ({children}) => {
     setOrders([]);
   };
 
-  return <OrderContext.Provider value={{orders, addOrder, resetOrders}}>
+  return <OrderContext.Provider value={{
+    orders, 
+    addOrder, 
+    resetOrders,
+    isModalOpen,
+    setIsModalOpen,
+  }}>
     {children}
   </OrderContext.Provider>
 }

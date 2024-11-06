@@ -1,6 +1,11 @@
+'use client'
 import c from './Table.module.css';
 
-export default function Table({id, orders}) {
+// this is for the vendor view
+export default function Table({id, orders, }) {
+  const [tableNumber] = id;
+  console.log(tableNumber)
+  
   return (
     <div className={c.cont}>Table: {id}
       <div>
