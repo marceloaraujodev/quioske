@@ -4,7 +4,7 @@ import QRCode from 'qrcode';
 const generateQRCode = async (text) => {
   try {
     // generates the qr code and prints in the terminal
-    console.log(await QRCode.toString(text))
+    // console.log(await QRCode.toString(text))
     return await QRCode.toDataURL(text);
   } catch (err) {
     console.error(err)

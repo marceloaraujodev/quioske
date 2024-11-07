@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSession, signIn } from 'next-auth/react';
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import c from "../Login.module.css";
@@ -20,7 +21,15 @@ export default function SignUpForm() {
     try {
       const res = await axios.post("/api/signup", formData);
 
-      console.log(res.data);
+      console.log('response after successful signUp', res.data);
+      if(res.data.message === "success") {
+        await signIn('credentials', {
+          redirect: true, 
+          email: formData.email,
+          password: formData.password,
+          callbackUrl: '/vendor/protected' // redirects to desired protected page.
+        })
+      }
       // Redirect to login page or display success message
     } catch (error) {
       console.error("Error during signup", error);
@@ -35,21 +44,28 @@ export default function SignUpForm() {
   };
 
   function formatPhoneNumber(number) {
-    console.log(number);
+    // console.log(number);
     let formattedNumber = "";
-    if (number > 0) {
-      const areaCode = `(${number.slice(0, 2)})`;
+  
+    if (number.length > 0) {
+      // Format the area code (first two digits)
+      const areaCode = `${number.slice(0, 2)}`;
       formattedNumber += areaCode;
-      if (number > 2) {
-        const fiveDigs = `${number.slice(2, 6)}`;
-        formattedNumber += ` ${fiveDigs}`;
-        if (number > 6) {
-          const fourDigs = `${number.slice(6, 11)}`;
-          console.log(`${areaCode} ${fiveDigs} ${fourDigs}`);
-          formattedNumber += ` ${fourDigs}`;
+      
+      if (number.length > 2) {
+        // Check if we need a "4-4" or "5-4" format
+        if (number.length <= 10) { // "4-4" format like (47) 2000-2999
+          const firstPart = `${number.slice(2, 6)}`; // First 4 digits after area code
+          const secondPart = `${number.slice(6, 10)}`; // Remaining 4 digits
+          formattedNumber += ` ${firstPart} ${secondPart}`;
+        } else { // "5-4" format like (47) 99200 9823
+          const firstPart = `${number.slice(2, 7)}`; // First 5 digits after area code
+          const secondPart = `${number.slice(7, 11)}`; // Remaining 4 digits
+          formattedNumber += ` ${firstPart} ${secondPart}`;
         }
       }
     }
+  
     return formattedNumber.trim();
   }
 
@@ -58,21 +74,31 @@ export default function SignUpForm() {
       <p>Sign Up</p>
       <form className={c.formCont} onSubmit={handleSubmit(onSubmit)}>
         <input 
-          {...register("name", { required: true })} 
+          {...register("name", { required: "Favor preencher campo Nome" })} 
           type="text" 
           placeholder="Nome" 
+          required
+        />
+        {errors.name && <p>{errors.name.message}</p>}
+        <input 
+          {...register("empresa", { required: "Favor preencher campo Empresa" })} 
+          type="text" 
+          placeholder="Empresa" 
+          required
         />
         {errors.name && <p>{errors.name.message}</p>}
 
         <input 
-          {...register("email", { required: "Email is required" })} 
+          {...register("email", { required: "Favor preencher campo Email" })} 
+          required
           type="email" 
           placeholder="Email" 
         />
         {errors.email && <p>{errors.email.message}</p>}
 
         <input 
-          {...register("password", { required: "Password is required" })} 
+          {...register("password", { required: "Favor preencher campo Password" })} 
+          required
           type="password" 
           placeholder="Password" 
         />
@@ -80,6 +106,7 @@ export default function SignUpForm() {
 
         <input 
           type="tel" 
+          required
           placeholder="Telefone" 
           value={formattedPhone} 
           onChange={handlePhoneChange} 
@@ -89,7 +116,7 @@ export default function SignUpForm() {
 
         {/* Hidden input to store the raw phone number */}
         <input 
-          {...register("phone", { required: "Phone is required" })} type="hidden" 
+          {...register("phone", { required: "Favor preencher campo Phone" })} type="hidden" 
         />
 
         <button type="submit">

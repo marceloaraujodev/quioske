@@ -11,7 +11,7 @@ export async function POST(req){
     const data = await req.json()
     console.log(data);
 
-    // console.log(await generateQRCode('http://localhost:3000/customer/table/2')) // only for qrcode generation
+    
 
     const order = await Order.create(data)
 

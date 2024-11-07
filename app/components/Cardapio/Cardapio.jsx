@@ -92,10 +92,10 @@ const menuData = {
     ],
   },
 };
-
-export default function Cardapio({ tableNumber, quioskeName }) {
+// quioske name userId and table number will come from the qrcode link that it will be open by the client
+export default function Cardapio({ tableNumber, quioskeName, userId }) {
   // const [orderDetails, addOrderDetails] = useState([]);
-  const { addOrder, orders, resetOrders, setOrdersToFill,isModalOpen, setIsModalOpen } = useOrderContext();
+  const { addOrder, orders, resetOrders, setOrdersToFill, isModalOpen, setIsModalOpen } = useOrderContext();
   const {
     register,
     handleSubmit,
@@ -127,7 +127,7 @@ export default function Cardapio({ tableNumber, quioskeName }) {
 
   async function confirmOrder() {
     try {
-      const res = await axios.post('/api/orders', {tableNumber, userId: quioskeName, orders})
+      const res = await axios.post('/api/orders', {tableNumber, userId, orders, empresa: quioskeName})
       // if (res.status === 200) {
       //   socket.emit('order', orderDetails);
       resetOrders();

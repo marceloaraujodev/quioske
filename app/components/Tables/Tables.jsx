@@ -1,8 +1,8 @@
 import c from './Tables.module.css';
 
-export default function Tables() {
+export default function Tables({empresa}) {
   const tables = [
-    {  table: 1,   },
+    {  table: 1,  },
     {  table: 2,  },
     {  table: 3,   }, 
     {  table: 4,   }, 
@@ -10,7 +10,7 @@ export default function Tables() {
 
   return (
     <>
-    <div className={c.cont}>Tables:
+    <div className={c.cont}>Tables: {empresa}
 
       <div className={c.tablesCont}>
         {tables.map((table, index) => {

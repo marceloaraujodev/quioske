@@ -10,9 +10,11 @@ export async function POST(req){
   await mongooseConnect();
 
   try {
-    const { name, email, phone, password } = await req.json();
+    const { name, email, phone, password, empresa } = await req.json();
 
-    if (!name || !email || !password || !phone) {
+    console.log(empresa);
+
+    if (!name || !email || !password || !phone, !empresa) {
       throw createError(400, 'Missing required fields');
     }
 
@@ -21,6 +23,7 @@ export async function POST(req){
     const cleanEmail = email.trim();
     const cleanPhone = phone.trim();
     const cleanPassword = password.trim();
+    const cleanEmpresa = empresa.trim();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{1,15}$/;
@@ -44,6 +47,7 @@ export async function POST(req){
     // creates user object
     const newUser = {
       name: cleanName,
+      empresa: cleanEmpresa,
       email: cleanEmail,
       phone: cleanPhone,
       password: hashedPassword,

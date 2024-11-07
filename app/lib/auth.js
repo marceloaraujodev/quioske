@@ -1,14 +1,11 @@
 // lib/auth.js
-import NextAuth from 'next-auth';
-import AppleProvider from 'next-auth/providers/apple';
-import FacebookProvider from 'next-auth/providers/facebook';
-import GoogleProvider from 'next-auth/providers/google';
-import EmailProvider from 'next-auth/providers/email';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import User from '../models/users';
-import { handleError, createError } from '../utils/errorHandler';
-import { checkPassword } from '../utils/hashAndCheckPassword';
-import dotenv from 'dotenv';
+// import FacebookProvider from "next-auth/providers/facebook";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import User from "../models/users";
+import { handleError, createError } from "../utils/errorHandler";
+import { checkPassword } from "../utils/hashAndCheckPassword";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -16,34 +13,31 @@ export const authOptions = {
   providers: [
     // regular form user/password authentication
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         username: {
-          label: 'Username',
-          type: 'text',
-          placeholder: 'Enter your username',
+          label: "Username",
+          type: "text",
+          placeholder: "Enter your username",
         },
         password: {
-          label: 'Password',
-          type: 'password',
-          placeholder: 'Enter your password',
+          label: "Password",
+          type: "password",
+          placeholder: "Enter your password",
         },
       },
       async authorize(credentials) {
-        console.log('credentials autorize async', credentials);
+        console.log("credentials autorize async", credentials);
         try {
           const user = await User.findOne({ email: credentials.email });
-          console.log('user inside authorize credentials', user);
+          console.log("user inside authorize credentials", user);
           if (!user) {
             return null;
           }
 
-          const isValidPassword = await checkPassword(
-            credentials.password,
-            user.password
-          );
+          const isValidPassword = await checkPassword(credentials.password, user.password);
           if (!isValidPassword) {
-            return null;
+            createError(400, "Invalid password")
           }
           return user;
         } catch (error) {
@@ -51,28 +45,24 @@ export const authOptions = {
         }
       },
     }),
-    // AppleProvider({
-    //   clientId: process.env.APPLE_ID,
-    //   clientSecret: process.env.APPLE_SECRET,
-    // }),
     // FacebookProvider({
     //   clientId: process.env.FACEBOOK_ID,
     //   clientSecret: process.env.FACEBOOK_SECRET,
-    // }),
-    // EmailProvider({
-    //   server: process.env.MAIL_SERVER,
-    //   from: 'NextAuth.js <no-reply@example.com>',
     // }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
       authorization: {
         params: {
-          scope: 'email profile',
+          scope: "email profile",
         },
       },
     }),
   ],
+  pages: {
+    // redirects to the login page and changes 
+    error: '/'
+  },
   // // custom signIn page
   // pages: {
   //   signIn: '/auth/signin'
@@ -86,17 +76,8 @@ export const authOptions = {
       const existingUser = await User.findOne({ email: user.user.email });
 
       if (!existingUser) {
-        // If the user does not exist, create a new one
-        const newUser = new User({
-          name: user.user.name,
-          email: user.user.email,
-          phone: null, // You might want to handle this field differently
-          password: null, // Password might not be applicable for OAuth users
-          isCredentialUser: false, // Set to false for OAuth users
-        });
-
-        await newUser.save();
-        user.id = newUser._id; // Set the user ID for session
+        // display signup Page if there is no user registered with this email 
+        return false;
       } else {
         // If the user exists, you can update their last login time or other fields if needed
         user.id = existingUser._id; // Set the user ID for session
@@ -106,7 +87,8 @@ export const authOptions = {
     },
     async session(session, user) {
       if (user && user._id) {
-        session.user.id = user._id;
+        user.id = user._id;
+        user.empresa = existingUser.empresa
       }
       // Attach user ID to the session
       return session;

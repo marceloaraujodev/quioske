@@ -11,13 +11,25 @@ export default function Login() {
   const [isCredentials, setIsCredentials] = useState(false);
   const [isLogIn, setIsLogIn] = useState(true);
 
+
   const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      router.push('/protected');
+    // Check for the error query param in the URL
+    const queryParams = new URLSearchParams(window.location.search);
+    const error = queryParams.get('error'); // Get the value of 'error' if exists
+
+    if (error === 'AccessDenied') {
+      setIsLogIn(false); // Force the SignUpForm to be shown if there's an AccessDenied error
     }
+  }, []);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/vendor/protected');
+    }
+   
   }, [status, router]);
 
   if (status === 'loading') return <p>Loading...</p>;

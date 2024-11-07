@@ -7,17 +7,17 @@ import { OrderProvider } from './Providers/OrderContext';
 import { useOrderContext } from './Providers/OrderContext';
 
 export default function Home() {
-  const { isModalOpen, setIsModalOpen } = useOrderContext();
+  // const { isModalOpen, setIsModalOpen } = useOrderContext();
   
   return (
     <>
     <OrderProvider>
-      {/* <Login /> */}
+      <Login />
       {/* <Tables /> */}
-      <Cardapio 
+      {/* <Cardapio 
         setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
-      />
+      /> */}
     </OrderProvider>
     </>
 

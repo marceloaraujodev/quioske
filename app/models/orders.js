@@ -16,7 +16,7 @@ const OrderItemSchema = new mongoose.Schema({
       type: Number,
       required: true,
       min: [0.01, 'Price must be at least $0.01']
-    }
+    },
 })
 
 const OrderSchema = new mongoose.Schema({
@@ -27,6 +27,9 @@ const OrderSchema = new mongoose.Schema({
   },
   tableNumber: {
     type: String,
+  },
+  empresa: {
+  type: String,
   },
   orders: {
     type: [OrderItemSchema], 
