@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Menu from './menu';
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -24,17 +25,17 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  isCredentialUser: {
-    type: Boolean,
-    default: false, // Track if the user signed up with credentials
-  },
+  menu: {
+    type:mongoose.Schema.Types.ObjectId,
+    ref: Menu
+  }, // Embed the menu schema 
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
+  isCredentialUser: {
+    type: Boolean,
+    default: false, // Track if the user signed up with credentials
   },
 },
 {timestamps: true});

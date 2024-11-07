@@ -16,7 +16,7 @@ export default function SignInForm() {
     signIn('credentials', {
       email, 
       password, 
-      callbackUrl: 'http://localhost:3000/protected'
+      callbackUrl: 'http://localhost:3000/vendor'
     })
   };
 

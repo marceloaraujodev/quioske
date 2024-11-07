@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState, useEffect } from 'react';
 import Modal from '../Modal/Modal';
 import { useOrderContext } from '../../Providers/OrderContext';
@@ -20,82 +20,142 @@ import c from './Cardapio.module.css';
 //   // More tables...
 // };
 
-const menuData = {
-  'Bebidas Alcoólicas': {
-    Lata: [
-      { itemId: 1, name: 'Skol', price: 10.0, ml: 350, img: '/skol-lata.jpeg' },
-      {
-        itemId: 2,
-        name: 'Brahma',
-        price: 11.0,
-        ml: 350,
-        img: '/brahma-lata.jpeg',
-      },
-      {
-        itemId: 3,
-        name: 'Heineken',
-        price: 9.0,
-        ml: 350,
-        img: '/heineken-lata.jpeg',
-      },
-    ],
-    Garrafa: [
-      { itemId: 4, name: 'Heineken', price: 12.0, ml: 500 },
-      { itemId: 5, name: 'Budweiser', price: 14.0, ml: 500 },
-    ],
-    Longneck: [{ itemId: 6, name: 'Corona', price: 15.0, ml: 330 }],
-  },
-  Entradas: {
-    Frios: [
-      {
-        itemId: 7,
-        name: 'Queijo',
-        price: 20.0,
-        description: 'Assorted cheeses',
-      },
-      { itemId: 8, name: 'Salame', price: 18.0, description: 'Italian salami' },
-    ],
-    Quentes: [
-      {
-        itemId: 9,
-        name: 'Bolinho de Bacalhau',
-        price: 22.0,
-        description: 'Codfish balls',
-      },
-    ],
-  },
-  Porções: {
-    Pequenas: [
-      {
-        itemId: 10,
-        name: 'Frango a Passarinho',
-        price: 25.0,
-        description: 'Fried chicken',
-      },
-    ],
-    Grandes: [
-      {
-        itemId: 11,
-        name: 'Batata Frita',
-        price: 30.0,
-        description: 'French fries',
-      },
-    ],
-  },
-  Caipirinhas: {
-    Tradicional: [
-      { itemId: 12, name: 'Caipirinha de Limão', price: 18.0, ml: 300 },
-      { itemId: 13, name: 'Caipirinha de Morango', price: 20.0, ml: 300 },
-    ],
-    'Sabores Diversos': [
-      { itemId: 14, name: 'Caipirinha de kiwi', price: 20.0, ml: 300 },
-    ],
-  },
-};
+
+
+// const menuData = {
+//   category: [
+//     {
+//       name: 'Bebidas Alcoólicas',
+//       subCategory: [
+//         {
+//           name: 'Lata',
+//           items: [
+//             {
+//               itemId: 1,
+//               name: 'Skol',
+//               price: 10.0,
+//               ml: 350,
+//               img: '/skol-lata.jpeg',
+//             },
+//             {
+//               itemId: 2,
+//               name: 'Brahma',
+//               price: 11.0,
+//               ml: 350,
+//               img: '/brahma-lata.jpeg',
+//             },
+//             {
+//               itemId: 3,
+//               name: 'Heineken',
+//               price: 9.0,
+//               ml: 350,
+//               img: '/heineken-lata.jpeg',
+//             },
+//           ],
+//         },
+//         {
+//           name: 'Garrafa',
+//           items: [
+//             { itemId: 1, name: 'Skol', price: 10.0, ml: 350, img: '' },
+//             { itemId: 2, name: 'Brahma', price: 11.0, ml: 350, img: '' },
+//             { itemId: 3, name: 'Heineken', price: 9.0, ml: 350, img: '' },
+//           ],
+//         },
+//         {
+//           name: 'Caipirinhas',
+//           items: [
+//             { itemId: 12, name: 'Limão', price: 18.0, ml: 300 },
+//             { itemId: 13, name: 'Morango', price: 20.0, ml: 300 },
+//             { itemId: 14, name: 'kiwi', price: 20.0, ml: 300 },
+//           ],
+//         },
+//       ],
+//     },
+//     {
+//       name: 'Entradas',
+//       subCategory: [
+//         {
+//           name: 'Frios',
+//           items: [
+//             {
+//               itemId: 7,
+//               name: 'Queijo',
+//               price: 20.0,
+//               description: 'Assorted cheeses',
+//             },
+//             {
+//               itemId: 8,
+//               name: 'Salame',
+//               price: 18.0,
+//               description: 'Italian salami',
+//             },
+//           ],
+//         },
+//         {
+//           name: 'Quentes',
+//           items: [
+//             {
+//               itemId: 9,
+//               name: 'Bolinho de Bacalhau',
+//               price: 22.0,
+//               description: 'Codfish balls',
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//     {
+//       name: 'Porções',
+//       subCategory: [
+//         {
+//           name: 'Grandes',
+//           items: [
+//             {
+//               itemId: 11,
+//               name: 'Batata Frita',
+//               price: 30.0,
+//               description: 'French fries',
+//             }
+//           ],
+//         },
+//         {
+//           name: 'Pequenas',
+//           items: [
+//             {
+//               itemId: 10,
+//               name: 'Frango a Passarinho',
+//               price: 25.0,
+//               description: 'Fried chicken',
+//             }
+//           ],
+//         },
+//         {
+//           name: 'Quentes',
+//           items: [
+//             {
+//               itemId: 9,
+//               name: 'Bolinho de Bacalhau',
+//               price: 22.0,
+//               description: 'Codfish balls',
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+// };
 // quioske name userId and table number will come from the qrcode link that it will be open by the client
-export default function Cardapio({ tableNumber, quioskeName, userId }) {
+export default function Cardapio({ tableNumber, quioskeName, _id }) {
   // const [orderDetails, addOrderDetails] = useState([]);
-  const { addOrder, orders, resetOrders, setOrdersToFill, isModalOpen, setIsModalOpen } = useOrderContext();
+  const [menuData, setMenuData] = useState(null);
+  const {
+    addOrder,
+    orders,
+    resetOrders,
+    setOrdersToFill,
+    isModalOpen,
+    setIsModalOpen,
+  } = useOrderContext();
   const {
     register,
     handleSubmit,
@@ -105,21 +165,26 @@ export default function Cardapio({ tableNumber, quioskeName, userId }) {
     formState: { errors },
   } = useForm();
 
+  console.log(tableNumber, quioskeName, _id);
+
+  useEffect(() => {
+    const fetchMenu = async () => {
+      // const res = await axios.get(`/api/menu?${_id`)
+    }
+  }, []);
+
   // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
     // console.log(data);
     // console.log(order);
-    const newOrder = Object.entries(data).reduce(
-      (order, [key, quantity]) => {
-        const [itemId, itemName, itemPrice] = key.split('_');
-        if (quantity > 0) {
-          order.push({ itemId, itemName, price: itemPrice, quantity });
-        }
-        return order;
-      },
-      []
-    );
+    const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
+      const [itemId, itemName, itemPrice] = key.split('_');
+      if (quantity > 0) {
+        order.push({ itemId, itemName, price: itemPrice, quantity });
+      }
+      return order;
+    }, []);
     console.log(newOrder);
     addOrder(newOrder);
     setIsModalOpen(true);
@@ -127,7 +192,12 @@ export default function Cardapio({ tableNumber, quioskeName, userId }) {
 
   async function confirmOrder() {
     try {
-      const res = await axios.post('/api/orders', {tableNumber, userId, orders, empresa: quioskeName})
+      const res = await axios.post('/api/orders', {
+        tableNumber,
+        userId: _id,
+        orders,
+        empresa: quioskeName,
+      });
       // if (res.status === 200) {
       //   socket.emit('order', orderDetails);
       resetOrders();
@@ -158,7 +228,7 @@ export default function Cardapio({ tableNumber, quioskeName, userId }) {
   return (
     <>
       <Modal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div id='modalContent'>
+        <div id="modalContent">
           <h2>Confirmar Pedido</h2>
           {orders.length > 0 ? (
             <ul>
@@ -172,22 +242,23 @@ export default function Cardapio({ tableNumber, quioskeName, userId }) {
           ) : (
             <p>No items in your order.</p>
           )}
-          <div id='modalBtn-Cancel-Confirm-Cont'>
+          <div id="modalBtn-Cancel-Confirm-Cont">
             <button onClick={() => setIsModalOpen(false)}>Cancel</button>
             <button onClick={confirmOrder}>Confirm Order</button>
           </div>
         </div>
       </Modal>
       <div>
+        {menuData ? (
         <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
-          {Object.entries(menuData).map(([category, types], index) => (
-            <div key={category} className={c.categorySection}>
-              <h3>{category}</h3>
-              {Object.entries(types).map(([type, items]) => (
-                <div key={type} className={c.typeSection}>
-                  <h4>{type}</h4>
+          {menuData.category.map((categoryData) => (
+            <div key={categoryData.name} className={c.categorySection}>
+              <h3>{categoryData.name}</h3>
+              {categoryData.subCategory.map((subCategoryData) => (
+                <div key={subCategoryData.name} className={c.typeSection}>
+                  <h4>{subCategoryData.name}</h4>
                   <div className={c.itemsCont}>
-                    {items.map((item) => {
+                    {subCategoryData.items.map((item) => {
                       const fieldName = `${item.itemId}_${item.name}_${item.price}`;
 
                       return (
@@ -203,18 +274,13 @@ export default function Cardapio({ tableNumber, quioskeName, userId }) {
                               ''
                             )}
 
-                            <p className={c.itemName}>{item.name}</p>
+                            <div className={c.itemName}>{item.name}</div>
                             {item.description ? (
                               <p className={c.itemDescription}>
                                 {item.description}
                               </p>
                             ) : null}
                           </div>
-                          {/* 
-                          <div className={c.description}>
-                            <p>{item.description}</p>
-                          {errors.email && <p>{errors.email.message}</p>}
-                          </div> */}
 
                           <div className={c.itemDetails}>
                             <div className={c.priceCont}>
@@ -251,6 +317,7 @@ export default function Cardapio({ tableNumber, quioskeName, userId }) {
           ))}
           <button type="submit">Pedir</button>
         </form>
+        ) : ''}
       </div>
     </>
   );

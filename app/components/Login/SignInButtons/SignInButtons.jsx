@@ -9,7 +9,7 @@ export default function SignInButtons({ setIsCredentials }) {
         <button
           className={c.btnCont}
           onClick={() =>
-            signIn('google', { callbackUrl: 'http://localhost:3000/protected' })
+            signIn('google', { callbackUrl: 'http://localhost:3000/vendor' })
           }>
           <img src="/google.svg" alt="google logo" />
           Sign in with Google

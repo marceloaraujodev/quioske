@@ -1,6 +1,35 @@
-
-.form{
-  border: 1px solid red;
+.cont{
+  border: 1px solid green;
+  margin: 50px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.innerCont{
+  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+  gap: 10px;
+}
+.btnAndInputCont{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+.btnAndInputCont button,
+.btnAndInputCont input{
+  padding: 10px 15px;
+}
+.btnAndInputCont a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }

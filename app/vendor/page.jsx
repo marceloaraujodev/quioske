@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"; // Use 'next/navigation' for Next.js App Router I will remember this one way or another!
-import Tables from "../../components/Tables/Tables";
+import Tables from "../components/Tables/Tables";
 import axios from 'axios'
-import SignedInAs from "../../components/SignedInAs/SignedInAs";
+import SignedInAs from "../components/SignedInAs/SignedInAs";
+import Link from "next/link";
 import CreateQRCode from "@/app/components/CreateQRCode/CreateQRCode";
 import c from './protected.module.css';
 
@@ -45,7 +46,8 @@ export default function Protected() {
   return (
     <>
     <SignedInAs />
-    <CreateQRCode empresa={user?.empresa} />
+
+    <CreateQRCode empresa={user?.empresa}  _id={user?._id}/>
     <h1>Protected</h1>
     <Tables empresa={user?.empresa}/>
     

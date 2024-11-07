@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import User from '../../models/users';
+import Menu from '../../models/menu';
 import { createError, handleError } from '../../utils/errorHandler';
 import validatePassword from "@/app/utils/passwordValidator";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
@@ -10,9 +11,12 @@ export async function POST(req){
   await mongooseConnect();
 
   try {
-    const { name, email, phone, password, empresa } = await req.json();
+    const { formData, menuData } = await req.json();
 
-    console.log(empresa);
+    const { name, email, phone, password, empresa } = formData;
+
+
+    console.log('This is menuDAta', menuData);
 
     if (!name || !email || !password || !phone, !empresa) {
       throw createError(400, 'Missing required fields');
@@ -61,13 +65,25 @@ export async function POST(req){
     const user = new User(newUser);
     await user.save();
 
+    // create menu if menuData exists
+    if(menuData){
+      const menu = new Menu({
+        category: menuData.category,
+        quioskeName: cleanEmpresa
+      })
+      await menu.save();
+
+      user.menu = menu._id;
+      await user.save()
+    }
+
     return NextResponse.json({
       message: 'success',
-      user: {
-        name, 
-        email,
-        _id: user._id
-      }
+      // user: {
+      //   name, 
+      //   email,
+      //   _id: user._id
+      // }
     })
     
   } catch (error) {

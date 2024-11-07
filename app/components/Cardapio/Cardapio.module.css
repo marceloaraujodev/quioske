@@ -10,20 +10,20 @@
 /* .item p{
   margin: 5px;
 } */
-.itemName{
+
+.itemName {
   font-weight: bold;
   margin: 0;
-}
-.itemName p{
-  margin: 0;
   padding: 0;
+  text-align: left;
+  /* border: 1px solid red; */
 }
 .imgCont{
   /* border: 1px solid blue; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   width: 100%;
   max-width: 90px;
 }

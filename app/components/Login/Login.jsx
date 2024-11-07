@@ -27,7 +27,7 @@ export default function Login() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/vendor/protected');
+      router.push('/vendor');
     }
    
   }, [status, router]);

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSession, signIn } from 'next-auth/react';
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import menuData from '../../../data/menuData';
 import c from "../Login.module.css";
 
 export default function SignUpForm() {
@@ -14,12 +15,14 @@ export default function SignUpForm() {
     formState: { errors },
   } = useForm();
 
+  console.log(menuData)
+
   // function provided by react-hook-form, it receives form data as an object
   const onSubmit = async (formData) => {
     console.log('onSubmitForm:', formData);
 
     try {
-      const res = await axios.post("/api/signup", formData);
+      const res = await axios.post("/api/signup", {formData, menuData});
 
       console.log('response after successful signUp', res.data);
       if(res.data.message === "success") {
@@ -27,7 +30,7 @@ export default function SignUpForm() {
           redirect: true, 
           email: formData.email,
           password: formData.password,
-          callbackUrl: '/vendor/protected' // redirects to desired protected page.
+          callbackUrl: '/vendor' // redirects to desired protected page.
         })
       }
       // Redirect to login page or display success message
