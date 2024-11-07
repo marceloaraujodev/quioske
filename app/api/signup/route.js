@@ -23,7 +23,9 @@ export async function POST(req){
     const cleanEmail = email.trim();
     const cleanPhone = phone.trim();
     const cleanPassword = password.trim();
-    const cleanEmpresa = empresa.trim();
+    const cleanEmpresa = empresa.trim().replace(" ", "");
+
+    console.log(cleanEmpresa);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{1,15}$/;
@@ -54,6 +56,7 @@ export async function POST(req){
       isCredentialUser: true,
     }
 
+    console.log(newUser);
     // creates user in db
     const user = new User(newUser);
     await user.save();
