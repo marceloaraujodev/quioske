@@ -20,8 +20,6 @@ import c from './Cardapio.module.css';
 //   // More tables...
 // };
 
-
-
 // const menuData = {
 //   category: [
 //     {
@@ -169,8 +167,11 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
 
   useEffect(() => {
     const fetchMenu = async () => {
-      // const res = await axios.get(`/api/menu?${_id`)
+      const res = await axios.get('/api/menu', {params: { _id, tableNumber, quioskeName}})
+      setMenuData(res.data.menu);
+      console.log(res.data.menu);
     }
+    fetchMenu();
   }, []);
 
   // console.log('this is from Cardapio, Table Number:', tableNumber)

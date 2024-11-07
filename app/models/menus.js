@@ -22,6 +22,7 @@ const categorySchema = new mongoose.Schema({
 const menuSchema = new mongoose.Schema({
   quioskeName: { type: String, required: true },
   category: [categorySchema],           // array of categories
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
 const Menu = mongoose.models.Menu || mongoose.model('Menu', menuSchema);
