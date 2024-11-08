@@ -11,13 +11,11 @@ export async function POST(req){
     const data = await req.json()
     console.log(data);
 
-    
-
     const order = await Order.create(data)
 
     console.log('This is the order confirmation saved on db', order);
 
-    return NextResponse.json({message: 'success'});
+    return NextResponse.json({message: 'success', order});
   } catch (error) {
     return handleError(error);
   }

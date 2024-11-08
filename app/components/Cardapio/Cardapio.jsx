@@ -22,7 +22,7 @@ import c from './Cardapio.module.css';
 
 // quioske name userId and table number will come from the qrcode link that it will be open by the client
 export default function Cardapio({ tableNumber, quioskeName, _id }) {
-  // const [orderDetails, addOrderDetails] = useState([]);
+  const [orderDetails, addOrderDetails] = useState([]);
   const [menuData, setMenuData] = useState(null);
   const {
     addOrder,
@@ -77,8 +77,10 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         orders,
         empresa: quioskeName,
       });
+      console.log(res);
       // if (res.status === 200) {
       //   socket.emit('order', orderDetails);
+      setOrdersToFill(res.data.order.orders)
       resetOrders();
       setIsModalOpen(false);
       resetQuantityFields();

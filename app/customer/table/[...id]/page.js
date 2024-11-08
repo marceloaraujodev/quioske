@@ -5,8 +5,8 @@ export default async function Menu({params}) {
   const {id} = await params;
   const [ tableNumber, quioskeName, _id] = id[0].split("_");
 
-  console.log(id);
-  console.log(quioskeName, tableNumber, _id);
+  // console.log(id);
+  // console.log(quioskeName, tableNumber, _id);
 
   return (
     <div>Menu {quioskeName}
