@@ -1,0 +1,19 @@
+.formCont{
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  gap: 5px;
+}
+.formCont label{
+  display: flex;
+  flex-direction: column;
+}
+.formCont input{
+  width: 100%;
+  max-width: 200px;
+  padding: 5px 0;
+}
+.btnAdd{
+  padding: 5px 15px;
+
+}
