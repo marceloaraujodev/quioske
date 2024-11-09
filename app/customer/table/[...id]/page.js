@@ -1,5 +1,6 @@
 
 import Cardapio from "@/app/components/Cardapio/Cardapio";
+import c from './tablePage.module.css';
 
 export default async function Menu({params}) {
   const {id} = await params;
@@ -9,9 +10,11 @@ export default async function Menu({params}) {
   // console.log(quioskeName, tableNumber, _id);
 
   return (
-    <div>Menu {quioskeName}
+    <div className={c.cont}>
+      <div className={c.MenuBusinessName}>
+        {quioskeName}
+      </div>
       <Cardapio quioskeName={quioskeName} tableNumber={tableNumber} _id={_id}/>
-      here
     </div>
   )
 }

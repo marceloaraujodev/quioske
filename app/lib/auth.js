@@ -63,10 +63,6 @@ export const authOptions = {
     // redirects to the login page and changes 
     error: '/'
   },
-  // // custom signIn page
-  // pages: {
-  //   signIn: '/auth/signin'
-  // },
   // SignIn and or register with google account
   callbacks: {
     async signIn({user, account, profile}) {
@@ -89,7 +85,6 @@ export const authOptions = {
     async jwt({ token, user }) {
       // The user object is only passed on the first call to jwt
       // subsequent calls will only receive the token
-      console.log(user);
       if (user) {
         token.empresa = user.empresa;
         token._id = user._id
@@ -102,15 +97,6 @@ export const authOptions = {
       session.user._id = token._id;
       return session;
     },
-    // async session({session, user}) {
-    //   console.log('user and session',{user, session});
-    //   if (user && user._id) {
-    //     user.id = user._id;
-    //     user.empresa = existingUser.empresa
-    //   }
-    //   // Attach user ID to the session
-    //   return session;
-    // },
   },
   // Additional options can be defined here, callbacks and others
   secret: process.env.NEXTAUTH_SECRET,

@@ -19,12 +19,11 @@ export default function Protected() {
   useEffect(() => {
     const fetchData = async () => {
       // fetch user data
-      console.log(session.user);
+      // console.log(session.user);
       if(session.user.email){
         try {
-          console.log('before axios');
           const res = await axios.get(`/api/user?email=${session.user.email}`)
-          console.log(res.data.user);
+          // console.log(res.data.user);
           setUser(res.data.user);
         } catch (error) {
           
@@ -32,14 +31,13 @@ export default function Protected() {
       }
     }
     fetchData();
-    console.log('x');
-  }, []); // user to Dependency Array primarily for React best practices
+  }, []); 
   
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/api/auth/signin");
     }
-  }, [status, router]); // router to Dependency Array primarily for React best practices
+  }, [status, router]); 
   
   if (status === "loading") return <p>Loading...</p>;
 

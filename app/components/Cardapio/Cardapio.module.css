@@ -4,34 +4,41 @@
   padding: 5px 0;
   text-align: center;
   border-radius: 5px;
+  margin: 30px 0;
 }
 .subCategory{
-  /* background-color: #6b97f5; */
-  /* color: white; */
-  padding: 5px 0;
+
+  padding: 10px 0;
   text-align: center;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: aliceblue;
+  border-radius: 5px;
+  max-width: 60%;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-bottom: 45px;
+}
+.itemsCont:last-child{
+  margin-bottom: 15px;
 }
 .item{
   display: flex;
   justify-content: space-between;
   /* border: 1px solid green; */
   border-bottom: 1px solid rgb(228, 228, 228);
+  margin-bottom: 25px;
 }
 /* .item p{
   margin: 5px;
 } */
 
-.itemName {
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
 
-  /* text-align: left; */
-  /* border: 1px solid red; */
-}
 .imgCont{
-  /* border: 1px solid blue; */
+  /* border: 1px solid green; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,10 +46,22 @@
   width: 100%;
   max-width: 90px;
 }
+
 .itemImg{
   width: 80px;
   height: 80px;
   object-fit: cover;
+}
+.itemName {
+  /* border: 1px solid red; */
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  margin-left: -3px;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 0;
 }
 .description{
   width: 30%;
@@ -112,4 +131,14 @@
 .label input[type="number"] {
   width: 50px; 
   text-align: center; 
+}
+.btnCont{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+.btnOrder{
+  padding: 10px 45px;
+
 }

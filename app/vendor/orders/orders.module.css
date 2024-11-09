@@ -1,0 +1,70 @@
+
+.wrapper{
+  border: 1px solid blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  /* width: 100vw; */
+  max-height: 300px;
+}
+.unfilled{
+  width: 100%;
+  padding: 5px 5px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.filled{
+  width: 100%;
+  padding: 5px 5px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.order{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* border: 1px solid rgb(255, 139, 139); */
+  border-radius: 2px;
+  width: 100%;
+  /* padding: 15px 0px;   */
+  height: 50px;
+}
+.orderBlock{
+  /* border: 1px solid blue; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+}
+.orderBlock p{
+  margin: 0;
+  /* padding: 10px 0; */
+  font-weight: 600;
+}
+.btn{
+  margin: 0;
+  padding: 12px 25px;
+  background-color: rgb(255, 19, 19);
+  color: white;
+  border-radius: 3px;
+  border: none;
+}
+.ready{
+  font-size: 2em;
+  font-weight: bold;
+}
+.finished{
+  background-color: rgb(243, 252, 243);
+}
+
+.btn.btnFinished{
+  background-color: rgb(25, 102, 204);
+}

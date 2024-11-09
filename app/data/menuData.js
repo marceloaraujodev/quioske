@@ -27,14 +27,9 @@ const menuData = {
               ml: 350,
               img: '/heineken-lata.jpeg',
             },
-          ],
-        },
-        {
-          name: 'Garrafa',
-          items: [
-            { itemId: 1, name: 'Skol', price: 10.0, ml: 350, img: '' },
-            { itemId: 2, name: 'Brahma', price: 11.0, ml: 350, img: '' },
-            { itemId: 3, name: 'Heineken', price: 9.0, ml: 350, img: '' },
+            { itemId: 4, name: 'Skol', price: 10.0, ml: 350, img: '/skol-600.jpg' },
+            { itemId: 5, name: 'Brahma', price: 11.0, ml: 350, img: '/brahma-600.jpg' },
+            { itemId: 6, name: 'Heineken', price: 9.0, ml: 350, img: '/heineken-600.webp' },
           ],
         },
         {

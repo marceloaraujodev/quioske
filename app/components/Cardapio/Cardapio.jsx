@@ -4,7 +4,9 @@ import Modal from '../Modal/Modal';
 import { useOrderContext } from '../../Providers/OrderContext';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { CiBeerMugFull } from "react-icons/ci";
+import { CiBeerMugFull } from 'react-icons/ci';
+import { TbGlassCocktail } from 'react-icons/tb';
+
 import c from './Cardapio.module.css';
 // import io from 'socket.io-client';
 
@@ -46,10 +48,12 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
 
   useEffect(() => {
     const fetchMenu = async () => {
-      const res = await axios.get('/api/menu', {params: { _id, tableNumber, quioskeName}})
+      const res = await axios.get('/api/menu', {
+        params: { _id, tableNumber, quioskeName },
+      });
       setMenuData(res.data.menu);
       console.log(res.data.menu);
-    }
+    };
     fetchMenu();
   }, []);
 
@@ -81,7 +85,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       console.log(res);
       // if (res.status === 200) {
       //   socket.emit('order', orderDetails);
-      setOrdersToFill(res.data.order.orders)
+      setOrdersToFill(res.data.order.orders);
       resetOrders();
       setIsModalOpen(false);
       resetQuantityFields();
@@ -105,6 +109,15 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     if (currentValue > 0) {
       setValue(fieldName, currentValue - 1); // Decrease quantity by 1, but not below 0
     }
+  };
+
+  const subCategoryIconMap = {
+    Cervejas: <CiBeerMugFull />,
+    Caipirinhas: <TbGlassCocktail />, // If you want to use a different icon for this
+    // Frios: <MdFastfood />,
+    // Quentes: <MdFastfood /> , // Example icon, you can change to suit the category
+    // Grandes: CiFood,
+    // Pequenas: CiFood,
   };
 
   return (
@@ -132,76 +145,85 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       </Modal>
       <div>
         {menuData ? (
-        <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
-          {menuData.category.map((categoryData) => (
-            <div key={categoryData.name} className={c.categorySection}>
-              <h3 className={c.category}>{categoryData.name}</h3>
-              {categoryData.subCategory.map((subCategoryData) => (
-                <div key={subCategoryData.name} className={c.typeSection}>
-                  <h4 className={c.subCategory}><CiBeerMugFull />{subCategoryData.name}</h4>
-                  <div className={c.itemsCont}>
-                    {subCategoryData.items.map((item) => {
-                      const fieldName = `${item.itemId}_${item.name}_${item.price}`;
+          <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
+            {menuData.category.map((categoryData) => (
+              <div key={categoryData.name} className={c.categorySection}>
+                <h3 className={c.category}>{categoryData.name}</h3>
+                {categoryData.subCategory.map((subCategoryData) => (
+                  <div key={subCategoryData.name} className={c.typeSection}>
+                    <div className={c.subCategory}>
+                      {subCategoryIconMap[subCategoryData.name] || null}
+                      {subCategoryData.name}
+                    </div>
+                    <div className={c.itemsCont}>
+                      {subCategoryData.items.map((item) => {
+                        const fieldName = `${item.itemId}_${item.name}_${item.price}`;
 
-                      return (
-                        <div key={item.itemId} className={c.item}>
-                          <div className={c.imgCont}>
-                            {item.img ? (
-                              <img
-                                src={item.img}
-                                alt={item.name}
-                                className={c.itemImg}
-                              />
-                            ) : (
-                              ''
-                            )}
+                        return (
+                          <div key={item.itemId} className={c.item}>
+                            <div className={c.imgCont}>
+                              {item.img ? (
+                                <img
+                                  src={item.img}
+                                  alt={item.name}
+                                  className={c.itemImg}
+                                />
+                              ) : (
+                                ''
+                              )}
 
-                            <div className={c.itemName}>{item.name}</div>
-                            {item.description ? (
-                              <p className={c.itemDescription}>
-                                {item.description}
-                              </p>
-                            ) : null}
-                          </div>
-
-                          <div className={c.itemDetails}>
-                            <div className={c.priceCont}>
-                              <p>R$ {item.price.toFixed(2)}</p>
+                              <div className={c.itemName}>{item.name}</div>
+                              {item.description ? (
+                                <p className={c.itemDescription}>
+                                  {item.description}
+                                </p>
+                              ) : null}
                             </div>
-                            <div className={c.label}>
-                              <button
-                                className={c.btnMinus}
-                                type="button"
-                                onClick={() => handleDecrement(fieldName)}>
-                                -
-                              </button>
-                              <input
-                                type="number"
-                                min={0}
-                                {...register(fieldName, {
-                                  valueAsNumber: true,
-                                })}
-                                value={watch(fieldName) || 0} // Display 0 when field is empty
-                              />
-                              <button
-                                className={c.btnPlus}
-                                type="button"
-                                onClick={() => handleIncrement(fieldName)}>
-                                +
-                              </button>
+
+                            <div className={c.itemDetails}>
+                              <div className={c.priceCont}>
+                                <p>R$ {item.price.toFixed(2)}</p>
+                              </div>
+                              <div className={c.label}>
+                                <button
+                                  className={c.btnMinus}
+                                  type="button"
+                                  onClick={() => handleDecrement(fieldName)}>
+                                  -
+                                </button>
+                                <input
+                                  type="number"
+                                  min={0}
+                                  {...register(fieldName, {
+                                    valueAsNumber: true,
+                                  })}
+                                  value={watch(fieldName) || 0} // Display 0 when field is empty
+                                />
+                                <button
+                                  className={c.btnPlus}
+                                  type="button"
+                                  onClick={() => handleIncrement(fieldName)}>
+                                  +
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            ))}
+            <div className={c.btnCont}>
+              <button type="submit" className={c.btnOrder}>
+                Pedir
+              </button>
             </div>
-          ))}
-          <button type="submit">Pedir</button>
-        </form>
-        ) : ''}
+          </form>
+        ) : (
+          ''
+        )}
       </div>
     </>
   );

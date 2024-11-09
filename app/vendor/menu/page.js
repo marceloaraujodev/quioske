@@ -131,8 +131,8 @@ export default function EditMenuPage() {
     console.log('menudata inside update func',menuData);
 
     console.log(session);
-    // const res = await axios.post('/api/updateMenu', menuData)
-    // console.log(res);
+    const res = await axios.post('/api/updateMenu', {userId: session.user._id, menuData})
+    console.log(res);
   }
 
   return (
