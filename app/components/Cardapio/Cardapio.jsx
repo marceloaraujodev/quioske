@@ -4,6 +4,7 @@ import Modal from '../Modal/Modal';
 import { useOrderContext } from '../../Providers/OrderContext';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { CiBeerMugFull } from "react-icons/ci";
 import c from './Cardapio.module.css';
 // import io from 'socket.io-client';
 
@@ -134,10 +135,10 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
           {menuData.category.map((categoryData) => (
             <div key={categoryData.name} className={c.categorySection}>
-              <h3>{categoryData.name}</h3>
+              <h3 className={c.category}>{categoryData.name}</h3>
               {categoryData.subCategory.map((subCategoryData) => (
                 <div key={subCategoryData.name} className={c.typeSection}>
-                  <h4>{subCategoryData.name}</h4>
+                  <h4 className={c.subCategory}><CiBeerMugFull />{subCategoryData.name}</h4>
                   <div className={c.itemsCont}>
                     {subCategoryData.items.map((item) => {
                       const fieldName = `${item.itemId}_${item.name}_${item.price}`;
@@ -169,6 +170,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
                             </div>
                             <div className={c.label}>
                               <button
+                                className={c.btnMinus}
                                 type="button"
                                 onClick={() => handleDecrement(fieldName)}>
                                 -
@@ -182,6 +184,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
                                 value={watch(fieldName) || 0} // Display 0 when field is empty
                               />
                               <button
+                                className={c.btnPlus}
                                 type="button"
                                 onClick={() => handleIncrement(fieldName)}>
                                 +

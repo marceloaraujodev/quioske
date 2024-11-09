@@ -1,9 +1,13 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
+import menuData from '@/app/data/menuData';
+import axios from 'axios';
+import { useSession } from "next-auth/react";
 import c from './menu.module.css';
 
 export default function EditMenuPage() {
+  const { data: session, status } = useSession();
   const { register, handleSubmit, reset, setValue, getValues } = useForm();
   const [menu, setMenu] = useState([]);
 
@@ -122,8 +126,18 @@ export default function EditMenuPage() {
       )
     );
   };
+  
+  async function updateMenu(menuData){
+    console.log('menudata inside update func',menuData);
+
+    console.log(session);
+    // const res = await axios.post('/api/updateMenu', menuData)
+    // console.log(res);
+  }
 
   return (
+    <>
+    <button onClick={() => updateMenu(menuData)}>updateMenu</button>
     <form className={c.formCont} onSubmit={(e) => e.preventDefault()}>
       {/* Category Input */}
       <label>
@@ -240,6 +254,7 @@ export default function EditMenuPage() {
         </div>
       ))}
     </form>
+    </>
   );
 }
 

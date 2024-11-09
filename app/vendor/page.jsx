@@ -19,11 +19,11 @@ export default function Protected() {
   useEffect(() => {
     const fetchData = async () => {
       // fetch user data
-      console.log(session.session.user.email);
-      if(session.session.user.email){
+      console.log(session.user);
+      if(session.user.email){
         try {
           console.log('before axios');
-          const res = await axios.get(`/api/user?email=${session.session.user.email}`)
+          const res = await axios.get(`/api/user?email=${session.user.email}`)
           console.log(res.data.user);
           setUser(res.data.user);
         } catch (error) {

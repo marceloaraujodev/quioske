@@ -1,11 +1,22 @@
-
-.itemsCont{
-  border: 1px solid black;
+.category{
+  background-color: #2563eb;
+  color: white;
+  padding: 5px 0;
+  text-align: center;
+  border-radius: 5px;
+}
+.subCategory{
+  /* background-color: #6b97f5; */
+  /* color: white; */
+  padding: 5px 0;
+  text-align: center;
+  border-radius: 5px;
 }
 .item{
   display: flex;
   justify-content: space-between;
-  border: 1px solid green;
+  /* border: 1px solid green; */
+  border-bottom: 1px solid rgb(228, 228, 228);
 }
 /* .item p{
   margin: 5px;
@@ -15,7 +26,8 @@
   font-weight: bold;
   margin: 0;
   padding: 0;
-  text-align: left;
+
+  /* text-align: left; */
   /* border: 1px solid red; */
 }
 .imgCont{
@@ -40,25 +52,21 @@
   align-items: center;
   flex-direction: column;
 }
+
 .itemDescription{
   padding: 0;
 }
 .itemDetails{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
+
   max-width: 230px;
   gap: 5px;
+  padding: 5px 0;
   /* border: 1px solid green; */ 
 }
-/* .priceCont{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 230px;
-  gap: 5px;
 
-} */
 .priceCont p{
   margin: 0;
   text-align: center;
@@ -74,8 +82,16 @@
   margin: 0;
   border: none;
 }
+.btnMinus{
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.btnPlus{
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
 .label input{
-  max-width: 50px;
+  max-width: 30px;
   padding: 10px 10px;
   text-align: center;
   border: none;

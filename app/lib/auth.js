@@ -69,30 +69,48 @@ export const authOptions = {
   // },
   // SignIn and or register with google account
   callbacks: {
-    async signIn(user, account, profile) {
+    async signIn({user, account, profile}) {
       // console.log('user-----', user.user.email);
       // console.log('user-----', user.user);
       // Check if the user already exists in your database
-      const existingUser = await User.findOne({ email: user.user.email });
+      const existingUser = await User.findOne({ email: user.email });
 
       if (!existingUser) {
         // display signup Page if there is no user registered with this email 
         return false;
-      } else {
-        // If the user exists, you can update their last login time or other fields if needed
-        user.id = existingUser._id; // Set the user ID for session
       }
+      user.empresa = existingUser.empresa;
+      user._id = existingUser._id.toString();
+
+      console.log('user after empresa added', user);
 
       return true; // Return true to indicate successful sign-in
     },
-    async session(session, user) {
-      if (user && user._id) {
-        user.id = user._id;
-        user.empresa = existingUser.empresa
+    async jwt({ token, user }) {
+      // The user object is only passed on the first call to jwt
+      // subsequent calls will only receive the token
+      console.log(user);
+      if (user) {
+        token.empresa = user.empresa;
+        token._id = user._id
       }
-      // Attach user ID to the session
+      return token;
+    },
+    async session({ session, token }) {
+      // Add empresa from token to the session
+      session.user.empresa = token.empresa;
+      session.user._id = token._id;
       return session;
     },
+    // async session({session, user}) {
+    //   console.log('user and session',{user, session});
+    //   if (user && user._id) {
+    //     user.id = user._id;
+    //     user.empresa = existingUser.empresa
+    //   }
+    //   // Attach user ID to the session
+    //   return session;
+    // },
   },
   // Additional options can be defined here, callbacks and others
   secret: process.env.NEXTAUTH_SECRET,

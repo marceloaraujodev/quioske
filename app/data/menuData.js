@@ -4,7 +4,7 @@ const menuData = {
       name: 'Bebidas Alcoólicas',
       subCategory: [
         {
-          name: 'Lata',
+          name: 'Cervejas',
           items: [
             {
               itemId: 1,
