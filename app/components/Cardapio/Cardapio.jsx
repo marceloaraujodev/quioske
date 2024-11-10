@@ -76,7 +76,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
 
   async function confirmOrder() {
     try {
-      const res = await axios.post('/api/orders', {
+      const res = await axios.post('/api/createorder', {
         tableNumber,
         userId: _id,
         orders,
@@ -85,7 +85,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       console.log(res);
       // if (res.status === 200) {
       //   socket.emit('order', orderDetails);
-      setOrdersToFill(res.data.order.orders);
+      // setOrdersToFill(res.data.order.orders);
       resetOrders();
       setIsModalOpen(false);
       resetQuantityFields();

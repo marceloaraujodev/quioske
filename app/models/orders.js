@@ -31,7 +31,7 @@ const OrderSchema = new mongoose.Schema({
   empresa: {
   type: String,
   },
-  orders: {
+  orderDetails: {
     type: [OrderItemSchema], 
     default: [],
   },

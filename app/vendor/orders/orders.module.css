@@ -4,24 +4,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-y: auto;
   /* width: 100vw; */
   max-height: 300px;
+  overflow-y: auto;
 }
 .unfilled{
   width: 100%;
   padding: 5px 5px;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
-  gap: 10px;
+  /* border: 1px solid green; */
 }
 .filled{
   width: 100%;
   padding: 5px 5px;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   flex-direction: column;
   gap: 10px;
@@ -33,20 +31,31 @@
   justify-content: center;
   border-radius: 2px;
   width: 100%;
-  height: 50px;
-}
-.orderBlock{
-  /* border: 1px solid blue; */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 10px;
+  /* height: 50px; */
 }
 .orderBlock p{
   margin: 0;
-  /* padding: 10px 0; */
   font-weight: 600;
+}
+.item{
+  /* border: 1px solid red; */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.tableNumber{
+  font-weight: bold;
+
+}
+.itemName{
+  font-size: .9rem;
+  border: 1px solid green;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-all;
+  max-width: 200px;
 }
 .btn{
   margin: 0;

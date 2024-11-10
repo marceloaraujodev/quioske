@@ -1,18 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import c from "./orders.module.css";
-import { use } from "bcrypt/promises";
+import axios from "axios";
 
 export default function OrdersPage() {
-  const [orders, setOrder] = useState([
-    { order: "brahma lata" },
-    { order: "caipirinha limao" },
-    { order: "skol garrafa" },
-    { order: "heineken garrafa" },
-    { order: "caipirinha limao" },
-    { order: "skol garrafa" },
-    { order: "heineken garrafa" },
-  ]);
+  const [orders, setOrders] = useState([]); // this will be the order doc, inside array of individual orders
+
   const [filledOrders, setFilledOrders] = useState([
     { order: "caipirinha limao" },
     { order: "skol garrafa" },
@@ -24,18 +17,54 @@ export default function OrdersPage() {
   ]);
 
   useEffect(() => {
+    fetchOrders();
+  }, []);
 
-  }, [orders])
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get('/api/orders');
+      setOrders(res.data.orders);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    }
+  };
 
+console.log(orders);
 
-  function handleCompletedOrders(order, index){
+  async function handleCompletedOrders(order, index, itemId){
     console.log(order, index);
-    setOrder((prevOrders) => {
-      console.log(prevOrders)
+
+    // if order has multiple items
+    if(order.orderDetails.length > 1){
+      console.log(itemId);
+      const updatedOrderDetails = order.orderDetails.filter((item) => item._id !== itemId)
+      console.log(updatedOrderDetails.length);
+
+      await axios.patch('/api/updateorder',{
+        orderId: order._id,
+        orderDetails: updatedOrderDetails
+      });
+
       
-      
-      return prevOrders.filter((item) => item !== order)
-    })
+      // update state
+      setOrders((prevOrders) =>
+        prevOrders.map((prevOrder) =>
+          // updates order details to remove item for multiple items orders
+          prevOrder._id === order._id
+            ? { ...prevOrder, orderDetails: updatedOrderDetails }
+            : prevOrder
+        )
+      );
+    }else{
+      // console.log(order._id);
+      const orderId = order._id;
+      await axios.delete(`/api/deleteorder?orderId=${orderId}`);
+
+      // update state if order only has one item
+      setOrders(prevOrders => prevOrders.filter(prevOrder => prevOrder._id !== order._id))
+    }
+    
+    
   }
 
   return (
@@ -47,14 +76,19 @@ export default function OrdersPage() {
             {orders.map((order, index) => {
               return (
                 <div key={index} className={c.order}>
-                  <div className={c.orderBlock}>
-                    <div className={c.item}>
-                      <div className={c.item}>{order.order}</div>
+                  {order.orderDetails.map((item, index) => {
+                    return(
+                      <div key={index} className={c.orderBlock}>
+                      <div className={c.item}>
+                        <div className={c.itemName}><span className={c.tableNumber}>#{order.tableNumber}</span> &nbsp;{item.itemName}</div>
+                        <button className={c.btn} onClick={() => handleCompletedOrders(order, index, item._id)}>Pronta</button>
+                      </div>
+                      {/* <div className={c.item}>
+                      </div> */}
                     </div>
-                    <div className={c.item}>
-                      <button className={c.btn} onClick={() => handleCompletedOrders(order, index)}>Pronta</button>
-                    </div>
-                  </div>
+                    )
+                    
+                    })}
                 </div>
               );
             })}
@@ -62,7 +96,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <h2>Completas</h2>
+      {/* <h2>Completas</h2>
       <div className={c.wrapper}>
         <div className={c.filled}>
           {filledOrders.map((order, index) => {
@@ -80,7 +114,7 @@ export default function OrdersPage() {
             );
           })}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
