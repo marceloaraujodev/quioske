@@ -9,10 +9,9 @@ export async function POST(req){
 
   try {
     const data = await req.json()
-    // console.log(data);
+    console.log('data from create order', data);
     const orderData = {...data, orderDetails: data.orders}
     const order = await Order.create(orderData)
-
 
     // console.log('This is the order confirmation saved on db', order);
 

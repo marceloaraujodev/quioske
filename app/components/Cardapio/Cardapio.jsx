@@ -25,13 +25,11 @@ import c from './Cardapio.module.css';
 
 // quioske name userId and table number will come from the qrcode link that it will be open by the client
 export default function Cardapio({ tableNumber, quioskeName, _id }) {
-  const [orderDetails, addOrderDetails] = useState([]);
   const [menuData, setMenuData] = useState(null);
   const {
     addOrder,
     orders,
     resetOrders,
-    setOrdersToFill,
     isModalOpen,
     setIsModalOpen,
   } = useOrderContext();
@@ -44,7 +42,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     formState: { errors },
   } = useForm();
 
-  console.log(tableNumber, quioskeName, _id);
+  // console.log(tableNumber, quioskeName, _id);
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -52,24 +50,47 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         params: { _id, tableNumber, quioskeName },
       });
       setMenuData(res.data.menu);
-      console.log(res.data.menu);
+      // console.log(res.data.menu);
     };
     fetchMenu();
   }, []);
 
+  
+
   // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
-    // console.log(data);
+    // console.log(data);+
     // console.log(order);
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
+      // console.log('order looking for img', order);
       const [itemId, itemName, itemPrice] = key.split('_');
+      // items with quantity greater than 1
       if (quantity > 0) {
-        order.push({ itemId, itemName, price: itemPrice, quantity });
+        console.log('itemId from items clicked:', itemId);
+
+        // console.log(menuData)
+        // Find the item in menuData that matches this itemId and itemName
+        const category = menuData.category.find((cat) =>
+          cat.subCategory.some((subCat) =>
+            subCat.items.some((item) => item.itemId === +itemId)
+          )
+        );
+        console.log(category);
+
+        const subCategory = category?.subCategory.find((subCat) =>
+          subCat.items.some((item) => item.itemId === +itemId)
+        );
+        console.log(subCategory);
+
+        const item = subCategory?.items.find((item) => item.itemId === +itemId);
+        console.log('this is item------', item);
+
+        order.push({ itemId, itemName, price: itemPrice, quantity, img: item.img });
       }
       return order;
     }, []);
-    console.log(newOrder);
+    // console.log(newOrder);
     addOrder(newOrder);
     setIsModalOpen(true);
   };

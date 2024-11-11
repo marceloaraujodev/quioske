@@ -1,19 +1,22 @@
-
+.headerRow{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
 .wrapper{
   border: 1px solid blue;
   display: flex;
   justify-content: center;
-  align-items: center;
-  /* width: 100vw; */
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
 }
 .unfilled{
   width: 100%;
-  padding: 5px 5px;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  flex-grow: 1;
   /* border: 1px solid green; */
 }
 .filled{
@@ -24,38 +27,60 @@
   flex-direction: column;
   gap: 10px;
 }
-.order{
-  /* border: 1px solid rgb(255, 139, 139); */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 2px;
+.orderBlock{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr auto; /* Adjust based on content */
+  align-items: center;
+  background-color: #f9f9f9;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   width: 100%;
-  /* height: 50px; */
+  min-height: 137px;
+  column-gap: 8px;
+  margin-bottom: 10px;
 }
 .orderBlock p{
   margin: 0;
   font-weight: 600;
 }
 .item{
-  /* border: 1px solid red; */
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+  max-width: 150px;
+}
+.imgCont{
+    font-size: .9rem;
+    /* border: 1px solid green; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .img{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+  }
+  .itemName{
+    /* border: 1px solid red; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .tableNumber{
-  font-weight: bold;
-
-}
-.itemName{
-  font-size: .9rem;
-  border: 1px solid green;
+  /* border: 1px solid purple; */
   display: flex;
-  flex-wrap: wrap;
-  word-break: break-all;
-  max-width: 200px;
+  font-weight: bold;
+  justify-content: center;
+}
+.itemQuantity{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-shrink: 1;
+}
+.btnCont{
+  display: flex;
+  justify-content: end;
+  /* width: fit-content; */
 }
 .btn{
   margin: 0;

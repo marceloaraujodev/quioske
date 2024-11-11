@@ -17,6 +17,9 @@ const OrderItemSchema = new mongoose.Schema({
       required: true,
       min: [0.01, 'Price must be at least $0.01']
     },
+    img: {
+      type: String
+    },
 })
 
 const OrderSchema = new mongoose.Schema({
