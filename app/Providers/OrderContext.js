@@ -7,20 +7,16 @@ const OrderContext = createContext();
 export const OrderProvider = ({children}) => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
-  useEffect(() => {console.log('this is orders and is orders placed from orderContext,', orders, isOrderPlaced)}, [orders, isOrderPlaced])
   
   const addOrder = (newOrder) => {
     setOrders((prevOrders) => [...prevOrders, ...newOrder]);
-    setIsOrderPlaced(true);
   };
   
   const updateOneItemOrder = (orderId) => {
     setOrders((prevOrders) =>
       prevOrders.filter((prevOrder) => prevOrder._id !== orderId)
   );
-  setIsOrderPlaced(true);
 
   }
 
@@ -35,9 +31,7 @@ export const OrderProvider = ({children}) => {
     );
 
   }
-  const resetOrderFlag = () => {
-    setIsOrderPlaced(false); // Reset flag after fetch
-  };
+
   const resetOrders = () => {
     setOrders(() => []);
   };

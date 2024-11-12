@@ -12,44 +12,43 @@ export default function OrdersPage() {
     setOrders,
     updateOneItemOrder,
     updateMultipleItemsOrder, 
-    isOrderPlaced,
-    resetOrderFlag,
   } = useOrderContext();
 
  // Fetch orders initially when component mounts
  useEffect(() => {
   const fetchOrders = async () => {
     try {
-      const res = await axios.get('/api/orders');
-      console.log('Fetched Orders initially:', res.data.orders);
+      const res = await axios.get("/api/orders");
       setOrders(res.data.orders);
     } catch (error) {
-      console.error('Failed to fetch orders:', error);
+      console.error("Failed to fetch orders:", error);
     }
   };
 
-  fetchOrders();  // Fetch on mount
-}, []); // Empty dependency array, so this only runs once when the component first mounts
+  fetchOrders(); // Fetch initial orders
 
-useEffect(() => {console.log('this is orders,', orders);}, [orders])
+  // Set up Server-Sent Events (SSE) connection
+  const eventSource = new EventSource("/api/orders/updates");
+console.log('after event source');
+eventSource.onmessage = (event) => {
+  const newOrder = JSON.parse(event.data);
+  console.log('New order received:', newOrder);
+  setOrders((prevOrders) => [...prevOrders, newOrder]);
+  console.log('after setOrders');
+};
+console.log('after onmessage');
 
-// Conditional fetching when isOrderPlaced is set to true
-useEffect(() => {
-  const fetchOrdersOnOrderPlacement = async () => {
-    if (isOrderPlaced) {
-      try {
-        const res = await axios.get('/api/orders');
-        console.log('Fetched Orders after order placement:', res.data.orders);
-        setOrders(res.data.orders);
-        resetOrderFlag();  // Reset after fetch
-      } catch (error) {
-        console.error('Failed to fetch orders after placing:', error);
-      }
-    }
+  eventSource.onerror = (error) => {
+    console.error("SSE connection error:", error);
+    eventSource.close();
   };
 
-  fetchOrdersOnOrderPlacement();  // Fetch when `isOrderPlaced` changes
-}, [isOrderPlaced]);  // Dependency on `isOrderPlaced`
+  // Cleanup on unmount
+  return () => eventSource.close();
+}, []);
+
+
+
 
 
 
