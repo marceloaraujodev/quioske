@@ -5,40 +5,34 @@ import c from './orders.module.css';
 import axios from 'axios';
 
 export default function OrdersPage() {
-  // const [orders, setOrders] = useState([]); // this will be the order doc, inside array of individual orders
+  // fetch the orders after order
 
   const {
     addOrder,
     orders,
     updateOneItemOrder,
-    updateMultipleItemsOrder
+    updateMultipleItemsOrder, 
+    triggerRefresh, setTriggerRefresh
   } = useOrderContext();
 
-  // const [filledOrders, setFilledOrders] = useState([
-  //   { order: 'caipirinha limao' },
-  //   { order: 'skol garrafa' },
-  //   { order: 'brahma lata' },
-  //   { order: 'caipirinha limao' },
-  //   { order: 'skol garrafa' },
-  //   { order: 'heineken garrafa' },
-  //   { order: 'heineken garrafa' },
-  // ]);
-
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get('/api/orders');
+        // setOrders(res.data.orders);
+        addOrder(res.data.orders)
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+      }
+    };
     fetchOrders();
   }, []);
 
-  const fetchOrders = async () => {
-    try {
-      const res = await axios.get('/api/orders');
-      // setOrders(res.data.orders);
-      addOrder(res.data.orders)
-    } catch (error) {
-      console.error('Failed to fetch orders:', error);
-    }
-  };
+  // useEffect(() => {
+  //   console.log(triggerRefresh);
+  // }, [triggerRefresh]);
 
-  console.log(orders);
+  // console.log(triggerRefresh);
 
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {

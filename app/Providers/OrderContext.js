@@ -1,36 +1,29 @@
 'use client'
 import { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+
 
 const OrderContext = createContext();
 
 export const OrderProvider = ({children}) => {
   const [orders, setOrders] = useState([]);
-  const [ordersUpdated, setOrdersUpdated] = useState(false);
-  const [ordersToFill, setOrdersToFill] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [triggerRefresh, setTriggerRefresh] = useState(false);
 
-  
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     try {
-  //       const res = await axios.get('/api/orders');
-  //       setOrders(res.data.orders);
-  //     } catch (error) {
-  //       console.error('Failed to fetch orders:', error);
-  //     }
-  //   };
-  //   fetchOrders(); // Only fetch orders once on mount
-  // }, []);
+  useEffect(() => {
+    console.log('triggerRefreshed ...', triggerRefresh);
+  }, [triggerRefresh]);
+
 
   const addOrder = (newOrder) => {
-    setOrders(newOrder);
+    setOrders((prevOrders) => [...prevOrders, ...newOrder]);
+    // setTriggerRefresh(true);
   };
 
   const updateOneItemOrder = (orderId) => {
     setOrders((prevOrders) =>
       prevOrders.filter((prevOrder) => prevOrder._id !== orderId)
     );
+    // setTriggerRefresh(true);
   }
 
   const updateMultipleItemsOrder = (orderId, updatedOrderDetails) => {
@@ -42,6 +35,7 @@ export const OrderProvider = ({children}) => {
           : prevOrder
       )
     );
+    // setTriggerRefresh(true);
   }
 
   const resetOrders = () => {
@@ -56,6 +50,8 @@ export const OrderProvider = ({children}) => {
     setIsModalOpen,
     updateOneItemOrder,
     updateMultipleItemsOrder,
+    setTriggerRefresh,
+    triggerRefresh,
   }}>
     {children}
   </OrderContext.Provider>

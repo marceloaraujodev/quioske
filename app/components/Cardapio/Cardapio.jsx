@@ -32,6 +32,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     resetOrders,
     isModalOpen,
     setIsModalOpen,
+    setTriggerRefresh,
   } = useOrderContext();
   const {
     register,
@@ -60,6 +61,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
   // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
+    
     // console.log(data);+
     // console.log(order);
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
@@ -67,7 +69,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       const [itemId, itemName, itemPrice] = key.split('_');
       // items with quantity greater than 1
       if (quantity > 0) {
-        console.log('itemId from items clicked:', itemId);
+        // console.log('itemId from items clicked:', itemId);
 
         // console.log(menuData)
         // Find the item in menuData that matches this itemId and itemName
@@ -76,15 +78,15 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
             subCat.items.some((item) => item.itemId === +itemId)
           )
         );
-        console.log(category);
+        // console.log(category);
 
         const subCategory = category?.subCategory.find((subCat) =>
           subCat.items.some((item) => item.itemId === +itemId)
         );
-        console.log(subCategory);
+        // console.log(subCategory);
 
         const item = subCategory?.items.find((item) => item.itemId === +itemId);
-        console.log('this is item------', item);
+        // console.log('this is item------', item);
 
         order.push({ itemId, itemName, price: itemPrice, quantity, img: item.img });
       }
@@ -93,6 +95,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     // console.log(newOrder);
     addOrder(newOrder);
     setIsModalOpen(true);
+    
   };
 
   async function confirmOrder() {
@@ -104,17 +107,19 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         empresa: quioskeName,
       });
       console.log(res);
-      // if (res.status === 200) {
-      //   socket.emit('order', orderDetails);
-      // setOrdersToFill(res.data.order.orders);
-      resetOrders();
-      setIsModalOpen(false);
-      resetQuantityFields();
-      // setOrdersToFill(res.data)
-      // alert('Pedido enviado com sucesso');
-      // } else {
-      //   throw new Error('Failed to send order');
-      // }
+      if (res.status === 200) {
+        //   socket.emit('order', orderDetails);
+        // setOrdersToFill(res.data.order.orders);
+        
+        resetOrders();
+        setIsModalOpen(false);
+        resetQuantityFields();
+        // setOrdersToFill(res.data)
+        // alert('Pedido enviado com sucesso');
+        setTriggerRefresh(true)
+      } else {
+        throw new Error('Failed to send order');
+      }
     } catch (error) {
       alert('Alguma coisa deu errado, por favor tente novamente');
       console.error(error);
