@@ -12,35 +12,50 @@ export default function OrdersPage() {
     setOrders,
     updateOneItemOrder,
     updateMultipleItemsOrder, 
-    setIsOrdersDirty,
-    isOrdersDirty,
+    isOrderPlaced,
+    resetOrderFlag,
   } = useOrderContext();
 
+ // Fetch orders initially when component mounts
+ useEffect(() => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get('/api/orders');
+      console.log('Fetched Orders initially:', res.data.orders);
       setOrders(res.data.orders);
     } catch (error) {
       console.error('Failed to fetch orders:', error);
     }
   };
 
-  useEffect(() => {
-    fetchOrders(); // Initial fetch only
-  }, []);
+  fetchOrders();  // Fetch on mount
+}, []); // Empty dependency array, so this only runs once when the component first mounts
 
-    // Re-fetch orders if `isOrdersDirty` is true
-    useEffect(() => {
-      console.log(isOrdersDirty);
-      // if (isOrdersDirty) {
-      //   fetchOrders();
-      //   setIsOrdersDirty(false); // Reset after refetching
-      // }
-    }, [isOrdersDirty, setIsOrdersDirty]);
+useEffect(() => {console.log('this is orders,', orders);}, [orders])
+
+// Conditional fetching when isOrderPlaced is set to true
+useEffect(() => {
+  const fetchOrdersOnOrderPlacement = async () => {
+    if (isOrderPlaced) {
+      try {
+        const res = await axios.get('/api/orders');
+        console.log('Fetched Orders after order placement:', res.data.orders);
+        setOrders(res.data.orders);
+        resetOrderFlag();  // Reset after fetch
+      } catch (error) {
+        console.error('Failed to fetch orders after placing:', error);
+      }
+    }
+  };
+
+  fetchOrdersOnOrderPlacement();  // Fetch when `isOrderPlaced` changes
+}, [isOrderPlaced]);  // Dependency on `isOrderPlaced`
+
+
 
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {
-    // console.log(order, index);
+    console.log(order, index);
 
     // if order has multiple items
     if (order.orderDetails.length > 1) {
@@ -59,20 +74,19 @@ export default function OrdersPage() {
       updateMultipleItemsOrder(order._id, updatedOrderDetails)
  
     } else {
-      // console.log(order._id);
+      console.log(order._id);
       const orderId = order._id;
       await axios.delete(`/api/deleteorder?orderId=${orderId}`);
 
       // update state if order only has one item
       updateOneItemOrder(order._id)
     }
-    setIsOrdersDirty(true);
   }
 
   return (
     <>
       <div className={c.cont}>
-        <h1>Pedidos</h1> <button onClick={() => setIsOrdersDirty(!isOrdersDirty)}>test order</button>
+        <h1>Pedidos</h1> 
         <div className={c.headerRow}>
           <div className={c.headerItem}>Mesa</div>
           <div className={c.headerItem}>Quantidade</div>

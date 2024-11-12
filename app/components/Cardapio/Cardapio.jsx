@@ -16,11 +16,11 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
   const {
     addOrder,
     orders,
+    setOrders,
     resetOrders,
     isModalOpen,
     setIsModalOpen,
-    setIsOrdersDirty,
-    isOrdersDirty
+  
   } = useOrderContext();
   const {
     register,
@@ -44,18 +44,12 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     fetchMenu();
   }, []);
 
-  useEffect(() => {
-    console.log(isOrdersDirty);
-    // if (isOrdersDirty) {
-    //   fetchOrders();
-    //   setIsOrdersDirty(false); // Reset after refetching
-    // }
-  }, [isOrdersDirty, setIsOrdersDirty]);
+
 
   // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
-    setIsOrdersDirty(true)
+    
     // console.log(data);+
     // console.log(order);
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
@@ -99,12 +93,12 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         orders,
         empresa: quioskeName,
       });
-      console.log(res);
+
       if (res.status === 200) {      
         resetOrders();
         setIsModalOpen(false);
         resetQuantityFields();
-        
+        console.log('res data from cardapio confirm',res.data.order);
       } else {
         throw new Error('Failed to send order');
       }
@@ -161,6 +155,9 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       <div>
         {menuData ? (
           <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
+                          <button type="submit" className={c.btnOrder}>
+                Pedir
+              </button>
             {menuData.category.map((categoryData) => (
               
               <div key={categoryData.name} className={c.categorySection}>
@@ -232,9 +229,9 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
               </div>
             ))}
             <div className={c.btnCont}>
-              <button type="submit" className={c.btnOrder}>
+              {/* <button type="submit" className={c.btnOrder}>
                 Pedir
-              </button>
+              </button> */}
             </div>
           </form>
         ) : (

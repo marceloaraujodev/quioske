@@ -15,7 +15,7 @@ export async function GET(req) {
 
     
     const menu = await Menu.findOne({user:_id});
-    console.log('this is menu------------', menu);
+    // console.log('this is menu------------', menu);
 
     return NextResponse.json({ message: 'success', menu });
   } catch (error) {

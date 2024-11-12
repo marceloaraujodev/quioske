@@ -7,9 +7,10 @@ export async function DELETE(req){
     // await axios.delete(`/api/orders/${orderId}`)
     const { searchParams } = new URL(req.url);
     const orderId = searchParams.get("orderId");
-    console.log(orderId);
+    // console.log('orderId in the backend', orderId);
 
     await Order.findOneAndDelete({_id: orderId})
+    // console.log(status);
 
     // console.log(orders);
 
