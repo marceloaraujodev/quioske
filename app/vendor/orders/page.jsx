@@ -8,35 +8,39 @@ export default function OrdersPage() {
   // fetch the orders after order
 
   const {
-    addOrder,
     orders,
+    setOrders,
     updateOneItemOrder,
     updateMultipleItemsOrder, 
-    triggerRefresh, setTriggerRefresh
+    setIsOrdersDirty,
+    isOrdersDirty,
   } = useOrderContext();
 
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get('/api/orders');
+      setOrders(res.data.orders);
+    } catch (error) {
+      console.error('Failed to fetch orders:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get('/api/orders');
-        // setOrders(res.data.orders);
-        addOrder(res.data.orders)
-      } catch (error) {
-        console.error('Failed to fetch orders:', error);
-      }
-    };
-    fetchOrders();
+    fetchOrders(); // Initial fetch only
   }, []);
 
-  // useEffect(() => {
-  //   console.log(triggerRefresh);
-  // }, [triggerRefresh]);
-
-  // console.log(triggerRefresh);
+    // Re-fetch orders if `isOrdersDirty` is true
+    useEffect(() => {
+      console.log(isOrdersDirty);
+      // if (isOrdersDirty) {
+      //   fetchOrders();
+      //   setIsOrdersDirty(false); // Reset after refetching
+      // }
+    }, [isOrdersDirty, setIsOrdersDirty]);
 
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {
-    console.log(order, index);
+    // console.log(order, index);
 
     // if order has multiple items
     if (order.orderDetails.length > 1) {
@@ -53,14 +57,7 @@ export default function OrdersPage() {
 
       // update state for multiple items order
       updateMultipleItemsOrder(order._id, updatedOrderDetails)
-      // setOrders((prevOrders) =>
-      //   prevOrders.map((prevOrder) =>
-      //     // updates order details to remove item for multiple items orders
-      //     prevOrder._id === order._id
-      //       ? { ...prevOrder, orderDetails: updatedOrderDetails }
-      //       : prevOrder
-      //   )
-      // );
+ 
     } else {
       // console.log(order._id);
       const orderId = order._id;
@@ -68,16 +65,14 @@ export default function OrdersPage() {
 
       // update state if order only has one item
       updateOneItemOrder(order._id)
-      // setOrders((prevOrders) =>
-      //   prevOrders.filter((prevOrder) => prevOrder._id !== order._id)
-      // );
     }
+    setIsOrdersDirty(true);
   }
 
   return (
     <>
       <div className={c.cont}>
-        <h1>Pedidos</h1>
+        <h1>Pedidos</h1> <button onClick={() => setIsOrdersDirty(!isOrdersDirty)}>test order</button>
         <div className={c.headerRow}>
           <div className={c.headerItem}>Mesa</div>
           <div className={c.headerItem}>Quantidade</div>
@@ -87,10 +82,10 @@ export default function OrdersPage() {
           <div className={c.unfilled}>
             {orders.map((order, index) => {
               return (
-                <div key={index} className={c.order}>
+                <div key={order._id} className={c.order}>
                   {order.orderDetails.map((item, index) => {
                     return (
-                      <div key={index} className={c.orderBlock}>
+                      <div key={`${item._id}_${index}`} className={c.orderBlock}>
                         <div className={c.item}>
                           <span className={c.tableNumber}>
                             #{order.tableNumber}

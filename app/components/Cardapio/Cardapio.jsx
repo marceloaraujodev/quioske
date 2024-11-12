@@ -6,22 +6,9 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { CiBeerMugFull } from 'react-icons/ci';
 import { TbGlassCocktail } from 'react-icons/tb';
+import { v4 as uuidv4 } from 'uuid';
 
 import c from './Cardapio.module.css';
-// import io from 'socket.io-client';
-
-// const socket = io('http://your-server-url'); // Update with your server URL
-
-// const tablesOrders = {
-//   table1: {
-//     orders: [
-//       { itemId: 1, itemName: "Skol", quantity: 1, price: 10.00 },
-//       { itemId: 2, itemName: "Heineken", quantity: 2, price: 12.00 },
-//     ],
-//     totalAmount: 34.00,
-//   },
-//   // More tables...
-// };
 
 // quioske name userId and table number will come from the qrcode link that it will be open by the client
 export default function Cardapio({ tableNumber, quioskeName, _id }) {
@@ -32,7 +19,8 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     resetOrders,
     isModalOpen,
     setIsModalOpen,
-    setTriggerRefresh,
+    setIsOrdersDirty,
+    isOrdersDirty
   } = useOrderContext();
   const {
     register,
@@ -56,12 +44,18 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     fetchMenu();
   }, []);
 
-  
+  useEffect(() => {
+    console.log(isOrdersDirty);
+    // if (isOrdersDirty) {
+    //   fetchOrders();
+    //   setIsOrdersDirty(false); // Reset after refetching
+    // }
+  }, [isOrdersDirty, setIsOrdersDirty]);
 
   // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
-    
+    setIsOrdersDirty(true)
     // console.log(data);+
     // console.log(order);
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
@@ -97,7 +91,6 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     setIsModalOpen(true);
     
   };
-
   async function confirmOrder() {
     try {
       const res = await axios.post('/api/createorder', {
@@ -107,16 +100,11 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         empresa: quioskeName,
       });
       console.log(res);
-      if (res.status === 200) {
-        //   socket.emit('order', orderDetails);
-        // setOrdersToFill(res.data.order.orders);
-        
+      if (res.status === 200) {      
         resetOrders();
         setIsModalOpen(false);
         resetQuantityFields();
-        // setOrdersToFill(res.data)
-        // alert('Pedido enviado com sucesso');
-        setTriggerRefresh(true)
+        
       } else {
         throw new Error('Failed to send order');
       }
@@ -124,6 +112,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       alert('Alguma coisa deu errado, por favor tente novamente');
       console.error(error);
     }
+
   }
 
   const handleIncrement = (fieldName) => {
@@ -173,6 +162,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         {menuData ? (
           <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
             {menuData.category.map((categoryData) => (
+              
               <div key={categoryData.name} className={c.categorySection}>
                 <h3 className={c.category}>{categoryData.name}</h3>
                 {categoryData.subCategory.map((subCategoryData) => (
@@ -184,9 +174,9 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
                     <div className={c.itemsCont}>
                       {subCategoryData.items.map((item) => {
                         const fieldName = `${item.itemId}_${item.name}_${item.price}`;
-
+                        const uniqueId = uuidv4();
                         return (
-                          <div key={item.itemId} className={c.item}>
+                          <div key={`${uniqueId}`} className={c.item}>
                             <div className={c.imgCont}>
                               {item.img ? (
                                 <img

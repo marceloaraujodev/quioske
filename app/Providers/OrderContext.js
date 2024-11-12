@@ -7,23 +7,23 @@ const OrderContext = createContext();
 export const OrderProvider = ({children}) => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [triggerRefresh, setTriggerRefresh] = useState(false);
+  const [isOrdersDirty, setIsOrdersDirty] = useState(false);
+
 
   useEffect(() => {
-    console.log('triggerRefreshed ...', triggerRefresh);
-  }, [triggerRefresh]);
-
-
+    console.log('state at the OrderContext isOrderDirty provider:',isOrdersDirty);
+  
+  }, [isOrdersDirty, setIsOrdersDirty]);
+  
   const addOrder = (newOrder) => {
     setOrders((prevOrders) => [...prevOrders, ...newOrder]);
-    // setTriggerRefresh(true);
   };
 
   const updateOneItemOrder = (orderId) => {
     setOrders((prevOrders) =>
       prevOrders.filter((prevOrder) => prevOrder._id !== orderId)
     );
-    // setTriggerRefresh(true);
+
   }
 
   const updateMultipleItemsOrder = (orderId, updatedOrderDetails) => {
@@ -35,23 +35,24 @@ export const OrderProvider = ({children}) => {
           : prevOrder
       )
     );
-    // setTriggerRefresh(true);
+
   }
 
   const resetOrders = () => {
-    setOrders([]);
+    setOrders(() => []);
   };
 
   return <OrderContext.Provider value={{
     orders, 
+    setOrders,
     addOrder, 
     resetOrders,
     isModalOpen,
     setIsModalOpen,
     updateOneItemOrder,
     updateMultipleItemsOrder,
-    setTriggerRefresh,
-    triggerRefresh,
+    setIsOrdersDirty,
+    isOrdersDirty
   }}>
     {children}
   </OrderContext.Provider>
