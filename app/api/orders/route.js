@@ -9,7 +9,7 @@ export async function GET(req){
 
     const orders = await Order.find()
 
-    console.log(orders);
+    // console.log(orders);
 
     return NextResponse.json({
       message: 'success',

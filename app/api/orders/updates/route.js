@@ -36,8 +36,6 @@ export async function GET(req) {
 
 // Broadcast function to push data to all connected clients
 export function broadcastOrderUpdate(order) {
-  console.log('Im beeing called');
-  console.log("Broadcasting order update to clients:", clients.length, "Order:", order);
   clients.forEach(client => {
     client.write(`data: ${JSON.stringify(order)}\n\n`);
   });

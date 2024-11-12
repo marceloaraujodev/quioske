@@ -7,7 +7,6 @@ import axios from 'axios';
 import { CiBeerMugFull } from 'react-icons/ci';
 import { TbGlassCocktail } from 'react-icons/tb';
 import { v4 as uuidv4 } from 'uuid';
-
 import c from './Cardapio.module.css';
 
 // quioske name userId and table number will come from the qrcode link that it will be open by the client
@@ -53,7 +52,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     // console.log(data);+
     // console.log(order);
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
-      // console.log('order looking for img', order);
+      
       const [itemId, itemName, itemPrice] = key.split('_');
       // items with quantity greater than 1
       if (quantity > 0) {
@@ -137,7 +136,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
           {orders.length > 0 ? (
             <ul>
               {orders.map((item) => (
-                <li key={item.itemId}>
+                <li key={`${item.itemId}-${item.itemName}`}>
                   {item.itemName} x{item.quantity} - R${' '}
                   {(item.price * item.quantity).toFixed(2)}
                 </li>
@@ -163,17 +162,17 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
               <div key={categoryData.name} className={c.categorySection}>
                 <h3 className={c.category}>{categoryData.name}</h3>
                 {categoryData.subCategory.map((subCategoryData) => (
-                  <div key={subCategoryData.name} className={c.typeSection}>
+                  <div key={`${categoryData.name}_${subCategoryData.name}`} className={c.typeSection}>
                     <div className={c.subCategory}>
                       {subCategoryIconMap[subCategoryData.name] || null}
                       {subCategoryData.name}
                     </div>
                     <div className={c.itemsCont}>
-                      {subCategoryData.items.map((item) => {
-                        const fieldName = `${item.itemId}_${item.name}_${item.price}`;
-                        const uniqueId = uuidv4();
+                      {subCategoryData.items.map((item, index) => {
+                        const fieldName = `${item.itemId}_${item.name}_${item.price}_${index}`;
+                        const uniqueKey = Date.now() + item.itemId
                         return (
-                          <div key={`${uniqueId}`} className={c.item}>
+                          <div key={uniqueKey} className={c.item}>
                             <div className={c.imgCont}>
                               {item.img ? (
                                 <img
