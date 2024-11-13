@@ -62,20 +62,20 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         // Find the item in menuData that matches this itemId and itemName
         const category = menuData.category.find((cat) =>
           cat.subCategory.some((subCat) =>
-            subCat.items.some((item) => item.itemId === +itemId)
+            subCat.items.some((item) => item.itemId === itemId)
           )
         );
         // console.log(category);
 
         const subCategory = category?.subCategory.find((subCat) =>
-          subCat.items.some((item) => item.itemId === +itemId)
+          subCat.items.some((item) => item.itemId === itemId)
         );
         // console.log(subCategory);
 
-        const item = subCategory?.items.find((item) => item.itemId === +itemId);
+        const item = subCategory?.items.find((item) => item.itemId === itemId);
         // console.log('this is item------', item);
-
-        order.push({ itemId, itemName, price: itemPrice, quantity, img: item.img });
+        const uniqueItemId = uuidv4();
+        order.push({ itemId: uniqueItemId, itemName, price: itemPrice, quantity, img: item.img });
       }
       return order;
     }, []);
@@ -135,18 +135,21 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
           <h2>Confirmar Pedido</h2>
           {orders.length > 0 ? (
             <ul>
-              {orders.map((item) => (
-                <li key={`${item.itemId}-${item.itemName}`}>
+              {orders.map((item) => {
+                return <li key={`${item.itemId}-${item.itemName}`}>
                   {item.itemName} x{item.quantity} - R${' '}
                   {(item.price * item.quantity).toFixed(2)}
                 </li>
-              ))}
+              })}
             </ul>
           ) : (
             <p>No items in your order.</p>
           )}
           <div id="modalBtn-Cancel-Confirm-Cont">
-            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+            <button onClick={() => {
+              setIsModalOpen(false)
+              setOrders([])
+            }}>Cancel</button>
             <button onClick={confirmOrder}>Confirm Order</button>
           </div>
         </div>
@@ -170,9 +173,9 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
                     <div className={c.itemsCont}>
                       {subCategoryData.items.map((item, index) => {
                         const fieldName = `${item.itemId}_${item.name}_${item.price}_${index}`;
-                        const uniqueKey = Date.now() + item.itemId
+
                         return (
-                          <div key={uniqueKey} className={c.item}>
+                          <div key={item.itemId} className={c.item}>
                             <div className={c.imgCont}>
                               {item.img ? (
                                 <img
