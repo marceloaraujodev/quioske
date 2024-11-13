@@ -6,42 +6,94 @@ import axios from "axios";
 // import SSE from 'sse-client';
 
 export default function OrdersPage() {
-  const { orders, setOrders, updateOneItemOrder, updateMultipleItemsOrder, addOrder } = useOrderContext();
+  const [orders, setOrders] = useState([]);
+  console.log('Component mounted');
 
-  // working Fetch orders initially when component mounts
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get("/api/orders");
+
+  // // working Fetch orders initially when component mounts
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     try {
+  //       const res = await axios.get("/api/orders");
+  //       setOrders(res.data.orders);
+  //     } catch (error) {
+  //       console.error("Failed to fetch orders:", error);
+  //     }
+  //   };
+
+  //   fetchOrders(); // Fetch initial orders
+
+  //   // Set up Server-Sent Events (SSE) connection
+  //   const eventSource = new EventSource("/api/orders/updates");
+
+  //   // if (orders.length === 0) {
+  //   //   setOrders([]); // Set an empty array for initial state
+  //   // }
+
+  //   eventSource.onmessage = (event) => {
+  //     const newOrder = JSON.parse(event.data);
+  //     console.log("New order received:", newOrder);
+
+  //     // Update orders with the new order received via SSE
+  //     setOrders((prevOrders) => [...prevOrders, newOrder]);
+  //   };
+
+  //   eventSource.onerror = (error) => {
+  //     console.error("SSE connection error:", error);
+  //     eventSource.close();
+  //   };
+
+  //   // Ensure that even if there are no orders initially, the listener is still active
+  //   eventSource.onopen = () => {
+  //     console.log("SSE connection established");
+  //   };
+
+  //   // Cleanup on unmount
+  //   return () => eventSource.close();
+  // }, []);
+
+// Set up EventSource to listen for updates (this should run immediately on mount)
+useEffect(() => {
+  console.log('eventSource started')
+  const eventSource = new EventSource('/api/orders/updates');
+  eventSource.onmessage = (event) => {
+    const newOrder = JSON.parse(event.data);
+    console.log("New order received:", newOrder);
+    setOrders((prevOrders) => {
+      // Add new order to the state
+      return [...prevOrders, newOrder];
+    });
+  };
+
+  eventSource.onerror = (error) => {
+    console.error("SSE error:", error);
+    eventSource.close();
+  };
+
+  // Cleanup on unmount
+  return () => {
+    eventSource.close();
+  };
+}, []);
+
+// Fetch orders initially when the component mounts (this will run after EventSource is set up)
+useEffect(() => {
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get("/api/orders");
+      // Set orders once fetched
+      if (res.data.orders && res.data.orders.length > 0) {
         setOrders(res.data.orders);
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    }
+  };
 
-    fetchOrders(); // Fetch initial orders
-    console.log("after fetchOrders");
-    
+  fetchOrders(); // Fetch initial orders
+}, []); // This only runs once when the component mounts
 
-    // Set up Server-Sent Events (SSE) connection
-    const eventSource = new EventSource("/api/orders/updates");
 
-    eventSource.onmessage = (event) => {
-      const newOrder = JSON.parse(event.data);
-      console.log("New order received:", newOrder);
-      // setOrders((prevOrders) => [...prevOrders, newOrder]);
-      setOrders(prevOrders => [...prevOrders, JSON.parse(event.data)]);
-      console.log("after setOrders");
-    };
-
-    eventSource.onerror = (error) => {
-      console.error("SSE connection error:", error);
-      eventSource.close();
-    };
-
-    // Cleanup on unmount
-    return () => eventSource.close();
-  }, []);
 
 
   // receives one order, a order can have multiple items or just one item
@@ -60,14 +112,23 @@ export default function OrdersPage() {
       });
 
       // update state for multiple items order
-      updateMultipleItemsOrder(order._id, updatedOrderDetails);
+      setOrders((prevOrders) =>
+        prevOrders.map((prevOrder) =>
+          // updates order details to remove item for multiple items orders
+          prevOrder._id === order._id
+            ? { ...prevOrder, orderDetails: updatedOrderDetails }
+            : prevOrder
+        )
+      );
     } else {
       console.log(order._id);
       const orderId = order._id;
       await axios.delete(`/api/deleteorder?orderId=${orderId}`);
 
       // update state if order only has one item
-      updateOneItemOrder(order._id);
+      setOrders((prevOrders) =>
+        prevOrders.filter((prevOrder) => prevOrder._id !== orderId)
+    );
     }
   }
 
@@ -82,7 +143,7 @@ export default function OrdersPage() {
         </div>
         <div className={c.wrapper}>
           <div className={c.unfilled}>
-            {orders.map((order, index) => {
+            {orders && orders.map((order, index) => {
               return (
                 <div key={order._id} className={c.order}>
                   {order.orderDetails.map((item, index) => {

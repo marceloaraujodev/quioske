@@ -7,11 +7,12 @@ export async function GET(req) {
   await mongooseConnect()
   console.log('enter route for updates')
   try {
+    console.log('enter try block for order/updates')
     const { readable, writable } = new TransformStream();
     
     const writer = writable.getWriter();
     writer.write("event: connected\ndata: {}\n\n");
-    console.log('step 1')
+    console.log('Client connected, sending initial message');
     
     // Add this client writer to the list of clients
     clients.push(writer);
@@ -20,9 +21,9 @@ export async function GET(req) {
     req.signal.addEventListener("abort", () => {
       clients = clients.filter(client => client !== writer);
       writer.close();
+      console.log('Client disconnected');
     });
-    
-    console.log('step 2')
+    console.log('before response is sent in order updates')
     return new NextResponse(readable, {
       headers: {
         "Content-Type": "text/event-stream",
@@ -39,6 +40,7 @@ export async function GET(req) {
 // Broadcast function to push data to all connected clients
 export function broadcastOrderUpdate(order) {
   console.log("Broadcasting order:", order); 
+  console.log('order being pushed to the frontend');
   clients.forEach(client => {
     client.write(`data: ${JSON.stringify(order)}\n\n`);
   });

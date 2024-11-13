@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"; // Use 'next/navigation' for Next.j
 import Tables from "../components/Tables/Tables";
 import axios from 'axios'
 import SignedInAs from "../components/SignedInAs/SignedInAs";
-import Link from "next/link";
 import CreateQRCode from "@/app/components/CreateQRCode/CreateQRCode";
 import c from './protected.module.css';
 
@@ -14,7 +13,6 @@ export default function Protected() {
   const [user, setUser] = useState();
 
   const router = useRouter();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +46,6 @@ export default function Protected() {
     <CreateQRCode empresa={user?.empresa}  _id={user?._id}/>
     <h1>Protected</h1>
     <Tables empresa={user?.empresa}/>
-    
     </>
   )
 }
