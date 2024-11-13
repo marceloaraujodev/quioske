@@ -1,16 +1,19 @@
 'use client'
 import { createContext, useState, useContext, useEffect } from 'react';
 
-
 const OrderContext = createContext();
 
 export const OrderProvider = ({children}) => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() =>{
+    console.log(orders);
+  }, [orders])
   
   const addOrder = (newOrder) => {
     setOrders((prevOrders) => [...prevOrders, ...newOrder]);
+    console.log(orders);
   };
   
   const updateOneItemOrder = (orderId) => {
@@ -45,7 +48,6 @@ export const OrderProvider = ({children}) => {
     setIsModalOpen,
     updateOneItemOrder,
     updateMultipleItemsOrder,
-
   }}>
     {children}
   </OrderContext.Provider>

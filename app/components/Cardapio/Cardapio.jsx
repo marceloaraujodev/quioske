@@ -19,7 +19,6 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     resetOrders,
     isModalOpen,
     setIsModalOpen,
-  
   } = useOrderContext();
   const {
     register,
@@ -32,6 +31,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
 
   // console.log(tableNumber, quioskeName, _id);
 
+
   useEffect(() => {
     const fetchMenu = async () => {
       const res = await axios.get('/api/menu', {
@@ -41,16 +41,12 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       // console.log(res.data.menu);
     };
     fetchMenu();
-  }, []);
-
+  }, [tableNumber, quioskeName, _id]);
 
 
   // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
-    
-    // console.log(data);+
-    // console.log(order);
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
       
       const [itemId, itemName, itemPrice] = key.split('_');

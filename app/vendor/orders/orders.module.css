@@ -79,7 +79,8 @@
 }
 .btnCont{
   display: flex;
-  justify-content: end;
+  /* justify-content: end; */
+  justify-content: flex-end;
   /* width: fit-content; */
 }
 .btn{

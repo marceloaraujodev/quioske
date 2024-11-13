@@ -8,8 +8,6 @@ import {broadcastOrderUpdate} from '../orders/updates/route';
 export async function POST(req){
   mongooseConnect();
 
-  console.log(broadcastOrderUpdate)
-
   try {
     const data = await req.json()
     console.log('data from create order', data);

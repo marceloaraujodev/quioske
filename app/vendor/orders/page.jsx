@@ -6,9 +6,9 @@ import axios from "axios";
 // import SSE from 'sse-client';
 
 export default function OrdersPage() {
-  const { orders, setOrders, updateOneItemOrder, updateMultipleItemsOrder } = useOrderContext();
+  const { orders, setOrders, updateOneItemOrder, updateMultipleItemsOrder, addOrder } = useOrderContext();
 
-  // Fetch orders initially when component mounts
+  // working Fetch orders initially when component mounts
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -25,15 +25,14 @@ export default function OrdersPage() {
 
     // Set up Server-Sent Events (SSE) connection
     const eventSource = new EventSource("/api/orders/updates");
-    console.log("after event source");
+
     eventSource.onmessage = (event) => {
       const newOrder = JSON.parse(event.data);
       console.log("New order received:", newOrder);
-      console.log('this should print on first order');
-      setOrders((prevOrders) => [...prevOrders, newOrder]);
+      // setOrders((prevOrders) => [...prevOrders, newOrder]);
+      setOrders(prevOrders => [...prevOrders, JSON.parse(event.data)]);
       console.log("after setOrders");
     };
-    console.log("after onmessage");
 
     eventSource.onerror = (error) => {
       console.error("SSE connection error:", error);
@@ -43,6 +42,7 @@ export default function OrdersPage() {
     // Cleanup on unmount
     return () => eventSource.close();
   }, []);
+
 
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {
