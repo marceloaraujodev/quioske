@@ -1,109 +1,68 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import c from "./orders.module.css";
 import axios from "axios";
 // import SSE from 'sse-client';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
+  const retryInterval = useRef(1000); // Initial retry interval set to 1 second
+  const eventSourceRef = useRef(null); // Store EventSource instance
 
-  const [sseConnected, setSseConnected] = useState(false);
-
-  // Fetch orders function
-  const fetchOrders = async () => {
+ // Fetch all orders from the server when the component mounts
+ useEffect(() => {
+  async function fetchOrders() {
     try {
-      const res = await axios.get("/api/orders");
-      setOrders(res.data.orders);
-      console.log('Orders fetched:', res.data.orders);
+      const res = await axios.get("/api/ordersinitial"); 
+      // console.log("Orders fetched:", res.data);
+      setOrders(res.data.orders); // Set fetched orders to the state
     } catch (error) {
-      console.error("Failed to fetch orders:", error);
+      console.error("Error fetching orders:", error);
+    }
+  }
+
+  fetchOrders(); // Fetch orders on page load
+
+  // Initialize SSE for real-time order updates
+  initializeSSE();
+
+  // Clean up EventSource when component unmounts
+  return () => {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
     }
   };
+}, []);
 
-  useEffect(() => {
-    fetchOrders(); // Initial fetch
+const initializeSSE = () => {
+  // Create a new EventSource connection for real-time updates
+  eventSourceRef.current = new EventSource("/api/orders");
 
-    // SSE for real-time order updates
-    const eventSourceUpdates = new EventSource("/api/orders/updates");
+  // Handle incoming messages (order updates)
+  eventSourceRef.current.onmessage = (event) => {
+    const { order } = JSON.parse(event.data);
 
-    eventSourceUpdates.onopen = () => {
-      console.log("SSE connection established for order updates");
-      setSseConnected(true);
-    };
+    if(!order) return
 
-    eventSourceUpdates.onmessage = (event) => {
-      const newOrder = JSON.parse(event.data);
-      console.log("New order update received:", newOrder);
-      setOrders((prevOrders) => [...prevOrders, newOrder]);
-    };
+    setOrders((prevOrders) => {
+      return [...prevOrders, order];
+    })
+  };
 
-    eventSourceUpdates.onerror = (error) => {
-      console.error("SSE connection error:", error);
-      setSseConnected(false);
-      eventSourceUpdates.close();
-    };
-
-    return () => {
-      eventSourceUpdates.close();
-      console.log("Closing SSE connection");
-    };
-  }, []);
-
-  // Polling mechanism to ensure order updates
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      console.log("Polling for orders...");
-      fetchOrders();
-    }, 10000); // Poll every 10 seconds
-
-    return () => clearInterval(intervalId);
-  }, []);
+  // Handle errors and attempt to reconnect
+  eventSourceRef.current.onerror = () => {
+    console.error("EventSource connection lost. Attempting to reconnect...");
+    if (eventSourceRef.current.readyState !== EventSource.CLOSED) {
+      eventSourceRef.current.close();
+    }
+    setTimeout(() => {
+      retryInterval.current = Math.min(retryInterval.current * 2, 30000); // Cap at 30 seconds
+      initializeSSE(); // Re-initialize EventSource connection
+    }, retryInterval.current);
+  };
+};
 
 
- 
-  // // working Fetch orders initially when component mounts
-  // useEffect(() => {
-  //     const fetchOrders = async () => {
-  //       try {
-  //         const res = await axios.get("/api/orders");
-  //         setOrders(res.data.orders);
-  //       } catch (error) {
-  //         console.error("Failed to fetch orders:", error);
-  //       }
-  //     };
-
-  //   fetchOrders(); // Fetch initial orders
-
-  //   // Set up Server-Sent Events (SSE) connection
-  //   const eventSource = new EventSource("/api/orders/updates");
-
-  //   // if (orders.length === 0) {
-  //   //   setOrders([]); // Set an empty array for initial state
-  //   // }
-
-  //   eventSource.onmessage = (event) => {
-  //     const newOrder = JSON.parse(event.data);
-  //     console.log("New order received:", newOrder);
-
-  //     // Update orders with the new order received via SSE
-  //     setOrders((prevOrders) => [...prevOrders, newOrder]);
-  //   };
-
-  //   eventSource.onerror = (error) => {
-  //     console.error("SSE connection error:", error);
-  //     eventSource.close();
-  //   };
-
-  //   // Ensure that even if there are no orders initially, the listener is still active
-  //   eventSource.onopen = () => {
-  //       console.log("SSE connection established");
-  //     };
-    
-  //     // Cleanup on unmount
-  //     return () => eventSource.close();
-  // }, []);
-
-    
 
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {
@@ -152,10 +111,10 @@ export default function OrdersPage() {
         </div>
         <div className={c.wrapper}>
           <div className={c.unfilled}>
-            {orders && orders.map((order, index) => {
+            {orders.map((order, index) => {
               return (
                 <div key={order._id} className={c.order}>
-                  {order.orderDetails.map((item, index) => {
+                  {order?.orderDetails?.map((item, index) => {
                     return (
                       <div key={`${item._id}_${index}`} className={c.orderBlock}>
                         <div className={c.item}>
@@ -208,6 +167,32 @@ export default function OrdersPage() {
     </>
   );
 }
+
+
+// // Pooling mechanism
+//  // Fetch orders function
+//   const fetchOrders = async () => {
+//     try {
+//       const res = await axios.get("/api/orders");
+//       setOrders(res.data.orders);
+//       console.log('Orders fetched:', res.data.orders);
+//     } catch (error) {
+//       console.error("Failed to fetch orders:", error);
+//     }
+//   };
+
+//    // Polling mechanism to ensure order updates
+//   useEffect(() => {
+//     const intervalId = setInterval(() => {
+//       console.log("Polling for orders...");
+//       fetchOrders();
+//     }, 10000); // Poll every 10 seconds
+
+//     return () => clearInterval(intervalId);
+//   }, []);
+    
+
+//-----------------------------
 
 
 // // second working option 

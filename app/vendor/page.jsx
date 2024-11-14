@@ -6,6 +6,7 @@ import Tables from "../components/Tables/Tables";
 import axios from 'axios'
 import SignedInAs from "../components/SignedInAs/SignedInAs";
 import CreateQRCode from "@/app/components/CreateQRCode/CreateQRCode";
+import Link from "next/link";
 import c from './protected.module.css';
 
 export default function Protected() {
@@ -45,6 +46,7 @@ export default function Protected() {
 
     <CreateQRCode empresa={user?.empresa}  _id={user?._id}/>
     <h1>Protected</h1>
+    <Link href='/vendor/orders'>Orders</Link>
     <Tables empresa={user?.empresa}/>
     </>
   )
