@@ -2,27 +2,26 @@ import { NextResponse } from "next/server";
 import { handleError } from '../../utils/errorHandler';
 import Order from "@/app/models/orders";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
-import {broadcastOrderUpdate} from '../orders/updates/route';
+import { broadcastOrderUpdate } from '../orders/updates/route';
 
-// when user orders a product
-export async function POST(req){
-  mongooseConnect();
+export async function POST(req) {
+  await mongooseConnect();
 
   try {
-    const data = await req.json()
-    console.log('data from create order recieved from cardapio', data);
-    const orderData = {...data, orderDetails: data.orders}
-    const order = await Order.create(orderData)
+    const data = await req.json();
+    console.log('Data from create order received:', data);
+    
+    const orderData = { ...data, orderDetails: data.orders };
+    const order = await Order.create(orderData);
+    console.log('Order created:', order);
 
-    // This will broadcast the order to all
-    // console.log('order before broadcast call',order);
+    // Broadcast new order to all clients
     broadcastOrderUpdate(order);
+    console.log('Order broadcasted to clients');
 
-    // console.log('This is the order confirmation saved on db', order);
-
-    return NextResponse.json({message: 'success', order});
+    return NextResponse.json({ message: 'success', order });
   } catch (error) {
-    console.log(error)
+    console.error('Error creating order:', error);
     return handleError(error);
   }
 }

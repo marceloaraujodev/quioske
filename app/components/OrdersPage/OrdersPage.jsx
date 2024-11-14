@@ -1,25 +1,76 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useOrderContext } from "../../Providers/OrderContext";
 import c from "./orders.module.css";
 import axios from "axios";
 // import SSE from 'sse-client';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
-  console.log('Component mounted');
+
+  const [sseConnected, setSseConnected] = useState(false);
+
+  // Fetch orders function
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get("/api/orders");
+      setOrders(res.data.orders);
+      console.log('Orders fetched:', res.data.orders);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders(); // Initial fetch
+
+    // SSE for real-time order updates
+    const eventSourceUpdates = new EventSource("/api/orders/updates");
+
+    eventSourceUpdates.onopen = () => {
+      console.log("SSE connection established for order updates");
+      setSseConnected(true);
+    };
+
+    eventSourceUpdates.onmessage = (event) => {
+      const newOrder = JSON.parse(event.data);
+      console.log("New order update received:", newOrder);
+      setOrders((prevOrders) => [...prevOrders, newOrder]);
+    };
+
+    eventSourceUpdates.onerror = (error) => {
+      console.error("SSE connection error:", error);
+      setSseConnected(false);
+      eventSourceUpdates.close();
+    };
+
+    return () => {
+      eventSourceUpdates.close();
+      console.log("Closing SSE connection");
+    };
+  }, []);
+
+  // Polling mechanism to ensure order updates
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      console.log("Polling for orders...");
+      fetchOrders();
+    }, 10000); // Poll every 10 seconds
+
+    return () => clearInterval(intervalId);
+  }, []);
 
 
+ 
   // // working Fetch orders initially when component mounts
   // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     try {
-  //       const res = await axios.get("/api/orders");
-  //       setOrders(res.data.orders);
-  //     } catch (error) {
-  //       console.error("Failed to fetch orders:", error);
-  //     }
-  //   };
+  //     const fetchOrders = async () => {
+  //       try {
+  //         const res = await axios.get("/api/orders");
+  //         setOrders(res.data.orders);
+  //       } catch (error) {
+  //         console.error("Failed to fetch orders:", error);
+  //       }
+  //     };
 
   //   fetchOrders(); // Fetch initial orders
 
@@ -45,56 +96,14 @@ export default function OrdersPage() {
 
   //   // Ensure that even if there are no orders initially, the listener is still active
   //   eventSource.onopen = () => {
-  //     console.log("SSE connection established");
-  //   };
-
-  //   // Cleanup on unmount
-  //   return () => eventSource.close();
+  //       console.log("SSE connection established");
+  //     };
+    
+  //     // Cleanup on unmount
+  //     return () => eventSource.close();
   // }, []);
 
-// Set up EventSource to listen for updates (this should run immediately on mount)
-useEffect(() => {
-  console.log('eventSource started')
-  const eventSource = new EventSource('/api/orders/updates');
-  eventSource.onmessage = (event) => {
-    const newOrder = JSON.parse(event.data);
-    console.log("New order received:", newOrder);
-    setOrders((prevOrders) => {
-      // Add new order to the state
-      return [...prevOrders, newOrder];
-    });
-  };
-
-  eventSource.onerror = (error) => {
-    console.error("SSE error:", error);
-    eventSource.close();
-  };
-
-  // Cleanup on unmount
-  return () => {
-    eventSource.close();
-  };
-}, []);
-
-// Fetch orders initially when the component mounts (this will run after EventSource is set up)
-useEffect(() => {
-  const fetchOrders = async () => {
-    try {
-      const res = await axios.get("/api/orders");
-      // Set orders once fetched
-      if (res.data.orders && res.data.orders.length > 0) {
-        setOrders(res.data.orders);
-      }
-    } catch (error) {
-      console.error("Failed to fetch orders:", error);
-    }
-  };
-
-  fetchOrders(); // Fetch initial orders
-}, []); // This only runs once when the component mounts
-
-
-
+    
 
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {
@@ -199,3 +208,72 @@ useEffect(() => {
     </>
   );
 }
+
+
+// // second working option 
+
+// useEffect(() => {
+//   let eventSource;
+
+//   const setupSSE = () => {
+//     console.log('Setting up SSE connection');
+//     eventSource = new EventSource('/api/orders/updates');
+
+//     eventSource.onopen = () => {
+//       console.log('SSE connection established');
+//     };
+
+//     eventSource.onmessage = (event) => {
+//       console.log("New order received via SSE:", event.data);
+//       if (event.data) {
+//         try {
+//           const newOrder = JSON.parse(event.data);
+//           setOrders(prevOrders => {
+//             // Check if the order already exists
+//             const orderExists = prevOrders.some(order => order._id === newOrder._id);
+//             if (!orderExists) {
+//               return [...prevOrders, newOrder];
+//             }
+//             return prevOrders;
+//           });
+//         } catch (error) {
+//           console.error("Error parsing SSE data:", error);
+//         }
+//       }
+//     };
+
+//     eventSource.onerror = (error) => {
+//       console.error("SSE error:", error);
+//       // Attempt to reconnect after a delay
+//       setTimeout(() => {
+//         eventSource.close();
+//         setupSSE();
+//       }, 5000);
+//     };
+//   };
+
+//   const fetchInitialOrders = async () => {
+//     try {
+//       const res = await axios.get("/api/orders");
+//       const initialOrders = res.data.orders || [];
+//       console.log("Initial orders fetched:", initialOrders);
+//       setOrders(initialOrders);
+//     } catch (error) {
+//       console.error("Failed to fetch orders:", error);
+//     } 
+//   };
+
+//   // First fetch initial orders
+//   fetchInitialOrders().then(() => {
+//     // Then set up SSE after initial fetch is complete
+//     setupSSE();
+//   });
+
+//   // Cleanup
+//   return () => {
+//     if (eventSource) {
+//       console.log('Closing SSE connection');
+//       eventSource.close();
+//     }
+//   };
+// }, []); // Empty dependency array

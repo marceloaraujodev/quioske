@@ -12,11 +12,17 @@ import c from './Cardapio.module.css';
 // quioske name userId and table number will come from the qrcode link that it will be open by the client
 export default function Cardapio({ tableNumber, quioskeName, _id }) {
   const [menuData, setMenuData] = useState(null);
+  const [orders, setOrders] = useState(null);
+
+  useEffect(() => {
+
+  }, []);
+
   const {
-    addOrder,
-    orders,
-    setOrders,
-    resetOrders,
+    // addOrder,
+    // orders,
+    // setOrders,
+    // resetOrders,
     isModalOpen,
     setIsModalOpen,
   } = useOrderContext();
@@ -76,7 +82,9 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       return order;
     }, []);
     // console.log(newOrder);
-    addOrder(newOrder);
+    // addOrder(newOrder);
+    // setOrders((prevOrders) => [...prevOrders, ...newOrder]);
+    setOrders([...newOrder]);
     setIsModalOpen(true);
     
   };
@@ -90,7 +98,8 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       });
 
       if (res.status === 200) {      
-        resetOrders();
+        // resetOrders();
+        setOrders(() => []);
         setIsModalOpen(false);
         resetQuantityFields();
         console.log('res data from cardapio confirm',res.data.order);
@@ -129,7 +138,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
       <Modal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div id="modalContent">
           <h2>Confirmar Pedido</h2>
-          {orders.length > 0 ? (
+          {orders?.length > 0 ? (
             <ul>
               {orders.map((item) => {
                 return <li key={`${item.itemId}-${item.itemName}`}>

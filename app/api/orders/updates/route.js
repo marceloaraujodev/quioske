@@ -11,6 +11,7 @@ export async function GET(req) {
     const { readable, writable } = new TransformStream();
     
     const writer = writable.getWriter();
+    // writer.write("retry: 5000\n");
     writer.write("event: connected\ndata: {}\n\n");
     console.log('Client connected, sending initial message');
     
@@ -23,7 +24,7 @@ export async function GET(req) {
       writer.close();
       console.log('Client disconnected');
     });
-    console.log('before response is sent in order updates')
+
     return new NextResponse(readable, {
       headers: {
         "Content-Type": "text/event-stream",
@@ -33,14 +34,13 @@ export async function GET(req) {
     });
     
   } catch (error) {
-    console.log(error)
+    console.error("Error in SSE GET route:", error);
   }
 }
 
 // Broadcast function to push data to all connected clients
 export function broadcastOrderUpdate(order) {
   console.log("Broadcasting order:", order); 
-  console.log('order being pushed to the frontend');
   clients.forEach(client => {
     client.write(`data: ${JSON.stringify(order)}\n\n`);
   });
