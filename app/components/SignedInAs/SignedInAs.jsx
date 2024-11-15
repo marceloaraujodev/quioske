@@ -19,7 +19,7 @@ export default function SignedInAs() {
       {session ? (
         <>
           <p>{session.user?.email}</p>
-          <button onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}>Sign out</button>
+          <button className="btnLink" onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}>Sign out</button>
         </>
       ) : null}
     </div>

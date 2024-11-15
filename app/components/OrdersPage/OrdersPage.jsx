@@ -1,80 +1,87 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import c from "./orders.module.css";
-import axios from "axios";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import c from './orders.module.css';
+import axios from 'axios';
 // import SSE from 'sse-client';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
+  const [filledOrders, setFilledOrders] = useState([]);
   const retryInterval = useRef(1000); // Initial retry interval set to 1 second
   const eventSourceRef = useRef(null); // Store EventSource instance
 
- // Fetch all orders from the server when the component mounts
- useEffect(() => {
-  async function fetchOrders() {
-    try {
-      const res = await axios.get("/api/ordersinitial"); 
-      // console.log("Orders fetched:", res.data);
-      setOrders(res.data.orders); // Set fetched orders to the state
-    } catch (error) {
-      console.error("Error fetching orders:", error);
+  // Fetch all orders from the server when the component mounts
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const res = await axios.get('/api/ordersinitial');
+        // console.log("Orders fetched:", res.data);
+        setOrders(res.data.orders); // Set fetched orders to the state
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
     }
-  }
 
-  fetchOrders(); // Fetch orders on page load
+    fetchOrders(); // Fetch orders on page load
 
-  // Initialize SSE for real-time order updates
-  initializeSSE();
+    // Initialize SSE for real-time order updates
+    initializeSSE();
 
-  // Clean up EventSource when component unmounts
-  return () => {
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-    }
+    // Clean up EventSource when component unmounts
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+      }
+    };
+  }, []);
+
+  const initializeSSE = () => {
+    // Create a new EventSource connection for real-time updates
+    eventSourceRef.current = new EventSource('/api/orders');
+
+    // Handle incoming messages (order updates)
+    eventSourceRef.current.onmessage = (event) => {
+      const { order } = JSON.parse(event.data);
+
+      if (!order) return;
+
+      setOrders((prevOrders) => {
+        return [...prevOrders, order];
+      });
+    };
+
+    // Handle errors and attempt to reconnect
+    eventSourceRef.current.onerror = () => {
+      console.error('EventSource connection lost. Attempting to reconnect...');
+      if (eventSourceRef.current.readyState !== EventSource.CLOSED) {
+        eventSourceRef.current.close();
+      }
+      setTimeout(() => {
+        retryInterval.current = Math.min(retryInterval.current * 2, 30000); // Cap at 30 seconds
+        initializeSSE(); // Re-initialize EventSource connection
+      }, retryInterval.current);
+    };
   };
-}, []);
 
-const initializeSSE = () => {
-  // Create a new EventSource connection for real-time updates
-  eventSourceRef.current = new EventSource("/api/orders");
-
-  // Handle incoming messages (order updates)
-  eventSourceRef.current.onmessage = (event) => {
-    const { order } = JSON.parse(event.data);
-
-    if(!order) return
-
-    setOrders((prevOrders) => {
-      return [...prevOrders, order];
-    })
-  };
-
-  // Handle errors and attempt to reconnect
-  eventSourceRef.current.onerror = () => {
-    console.error("EventSource connection lost. Attempting to reconnect...");
-    if (eventSourceRef.current.readyState !== EventSource.CLOSED) {
-      eventSourceRef.current.close();
-    }
-    setTimeout(() => {
-      retryInterval.current = Math.min(retryInterval.current * 2, 30000); // Cap at 30 seconds
-      initializeSSE(); // Re-initialize EventSource connection
-    }, retryInterval.current);
-  };
-};
-
-
+  useEffect(() => {
+    console.log(filledOrders);
+  }, []);
 
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {
-    console.log(order, index);
+    // console.log(order, index);
+    setFilledOrders((prevFilledOrders) => [...prevFilledOrders, order]);
 
     // if order has multiple items
     if (order.orderDetails.length > 1) {
       console.log(itemId);
-      const updatedOrderDetails = order.orderDetails.filter((item) => item._id !== itemId);
+      const updatedOrderDetails = order.orderDetails.filter(
+        (item) => item._id !== itemId
+      );
       console.log(updatedOrderDetails.length);
 
-      await axios.patch("/api/updateorder", {
+      await axios.patch('/api/updateorder', {
         orderId: order._id,
         orderDetails: updatedOrderDetails,
       });
@@ -89,14 +96,14 @@ const initializeSSE = () => {
         )
       );
     } else {
-      console.log(order._id);
+      // console.log(order._id);
       const orderId = order._id;
       await axios.delete(`/api/deleteorder?orderId=${orderId}`);
 
       // update state if order only has one item
       setOrders((prevOrders) =>
         prevOrders.filter((prevOrder) => prevOrder._id !== orderId)
-    );
+      );
     }
   }
 
@@ -116,22 +123,37 @@ const initializeSSE = () => {
                 <div key={order._id} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {
                     return (
-                      <div key={`${item._id}_${index}`} className={c.orderBlock}>
+                      <div
+                        key={`${item._id}_${index}`}
+                        className={c.orderBlock}>
                         <div className={c.item}>
-                          <span className={c.tableNumber}>#{order.tableNumber}</span>{" "}
+                          <span className={c.tableNumber}>
+                            #{order.tableNumber}
+                          </span>{' '}
                           <div className={c.imgCont}>
-                            &nbsp;
                             {item.img ? (
-                              <img className={c.img} src={item.img} aria-labelledby="product image" />
+                              <img
+                                className={c.img}
+                                src={item.img}
+                                aria-labelledby="product image"
+                              />
                             ) : (
-                              <span className={c.itemName}>{item.itemName}</span>
+                              <span className={c.itemName}>
+                                {item.itemName}
+                              </span>
                             )}
                           </div>
-                          {item.img ? <span className={c.itemName}>{item.itemName}</span> : null}
+                          {item.img ? (
+                            <span className={c.itemName}>{item.itemName}</span>
+                          ) : null}
                         </div>
                         <div className={c.itemQuantity}>{item.quantity}</div>
                         <div className={c.btnCont}>
-                          <button className={c.btn} onClick={() => handleCompletedOrders(order, index, item._id)}>
+                          <button
+                            className={c.btn}
+                            onClick={() =>
+                              handleCompletedOrders(order, index, item._id)
+                            }>
                             Pronto
                           </button>
                         </div>
@@ -143,31 +165,80 @@ const initializeSSE = () => {
             })}
           </div>
         </div>
-      </div>
 
-      {/* <h2>Completas</h2>
-      <div className={c.wrapper}>
-        <div className={c.filled}>
+        <div className={c.linkCont}>
+          <Link className={`btnLink`} href="/vendor">
+            Menu
+          </Link>
+        </div>
+
+        <h2>Completas</h2>
+        <div className={c.wrapper}>
+          <div className={c.unfilled}>
+            {filledOrders.map((order, index) => {
+              return (
+                <div key={order._id} className={c.order}>
+                  {order?.orderDetails?.map((item, index) => {
+                    return (
+                      <div
+                        key={`${item._id}_${index}`}
+                        className={c.orderBlock}>
+                        <div className={c.item}>
+                          <span className={c.tableNumber}>
+                            #{order.tableNumber}
+                          </span>{' '}
+                          <div className={c.imgCont}>
+                            {item.img ? (
+                              <img
+                                className={c.img}
+                                src={item.img}
+                                aria-labelledby="product image"
+                              />
+                            ) : (
+                              <span className={c.itemName}>
+                                {item.itemName}
+                              </span>
+                            )}
+                          </div>
+                          {item.img ? (
+                            <span className={c.itemName}>{item.itemName}</span>
+                          ) : null}
+                        </div>
+                        <div className={c.itemQuantity}>{item.quantity}</div>
+                        <div className={c.btnCont}>
+                          {/* <button className={c.btn} onClick={() => handleCompletedOrders(order, index, item._id)}>
+                            Pronto
+                            </button> */}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+          {/* <div className={c.filled}>
           {filledOrders.map((order, index) => {
+            console.log(order);
             return (
               <div key={index} className={`${c.order} ${c.finished}`}>
-                <div className={c.orderBlock}>
-                  <div className={c.item}>
-                    <div className={c.item}>{order.order}</div>
-                  </div>
-                  <div className={c.item}>
-                    <button className={`${c.btn} ${c.btnFinished}`}>Pronta</button>
-                  </div>
-                </div>
+              <div className={c.orderBlock}>
+              <div className={c.item}>
+              <div className={c.item}>{order.order}</div>
               </div>
-            );
-          })}
+              <div className={c.item}>
+              <button className={`${c.btn} ${c.btnFinished}`}>Pronta</button>
+              </div>
+              </div>
+              </div>
+              );
+              })}
+              </div> */}
         </div>
-      </div> */}
+      </div>
     </>
   );
 }
-
 
 // // Pooling mechanism
 //  // Fetch orders function
@@ -190,12 +261,10 @@ const initializeSSE = () => {
 
 //     return () => clearInterval(intervalId);
 //   }, []);
-    
 
 //-----------------------------
 
-
-// // second working option 
+// // second working option
 
 // useEffect(() => {
 //   let eventSource;
@@ -245,7 +314,7 @@ const initializeSSE = () => {
 //       setOrders(initialOrders);
 //     } catch (error) {
 //       console.error("Failed to fetch orders:", error);
-//     } 
+//     }
 //   };
 
 //   // First fetch initial orders

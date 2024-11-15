@@ -31,6 +31,18 @@ body {
   box-sizing: border-box;
 }
 
+.btnLink{
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-size: .9rem;
+}
+
 @media screen and (max-width: 768px) {
   body{
     padding: 0 5px;

@@ -23,7 +23,7 @@ export default function CreateQRCode({ empresa, _id}) {
   return (
     <div className={c.cont}>
       <div className={c.innerCont}>
-        <label htmlFor="qrcode">Gerar Código de Barras</label>
+        <label htmlFor="tableNumber">Gerar Código de Barras</label>
         <div className={c.btnAndInputCont}>
           <input
             value={tableNumber}
