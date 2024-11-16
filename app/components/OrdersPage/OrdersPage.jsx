@@ -16,8 +16,14 @@ export default function OrdersPage() {
     async function fetchOrders() {
       try {
         const res = await axios.get('/api/ordersinitial');
-        // console.log("Orders fetched:", res.data);
-        setOrders(res.data.orders); // Set fetched orders to the state
+        const unfilledOrders = res.data.orders.filter((order) => order.orderDetails.some((orderDetail) => orderDetail.fulfilled === false))
+        // console.log(unfilledOrders);
+        setOrders(unfilledOrders); 
+
+        // // sets filled orders
+        const filledOrders = res.data.orders.filter((order) => order.orderDetails.every((filledOrder) => filledOrder.fulfilled === true))
+        // console.log(filledOrders);
+        setFilledOrders(filledOrders);
       } catch (error) {
         console.error('Error fetching orders:', error);
       }
@@ -68,42 +74,57 @@ export default function OrdersPage() {
     console.log(filledOrders);
   }, []);
 
+  // UPDATE BACKEND FOR UPDATEORDER
+
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, index, itemId) {
-    // console.log(order, index);
-    setFilledOrders((prevFilledOrders) => [...prevFilledOrders, order]);
 
-    // if order has multiple items
+    // if order has multiple items, more than one
     if (order.orderDetails.length > 1) {
-      console.log(itemId);
-      const updatedOrderDetails = order.orderDetails.filter(
-        (item) => item._id !== itemId
-      );
-      console.log(updatedOrderDetails.length);
+      const updatedOrderDetails = order.orderDetails.map((item) =>
+        item._id === itemId ? { ...item, fulfilled: true } : item
+    );
 
-      await axios.patch('/api/updateorder', {
-        orderId: order._id,
-        orderDetails: updatedOrderDetails,
-      });
+    console.log(updatedOrderDetails);  // Log updated order details
 
-      // update state for multiple items order
-      setOrders((prevOrders) =>
+    await axios.patch('/api/updateorder', { orderId: order._id, itemId });
+
+    // Update the state for the order with the updated order details
+    setOrders((prevOrders) =>
         prevOrders.map((prevOrder) =>
-          // updates order details to remove item for multiple items orders
-          prevOrder._id === order._id
-            ? { ...prevOrder, orderDetails: updatedOrderDetails }
-            : prevOrder
+            prevOrder._id === order._id
+                ? { ...prevOrder, orderDetails: updatedOrderDetails } // Keep unfilled items
+                : prevOrder
         )
-      );
-    } else {
+    );
+
+    console.log(orders);  // Log updated orders
+
+    // Find the specific item that was marked as fulfilled
+    const filledItem = updatedOrderDetails.find((item) => item._id === itemId);
+
+    // Update the filled orders state with the fulfilled item
+    setFilledOrders((prev) => [
+        ...prev,
+        { ...order, orderDetails: [filledItem] }, // Add only the fulfilled item
+    ]);
+
+    console.log('filedItem', filledItem);  // Log the 
+    } 
+    else {
       // console.log(order._id);
       const orderId = order._id;
-      await axios.delete(`/api/deleteorder?orderId=${orderId}`);
+      await axios.patch(`/api/filledorder`, {
+        orderId,
+        itemId,
+      });
 
       // update state if order only has one item
       setOrders((prevOrders) =>
         prevOrders.filter((prevOrder) => prevOrder._id !== orderId)
       );
+
+      setFilledOrders((prevFilledOrders) => [...prevFilledOrders, order]); // have to check if the order has multiple items
     }
   }
 
@@ -176,6 +197,7 @@ export default function OrdersPage() {
         <div className={c.wrapper}>
           <div className={c.unfilled}>
             {filledOrders.map((order, index) => {
+              // console.log(order)
               return (
                 <div key={order._id} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {

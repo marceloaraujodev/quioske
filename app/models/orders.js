@@ -20,6 +20,10 @@ const OrderItemSchema = new mongoose.Schema({
     img: {
       type: String
     },
+    fulfilled: {
+      type: Boolean,
+      default: false,
+    },
 })
 
 const OrderSchema = new mongoose.Schema({

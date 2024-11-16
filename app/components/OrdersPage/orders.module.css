@@ -45,7 +45,11 @@
   flex-direction: column;
   gap: 20px;
 }
-
+.order{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .orderBlock{
   display: grid;
   grid-template-columns: 1fr 2fr 1fr auto; /* Adjust based on content */
