@@ -16,12 +16,32 @@ export default function OrdersPage() {
     async function fetchOrders() {
       try {
         const res = await axios.get('/api/ordersinitial');
-        const unfilledOrders = res.data.orders.filter((order) => order.orderDetails.some((orderDetail) => orderDetail.fulfilled === false))
+      // Filter orders to get only items where `fulfilled` is false
+      const unfilledOrders = res.data.orders.map((order) => {
+        // Filter the items within each order to include only unfulfilled items
+        const unfulfilledItems = order.orderDetails.filter(item => !item.fulfilled);
+        // Return the order with only unfulfilled items
+        return {
+          ...order,
+          orderDetails: unfulfilledItems
+        };
+      }).filter(order => order.orderDetails.length > 0); 
+      // ordersDetails.length > 0  will exclude the full order when items are all filled
+
         // console.log(unfilledOrders);
-        setOrders(unfilledOrders); 
+        setOrders(unfilledOrders);
 
         // // sets filled orders
-        const filledOrders = res.data.orders.filter((order) => order.orderDetails.every((filledOrder) => filledOrder.fulfilled === true))
+        const filledOrders = res.data.orders.map((order) => {
+          const filledOrders = order.orderDetails.filter((item) => item.fulfilled)
+          console.log(filledOrders);
+          return {
+            ...order,
+            orderDetails: filledOrders
+          }
+        }
+          
+        ).filter(order => order.orderDetails.length > 0)
         // console.log(filledOrders);
         setFilledOrders(filledOrders);
       } catch (error) {
@@ -74,47 +94,45 @@ export default function OrdersPage() {
     console.log(filledOrders);
   }, []);
 
-  // UPDATE BACKEND FOR UPDATEORDER
-
   // receives one order, a order can have multiple items or just one item
-  async function handleCompletedOrders(order, index, itemId) {
-
+  async function handleCompletedOrders(order, _, itemId) {
     // if order has multiple items, more than one
     if (order.orderDetails.length > 1) {
       const updatedOrderDetails = order.orderDetails.map((item) =>
         item._id === itemId ? { ...item, fulfilled: true } : item
-    );
+      );
 
-    console.log(updatedOrderDetails);  // Log updated order details
+      console.log(updatedOrderDetails); // Log updated order details
 
-    await axios.patch('/api/updateorder', { orderId: order._id, itemId });
+      await axios.patch('/api/updateorder', { orderId: order._id, itemId });
 
-    // Update the state for the order with the updated order details
-    setOrders((prevOrders) =>
+      // Update the state for the order with the updated order details
+      setOrders((prevOrders) =>
         prevOrders.map((prevOrder) =>
-            prevOrder._id === order._id
-                ? { ...prevOrder, orderDetails: updatedOrderDetails } // Keep unfilled items
-                : prevOrder
+          prevOrder._id === order._id
+            ? { ...prevOrder, orderDetails: updatedOrderDetails } // Keep unfilled items
+            : prevOrder
         )
-    );
+      );
 
-    console.log(orders);  // Log updated orders
+      console.log(orders); // Log updated orders
 
-    // Find the specific item that was marked as fulfilled
-    const filledItem = updatedOrderDetails.find((item) => item._id === itemId);
+      // Find the specific item that was marked as fulfilled
+      const filledItem = updatedOrderDetails.find(
+        (item) => item._id === itemId
+      );
 
-    // Update the filled orders state with the fulfilled item
-    setFilledOrders((prev) => [
-        ...prev,
-        { ...order, orderDetails: [filledItem] }, // Add only the fulfilled item
-    ]);
+      // This has to be changed to fix the same key issues
+      setFilledOrders((prevFilledOrders) => [
+        ...prevFilledOrders,
+        { ...order, orderDetails: [filledItem] },  // Add only the fulfilled item
+      ]);
 
-    console.log('filedItem', filledItem);  // Log the 
-    } 
-    else {
+      console.log('filedItem', filledItem); // Log the
+    } else {
       // console.log(order._id);
       const orderId = order._id;
-      await axios.patch(`/api/filledorder`, {
+      await axios.patch(`/api/updateorder`, {
         orderId,
         itemId,
       });
@@ -140,12 +158,16 @@ export default function OrdersPage() {
         <div className={c.wrapper}>
           <div className={c.unfilled}>
             {orders.map((order, index) => {
+              // Debugging the order details
+              order.orderDetails.forEach(item => {
+                console.log(item._id); // Log the key for debugging
+              });
               return (
                 <div key={order._id} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {
                     return (
                       <div
-                        key={`${item._id}_${index}`}
+                        key={`${item._id}`}
                         className={c.orderBlock}>
                         <div className={c.item}>
                           <span className={c.tableNumber}>
@@ -198,12 +220,13 @@ export default function OrdersPage() {
           <div className={c.unfilled}>
             {filledOrders.map((order, index) => {
               // console.log(order)
+              
               return (
-                <div key={order._id} className={c.order}>
+                <div key={`${order._id} filled`} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {
                     return (
                       <div
-                        key={`${item._id}_${index}`}
+                        key={`${item._id}_${index}filled`}
                         className={c.orderBlock}>
                         <div className={c.item}>
                           <span className={c.tableNumber}>
