@@ -17,32 +17,38 @@ export default function OrdersPage() {
       console.log('render initial fetch');
       try {
         const res = await axios.get('/api/ordersinitial');
-      // Filter orders to get only items where `fulfilled` is false
-      const unfilledOrders = res.data.orders.map((order) => {
-        // Filter the items within each order to include only unfulfilled items
-        const unfulfilledItems = order.orderDetails.filter(item => !item.fulfilled);
-        // Return the order with only unfulfilled items
-        return {
-          ...order,
-          orderDetails: unfulfilledItems
-        };
-      }).filter(order => order.orderDetails.length > 0); 
-      // ordersDetails.length > 0  will exclude the full order when items are all filled
+        // Filter orders to get only items where `fulfilled` is false
+        const unfilledOrders = res.data.orders
+          .map((order) => {
+            // Filter the items within each order to include only unfulfilled items
+            const unfulfilledItems = order.orderDetails.filter(
+              (item) => !item.fulfilled
+            );
+            // Return the order with only unfulfilled items
+            return {
+              ...order,
+              orderDetails: unfulfilledItems,
+            };
+          })
+          .filter((order) => order.orderDetails.length > 0);
+        // ordersDetails.length > 0  will exclude the full order when items are all filled
 
         // console.log(unfilledOrders);
         setOrders(unfilledOrders);
 
         // // sets filled orders
-        const filledOrders = res.data.orders.map((order) => {
-          const filledOrders = order.orderDetails.filter((item) => item.fulfilled)
-          console.log(filledOrders);
-          return {
-            ...order,
-            orderDetails: filledOrders
-          }
-        }
-          
-        ).filter(order => order.orderDetails.length > 0)
+        const filledOrders = res.data.orders
+          .map((order) => {
+            const filledOrders = order.orderDetails.filter(
+              (item) => item.fulfilled
+            );
+            // console.log(filledOrders);
+            return {
+              ...order,
+              orderDetails: filledOrders,
+            };
+          })
+          .filter((order) => order.orderDetails.length > 0);
         // console.log(filledOrders);
         setFilledOrders(filledOrders);
       } catch (error) {
@@ -91,38 +97,38 @@ export default function OrdersPage() {
     };
   };
 
-  // useEffect(() => {
-  //   console.log(filledOrders);
-  // }, []);
-
   // receives one order, a order can have multiple items or just one item
   async function handleCompletedOrders(order, _, itemId) {
-    console.log('oders coming in', order);
+    console.log(order);
+    const unfulfilledItems = order.orderDetails.filter(
+      (item) => !item.fulfilled
+    );
+    console.log('this is unfulfilleditems: ', unfulfilledItems);
 
-    // if order has multiple items, more than one
-    const unfulfilledItems = order.orderDetails.filter(item => !item.fulfilled);
-  
-     if (unfulfilledItems.length > 0){
-     // If there are still unfulfilled items, handle as a multi-item order
+    // if one order has multiple items
+    if (unfulfilledItems.length > 0) {
+      // If there are still unfulfilled items, handle as a multi-item order
       const updatedOrderDetails = order.orderDetails.map((item) =>
         item._id === itemId ? { ...item, fulfilled: true } : item
       );
 
-      // console.log(updatedOrderDetails); // Log updated order details
-
       // Update the state for the order with the updated order details
       setOrders((prevOrders) =>
-        prevOrders.map((prevOrder) =>
-          prevOrder._id === order._id
-            ? { ...prevOrder, 
-              orderDetails: updatedOrderDetails.filter((item) => !item.fulfilled), // Only unfulfilled items
-              // fulfilledItems: updatedOrderDetails.filter((item) => item.fulfilled), // Separate fulfilled items
-            } // Keep unfilled items
-            : prevOrder
-        ).filter((item) => !item.fulfilled)
+        prevOrders
+          .map((prevOrder) =>
+            prevOrder._id === order._id
+              ? {
+                  ...prevOrder,
+                  orderDetails: updatedOrderDetails.filter(
+                    (item) => !item.fulfilled
+                  ), // Only unfulfilled items
+                }
+              : prevOrder
+          )
+          .filter((item) => !item.fulfilled)
       );
 
-      // await axios.patch('/api/updateorder', { orderId: order._id, itemId });
+      await axios.patch('/api/updateorder', { orderId: order._id, itemId });
 
       // Find the specific item that was marked as fulfilled
       const filledItem = updatedOrderDetails.find(
@@ -133,7 +139,7 @@ export default function OrdersPage() {
         const existingOrderIndex = prevFilledOrders.findIndex(
           (filledOrder) => filledOrder._id === order._id
         );
-  
+
         if (existingOrderIndex > -1) {
           // Update the existing order in `filledOrders`
           const updatedFilledOrders = [...prevFilledOrders];
@@ -152,23 +158,9 @@ export default function OrdersPage() {
             { ...order, orderDetails: [filledItem] },
           ];
         }
-      })
-
-      console.log('filedItem', filledItem); // Log the
-    } else {
-      // console.log(order._id);
-      const orderId = order._id;
-      await axios.patch(`/api/updateorder`, {
-        orderId,
-        itemId,
       });
 
-      // update state if order only has one item
-      setOrders((prevOrders) =>
-        prevOrders.filter((prevOrder) => prevOrder._id !== orderId)
-      );
-
-      setFilledOrders((prevFilledOrders) => [...prevFilledOrders, order]); // have to check if the order has multiple items
+      console.log('filedItem', filledItem); // Log the
     }
   }
 
@@ -184,17 +176,11 @@ export default function OrdersPage() {
         <div className={c.wrapper}>
           <div className={c.unfilled}>
             {orders.map((order, index) => {
-              // Debugging the order details
-              order.orderDetails.forEach(item => {
-                // console.log(item._id); // Log the key for debugging
-              });
               return (
                 <div key={order._id} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {
                     return (
-                      <div
-                        key={`${item._id}`}
-                        className={c.orderBlock}>
+                      <div key={`${item._id}`} className={c.orderBlock}>
                         <div className={c.item}>
                           <span className={c.tableNumber}>
                             #{order.tableNumber}
@@ -245,7 +231,6 @@ export default function OrdersPage() {
         <div className={c.wrapper}>
           <div className={c.unfilled}>
             {filledOrders?.map((order, index) => {
-              
               return (
                 <div key={`${order._id}`} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {
@@ -275,8 +260,7 @@ export default function OrdersPage() {
                           ) : null}
                         </div>
                         <div className={c.itemQuantity}>{item.quantity}</div>
-                        <div className={c.btnCont}>
-                        </div>
+                        <div className={c.btnCont}></div>
                       </div>
                     );
                   })}
@@ -289,4 +273,3 @@ export default function OrdersPage() {
     </>
   );
 }
-
