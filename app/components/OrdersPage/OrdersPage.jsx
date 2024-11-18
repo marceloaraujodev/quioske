@@ -14,7 +14,7 @@ export default function OrdersPage() {
   // Fetch all orders from the server when the component mounts
   useEffect(() => {
     async function fetchOrders() {
-      console.log('render initial fetch');
+      // console.log('render initial fetch');
       try {
         const res = await axios.get('/api/ordersinitial');
         // Filter orders to get only items where `fulfilled` is false
@@ -166,6 +166,11 @@ export default function OrdersPage() {
 
   return (
     <>
+      <div className={c.linkCont}>
+        <Link className={`btnLink`} href="/vendor">
+          Menu
+        </Link>
+      </div>
       <div className={c.cont}>
         <h1>Pedidos</h1>
         <div className={c.headerRow}>
@@ -219,12 +224,6 @@ export default function OrdersPage() {
               );
             })}
           </div>
-        </div>
-
-        <div className={c.linkCont}>
-          <Link className={`btnLink`} href="/vendor">
-            Menu
-          </Link>
         </div>
 
         <h2>Completas</h2>

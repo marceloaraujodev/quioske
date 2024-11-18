@@ -33,7 +33,7 @@ export default function CreateQRCode({ empresa, _id}) {
             placeholder="Numero da mesa"
             onChange={(e) => setTableNumber(e.target.value)}
           />
-          <button type="submit" onClick={qrCode}>
+          <button type="submit" onClick={qrCode} className='btnLink'>
             criar
           </button>
           {qrCodeUrl && (

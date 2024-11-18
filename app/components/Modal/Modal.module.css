@@ -69,15 +69,18 @@
 }
 .modalContent div > div{
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
 }
 .modalContent div > div button{
   padding: 10px 15px;
-  
+  /* border: 1px solid red; */
+  margin-top: 10px;
+}
+.modalContent div > div input{
+  width: 100%;
+  padding: 5px;
 }
 .modalContent p{
   font-size: 1.3rem;

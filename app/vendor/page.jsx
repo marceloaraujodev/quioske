@@ -1,11 +1,11 @@
-'use client'
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import Tables from "../components/Tables/Tables";
-import axios from 'axios'
-import SignedInAs from "../components/SignedInAs/SignedInAs";
-import CreateQRCode from "@/app/components/CreateQRCode/CreateQRCode";
-import Link from "next/link";
+'use client';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import Tables from '../components/Tables/Tables';
+import axios from 'axios';
+import SignedInAs from '../components/SignedInAs/SignedInAs';
+import CreateQRCode from '@/app/components/CreateQRCode/CreateQRCode';
+import Link from 'next/link';
 import c from './protected.module.css';
 
 export default function Protected() {
@@ -13,11 +13,10 @@ export default function Protected() {
   const [user, setUser] = useState();
 
   useEffect(() => {
-
     const fetchData = async () => {
-      if(session.user.email){
+      if (session.user.email) {
         try {
-          const res = await axios.get(`/api/user?email=${session.user.email}`)
+          const res = await axios.get(`/api/user?email=${session.user.email}`);
           // console.log(res.data.user);
           setUser(res.data.user);
           console.log('this is session inside useeffect', session);
@@ -25,24 +24,27 @@ export default function Protected() {
           console.log(error);
         }
       }
-    }
+    };
     fetchData();
-  }, [session]); 
-  
-  
+  }, [session]);
+
   // if (status === "loading") return <p>Loading...</p>;
-  if(!session) return null;
+  if (!session) return null;
 
   return (
     <>
-    <SignedInAs />
-    <h1>Protected</h1>
-    <div className={c.controlPanel}>
-      <Link href='/vendor/orders' className="btnLink">Orders</Link>
-      <Link href='/vendor/qrcode' className="btnLink">Gerar QR</Link>
-    </div>
-    {/* <Tables empresa={user?.empresa}/> */}
-    <CreateQRCode empresa={user?.empresa}  _id={user?._id}/> 
+      <SignedInAs />
+      <h1 className={c.title}>Painel de Controle</h1>
+      <div className={c.controlPanel}>
+        <Link href="/vendor/orders">
+          <div className={c.cardMenu}>Orders</div>
+        </Link>
+        <Link href="/vendor/qrcode">
+          <div className={c.cardMenu}>Gerar QR</div>
+        </Link>
+      </div>
+      {/* <Tables empresa={user?.empresa}/> */}
+      {/* <CreateQRCode empresa={user?.empresa} _id={user?._id} /> */}
     </>
-  )
+  );
 }

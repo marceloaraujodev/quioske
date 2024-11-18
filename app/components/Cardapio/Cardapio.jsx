@@ -13,6 +13,7 @@ import c from './Cardapio.module.css';
 export default function Cardapio({ tableNumber, quioskeName, _id }) {
   const [menuData, setMenuData] = useState(null);
   const [orders, setOrders] = useState(null);
+  const [name, setName] = useState('');
 
   useEffect(() => {
 
@@ -88,7 +89,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     setIsModalOpen(true);
     
   };
-  async function confirmOrder() {
+  async function confirmOrder(name) {
     try {
       const res = await axios.post('/api/createorder', {
         tableNumber,
@@ -125,7 +126,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
   };
 
   const subCategoryIconMap = {
-    Cervejas: <CiBeerMugFull />,
+    Cervejas: <CiBeerMugFull size={25}/>,
     Caipirinhas: <TbGlassCocktail />, // If you want to use a different icon for this
     // Frios: <MdFastfood />,
     // Quentes: <MdFastfood /> , // Example icon, you can change to suit the category
@@ -150,19 +151,22 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
           ) : (
             <p>No items in your order.</p>
           )}
+          <div className={c.nome}>
+            <input onChange={(e) => setName(e.target.value)} type="text" className={c.nameInput} placeholder="Nome" value={name} />
+          </div>
           <div id="modalBtn-Cancel-Confirm-Cont">
             <button onClick={() => {
               setIsModalOpen(false)
               setOrders([])
             }}>Cancel</button>
-            <button onClick={confirmOrder}>Confirm Order</button>
+            <button onClick={() => confirmOrder(name)}>Confirm Order</button>
           </div>
         </div>
       </Modal>
       <div>
         {menuData ? (
           <form onSubmit={handleSubmit(onSubmit)} className={c.cardapioCont}>
-                          <button type="submit" className={c.btnOrder}>
+            <button type="submit" className={`btnLink ${c.btnOrder}`}>
                 Pedir
               </button>
             {menuData.category.map((categoryData) => (

@@ -4,7 +4,26 @@
   justify-content: center;
   gap: 10px;
   align-items: center;
-  border: 1px solid red;
+  /* border: 1px solid rgb(83, 83, 83); */
+  border-radius: 3px;
   padding: 10px;
   margin-bottom: 10px;
+
+}
+.controlPanel a{
+  text-decoration: none;
+  color: white;
+}
+.cardMenu{
+  width: 100px;
+  height: 100px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  font-weight: 500;
+}
+.title{
+  text-align: center;
 }

@@ -32,6 +32,10 @@ const OrderSchema = new mongoose.Schema({
     ref: 'User',  // Refers to the 'User' collection
     required: true 
   },
+  name: {
+    type: String,
+    // required: true,
+  },
   tableNumber: {
     type: String,
   },

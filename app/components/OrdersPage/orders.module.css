@@ -1,3 +1,7 @@
+.linkCont{
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
 .cont{
   display: flex;
   flex-direction: column;
@@ -145,11 +149,7 @@
   border-radius: 10px;
   border: 3px solid #e0e0e0; 
 }
-.linkCont{
-  margin: 0 auto;
-  margin-top: 10px;
-  margin-bottom: 30px;
-}
+
 /* .linkMenu{
   text-decoration: none;
   color: white;
