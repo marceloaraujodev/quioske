@@ -1,7 +1,4 @@
-.linkCont{
-  margin-top: 20px;
-  margin-bottom: 30px;
-}
+
 .cont{
   display: flex;
   flex-direction: column;
@@ -106,9 +103,13 @@
   display: flex;
   justify-content: center;
   text-align: center;
+  flex-direction: column;
   flex-shrink: 1;
   font-weight: bold;
   font-size: 1.6rem;
+}
+.name{
+  font-size: .5rem;
 }
 .btnCont{
   display: flex;

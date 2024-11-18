@@ -34,17 +34,21 @@ export default function Protected() {
   return (
     <>
       <SignedInAs />
-      <h1 className={c.title}>Painel de Controle</h1>
-      <div className={c.controlPanel}>
-        <Link href="/vendor/orders">
-          <div className={c.cardMenu}>Orders</div>
-        </Link>
-        <Link href="/vendor/qrcode">
-          <div className={c.cardMenu}>Gerar QR</div>
-        </Link>
+    <div className={c.cont}>
+      <div className={c.wrapper}>
+        <div className={c.controlPanel}>
+         <div className={c.title}>Painel de Controle</div>
+          <Link href="/vendor/orders">
+            <div className={c.cardMenu}>Pedidos</div>
+          </Link>
+          <Link href="/vendor/qrcode">
+            <div className={c.cardMenu}>Gerar QR</div>
+          </Link>
+        </div>
       </div>
       {/* <Tables empresa={user?.empresa}/> */}
       {/* <CreateQRCode empresa={user?.empresa} _id={user?._id} /> */}
+    </div>
     </>
   );
 }

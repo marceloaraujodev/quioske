@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
+
+import MenuBtn from '@/app/ui/MenuBtn/MenuBtn';
 import c from './orders.module.css';
 import axios from 'axios';
 // import SSE from 'sse-client';
@@ -166,11 +167,7 @@ export default function OrdersPage() {
 
   return (
     <>
-      <div className={c.linkCont}>
-        <Link className={`btnLink`} href="/vendor">
-          Menu
-        </Link>
-      </div>
+      <MenuBtn />
       <div className={c.cont}>
         <h1>Pedidos</h1>
         <div className={c.headerRow}>
@@ -184,6 +181,7 @@ export default function OrdersPage() {
               return (
                 <div key={order._id} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {
+                    console.log(order.name);
                     return (
                       <div key={`${item._id}`} className={c.orderBlock}>
                         <div className={c.item}>
@@ -207,7 +205,10 @@ export default function OrdersPage() {
                             <span className={c.itemName}>{item.itemName}</span>
                           ) : null}
                         </div>
-                        <div className={c.itemQuantity}>{item.quantity}</div>
+                        <div className={c.itemQuantity}>{item.quantity}
+                        <div className={c.name}>{order.name}</div>
+                        </div>
+                        
                         <div className={c.btnCont}>
                           <button
                             className={c.btn}

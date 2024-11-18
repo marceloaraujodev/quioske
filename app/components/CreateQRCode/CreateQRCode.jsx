@@ -3,6 +3,7 @@ import generateQRCode from '../../utils/generateQRCode';
 import { useSession } from 'next-auth/react';
 import dotenv from 'dotenv';
 import printQrCode from '../../utils/printQRCode';
+import SignedInAs from '../SignedInAs/SignedInAs';
 import c from './CreateQRCode.module.css';
 dotenv.config();
 
@@ -21,6 +22,8 @@ export default function CreateQRCode({ empresa, _id}) {
   const print = () => printQrCode(qrCodeUrl, 'Small', empresa, tableNumber) // only 2 sizes "Large" and "Small"
 
   return (
+    <>
+    <SignedInAs />
     <div className={c.cont}>
       <div className={c.innerCont}>
         <label htmlFor="tableNumber">Gerar Código de Barras</label>
@@ -45,5 +48,7 @@ export default function CreateQRCode({ empresa, _id}) {
         </div>
       </div>
     </div>
+    
+    </>
   );
 }

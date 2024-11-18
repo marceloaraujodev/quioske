@@ -8,7 +8,7 @@ export async function POST(req) {
 
   try {
     const data = await req.json();
-    // console.log('Data from create order received:', data);
+    console.log('Data from create order received:', data);
     
     const orderData = { ...data, orderDetails: data.orders };
     const order = await Order.create(orderData);

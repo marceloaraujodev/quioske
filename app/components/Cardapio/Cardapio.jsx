@@ -96,6 +96,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         userId: _id,
         orders,
         empresa: quioskeName,
+        name
       });
 
       if (res.status === 200) {      
