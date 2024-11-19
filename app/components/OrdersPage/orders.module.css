@@ -150,7 +150,9 @@
   border-radius: 10px;
   border: 3px solid #e0e0e0; 
 }
-
+.bottom{
+  margin-bottom: 100px;
+}
 /* .linkMenu{
   text-decoration: none;
   color: white;

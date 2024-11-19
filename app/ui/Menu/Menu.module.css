@@ -1,0 +1,14 @@
+.cont{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+  /* margin-bottom: 50px; */
+  padding: 0 20px;
+  /* border: 1px solid red; */
+}
+.linkCont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

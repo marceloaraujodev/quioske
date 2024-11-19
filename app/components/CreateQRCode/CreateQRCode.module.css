@@ -6,6 +6,12 @@
   align-items: center;
   padding: 20px;
 }
+/* .header{
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid green;
+  align-items: center;
+} */
 .innerCont{
   /* border: 1px solid red; */
   display: flex;

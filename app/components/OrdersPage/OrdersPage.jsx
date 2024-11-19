@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-
-import MenuBtn from '@/app/ui/MenuBtn/MenuBtn';
+import MenuBtn from '@/app/ui/Menu/Menu';
 import c from './orders.module.css';
 import axios from 'axios';
 // import SSE from 'sse-client';
@@ -205,10 +204,11 @@ export default function OrdersPage() {
                             <span className={c.itemName}>{item.itemName}</span>
                           ) : null}
                         </div>
-                        <div className={c.itemQuantity}>{item.quantity}
-                        <div className={c.name}>{order.name}</div>
+                        <div className={c.itemQuantity}>
+                          {item.quantity}
+                          <div className={c.name}>{order.name}</div>
                         </div>
-                        
+
                         <div className={c.btnCont}>
                           <button
                             className={c.btn}
@@ -227,8 +227,8 @@ export default function OrdersPage() {
           </div>
         </div>
 
-        <h2>Completas</h2>
-        <div className={c.wrapper}>
+        <h2>Despachados</h2>
+        <div className={`${c.wrapper} ${c.bottom}`}>
           <div className={c.unfilled}>
             {filledOrders?.map((order, index) => {
               return (
