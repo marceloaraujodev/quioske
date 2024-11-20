@@ -4,7 +4,6 @@ import c from '../Login.module.css';
 export default function SignInButtons({ setIsCredentials }) {
   return (
     <>
-      <p>Login:</p>
       <div className={c.btns}>
         <button
           className={c.btnCont}

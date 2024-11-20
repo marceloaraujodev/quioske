@@ -1,9 +1,11 @@
 .cont{
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   flex-grow: 1;
   flex-direction: column;
+  /* margin-top: -100px; */
+  /* border: 1px solid red; */
 }
 .logo{
   width: 80px;
@@ -13,11 +15,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 15px;
   width: 80vw;
   max-width: 500px;
   border: 1px solid white;
-  color: white;
+  /* color: white; */
   padding-bottom: 30px;
   border-radius: 5px;
 }
@@ -56,6 +57,11 @@
 .formCont button{
   max-width: 100%;
 }
+.text{
+  font-size: .8rem;
+  width: 218px;
+  margin: 0;
+}
 .text a{
-  color: white;
+  color: black;
 }
