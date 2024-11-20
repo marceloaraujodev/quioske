@@ -6,12 +6,13 @@ import { FaShoppingCart } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useMenu } from "@/app/hooks/useMenu";
 import contactUs from "@/app/utils/whatsapp";
 import c from "./Nav.module.css";
 
-export default function Nav() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function Nav({ isMenuOpen, toggleMenu, menuHeight, }) {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,21 +25,16 @@ export default function Nav() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  function handleMenuClick() {
-    console.log("Menu clicked");
-    setIsMenuOpen(!isMenuOpen);
-  }
-
   return (
     <>
-    <div className={c.mainCont}>
+    {/* <div className={c.mainCont}> */}
 
       <div className={c.cont}>
         <div className={c.wrapper}>
 
 
           <div className={c.innerCont}>
-            <motion.div className={`${c.menuIcon}`} onClick={handleMenuClick}>
+            <motion.div className={`${c.menuIcon}`} onClick={() => toggleMenu(isMenuOpen ? 0 : 200)}>
               <RxHamburgerMenu size={25} />
             </motion.div>
             <div className={c.logoCont}>
@@ -64,7 +60,7 @@ export default function Nav() {
           <motion.div
           className={`${isMenuOpen ? (isSmallScreen ? c.menuSmall : c.menu) : ""}`}
           initial={{ top: "0", opacity: "0", opacity: 0 }}
-          animate={{ top: isMenuOpen ? "100px" : 0, opacity: isMenuOpen ? 1 : 0 }}
+          animate={{ top: isMenuOpen ? "100px" : 0, opacity: isMenuOpen ? 1 : 0, height: isMenuOpen ? menuHeight : 0 }}
           exit={{ top: "-100px" , opacity: 0}}
           transition={{ duration: 0.5 }}
           style={{
@@ -73,6 +69,7 @@ export default function Nav() {
             width: isSmallScreen ? "100vw" : "100vw",
             zIndex: -1,
           }}
+          
           >
           {/* <div className={c.closeIcon} onClick={handleMenuClick}>
             <IoCloseSharp size={40} />
@@ -80,9 +77,15 @@ export default function Nav() {
           {isMenuOpen && (
             <>
               <ul className={c.ul}>
-                <li className={c.menuItems}><a onClick={() => setIsMenuOpen(false)} href="#gobags">O que é Go Bags</a></li>
-                <li className={c.menuItems}><a onClick={() => setIsMenuOpen(false)} href="#privatelabel">Private Label</a></li>
-                <li className={c.menuItems}><a onClick={() => setIsMenuOpen(false)} href="#contato">Contato</a></li>
+                <li className={c.menuItems}><a 
+                // onClick={() => setIsMenuOpen(false)}
+                 href="#gobags">O que é Go Bags</a></li>
+                <li className={c.menuItems}><a 
+                // onClick={() => setIsMenuOpen(false)}
+                 href="#privatelabel">Private Label</a></li>
+                <li className={c.menuItems}><a 
+                // onClick={() => setIsMenuOpen(false)} 
+                href="#contato">Contato</a></li>
               </ul>
             </>
           )}
@@ -90,7 +93,7 @@ export default function Nav() {
         )}
 
           </AnimatePresence>
-    </div>
+    {/* </div> */}
 
     </>
   );

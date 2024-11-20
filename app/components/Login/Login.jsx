@@ -35,7 +35,7 @@ export default function Login() {
   if (status === 'loading') return <p>Loading...</p>;
 
   return (
-    <div className={c.cont}>
+    <div className={c.cont} >
       <div className={c.loginCont}>
         {isLogIn ? (
           <>

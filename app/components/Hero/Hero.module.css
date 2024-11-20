@@ -1,0 +1,42 @@
+.cont{
+  padding: 20px 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid green; */
+  gap: 15px;
+}
+.title {
+ padding-left: 10px;
+ width: 80vw;
+ border: 1px solid red;
+ font-size: 2rem;
+ font-weight: 700;
+ line-height: 2.6rem; 
+}
+.cta{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* border: 1px solid red; */
+}
+.cta button{
+  padding: 15px 25px;
+  border: none;
+  background-color: black;
+  color: white;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+.how{
+  font-size: 1.1rem;
+  /* margin-left: 5px; */
+}
+.link{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.link:hover{
+  color: red;
+}
