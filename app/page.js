@@ -8,6 +8,7 @@ import c from "./page.module.css";
 import OrdersPage from "./components/OrdersPage/OrdersPage";
 import Nav from "./components/Nav/Nav";
 import Hero from './components/Hero/Hero';
+import HowItWorks from "./components/HowItWorks/HowItWorks";
 import { useOrderContext } from "./Providers/OrderContext";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -34,6 +35,7 @@ export default function Home() {
       //  }}
      >
       <Hero />
+      <HowItWorks />
        {/* <Login /> */}
       {/* <Tables /> */}
       {/* <Cardapio 

@@ -15,7 +15,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  max-width: 1440px;
+  /* max-width: 1140px; */
   /* padding: 0 20px; */
   overflow-x: hidden;
   margin: 0 auto;

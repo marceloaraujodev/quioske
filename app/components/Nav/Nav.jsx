@@ -10,6 +10,7 @@ import { useMenu } from "@/app/hooks/useMenu";
 import contactUs from "@/app/utils/whatsapp";
 import c from "./Nav.module.css";
 
+// the height of the menu is calculated in the onClick event ⚠️
 export default function Nav({ isMenuOpen, toggleMenu, menuHeight, }) {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -27,14 +28,11 @@ export default function Nav({ isMenuOpen, toggleMenu, menuHeight, }) {
 
   return (
     <>
-    {/* <div className={c.mainCont}> */}
 
       <div className={c.cont}>
         <div className={c.wrapper}>
-
-
           <div className={c.innerCont}>
-            <motion.div className={`${c.menuIcon}`} onClick={() => toggleMenu(isMenuOpen ? 0 : 200)}>
+            <motion.div className={`${c.menuIcon}`} onClick={() => toggleMenu(isMenuOpen ? 0 : 150)}>
               <RxHamburgerMenu size={25} />
             </motion.div>
             <div className={c.logoCont}>
@@ -71,9 +69,6 @@ export default function Nav({ isMenuOpen, toggleMenu, menuHeight, }) {
           }}
           
           >
-          {/* <div className={c.closeIcon} onClick={handleMenuClick}>
-            <IoCloseSharp size={40} />
-          </div> */}
           {isMenuOpen && (
             <>
               <ul className={c.ul}>
@@ -93,7 +88,7 @@ export default function Nav({ isMenuOpen, toggleMenu, menuHeight, }) {
         )}
 
           </AnimatePresence>
-    {/* </div> */}
+  
 
     </>
   );
