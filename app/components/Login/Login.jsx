@@ -45,7 +45,7 @@ export default function Login() {
               <SignInButtons setIsCredentials={setIsCredentials} />
             )}
             <p className={c.text}>
-              Don't have an account? Sign up{' '}
+              Don&#39;t have an account? Sign up{' '}
               <span href="/#" onClick={() => setIsLogIn(false)}>
                 <span className={c.underline}>here.</span>
               </span>

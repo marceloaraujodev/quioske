@@ -7,7 +7,7 @@ export default function FAQ() {
         <div className={c.leftBlock}>
           <div className={c.titleWrapper}>
           <p className={c.title}>Perguntas <br />Frequentes</p>
-          <p className={c.description}>Got questions? We've got answers! Learn more about getting started with</p>
+          <p className={c.description}>Got questions? We have got answers! Learn more about getting started with</p>
           </div>
         </div>
 

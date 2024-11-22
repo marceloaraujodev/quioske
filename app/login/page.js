@@ -5,7 +5,7 @@ import Nav from '../components/Nav/Nav';
 import Footer from '../components/Footer/Footer';
 import { motion } from 'framer-motion';
 import c from './loginRoute.module.css'
-export default function page() {
+export default function LoginRoute() {
   const { isMenuOpen, menuHeight, toggleMenu } = useMenu();
   return (
     <>

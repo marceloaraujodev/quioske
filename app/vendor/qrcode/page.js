@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import CreateQRCode from "@/app/components/CreateQRCode/CreateQRCode";
 import axios from 'axios';
 
-export default function page() {
+export default function QrCode() {
   const { data: session, status } = useSession();
   const [user, setUser] = useState();
 
