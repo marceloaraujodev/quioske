@@ -101,6 +101,3 @@ export default function Nav({ isMenuOpen, toggleMenu }) {
   );
 }
 
-// animation that I want!!
-// animate={{height: '100vh', width: '400px', borderRadius: '0', left: '0', top: '0', position: 'absolute',  }}
-// transition={{duration: 1}}

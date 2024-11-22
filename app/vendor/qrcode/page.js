@@ -33,4 +33,4 @@ export default function QrCode() {
    <CreateQRCode empresa={user?.empresa}  _id={user?._id}/> 
     </>
   )
-}
+} 
