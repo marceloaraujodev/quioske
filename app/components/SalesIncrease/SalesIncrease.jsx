@@ -3,7 +3,7 @@ import c from './SalesIncrease.module.css';
 
 export default function SalesIncrease() {
   return (
-    <div className={c.cont}>
+    <div className={c.cont} id="otimizando">
       <div className={c.wrapper}>
         <div className={c.leftBlock}>
           <div className={c.titleWrapper}>

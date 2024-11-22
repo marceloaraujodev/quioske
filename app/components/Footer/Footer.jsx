@@ -8,6 +8,8 @@ import { FaInstagram } from 'react-icons/fa6';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FiLogIn } from "react-icons/fi";
 import Link from 'next/link';
+import { ToastContainer} from 'react-toastify';
+import notify from '@/app/utils/notifications';
 
 import c from './Footer.module.css';
 
@@ -34,7 +36,7 @@ export default function Footer() {
     // const res = {status: 200};
 
     if (res.status === 200) {
-      alert('Mensagem enviada com sucesso!');
+      notify('success', 'Mensagem enviada com sucesso!');
       setName('');
       setLastName('');
       setEmail('');
@@ -45,6 +47,7 @@ export default function Footer() {
   }
 
   return (
+    <>
     <div className={c.cont} id='contato'>
       <p className={c.contato}>Contato</p>
       <div className={c.wrapper}>
@@ -114,5 +117,7 @@ export default function Footer() {
         </form>
       </div>
     </div>
+      <ToastContainer />
+    </>
   );
 }

@@ -1,14 +1,13 @@
 
 html,
 body{
-  height: 100%;
   margin: 0;
   padding: 0;
 }
 html{
   /* background: #bfbfbf; */
   background: #ffffff;
-  /* border: 1px solid white; */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -49,4 +48,17 @@ body {
   /* body{
     padding: 0 5px;
   } */
+}
+
+#recursos {
+  scroll-margin-top: 300px;  /* nav 100 plus open menu 200 = 300 */
+}
+#faq {
+  scroll-margin-top: 300px;  /* nav 100 plus open menu 200 = 300 */
+}
+#otimizando {
+  scroll-margin-top: 300px;  /* nav 100 plus open menu 200 = 300 */
+}
+#contact {
+  scroll-margin-top: 300px;  /* nav 100 plus open menu 200 = 300 */
 }

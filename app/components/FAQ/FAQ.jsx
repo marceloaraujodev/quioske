@@ -2,7 +2,7 @@ import c from './FAQ.module.css';
 
 export default function FAQ() {
   return (
-    <div className={c.cont}>
+    <div className={c.cont} id='faq'>
       <div className={c.wrapper}>
         <div className={c.leftBlock}>
           <div className={c.titleWrapper}>

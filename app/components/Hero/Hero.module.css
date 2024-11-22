@@ -8,6 +8,7 @@
   gap: 15px;
   margin: 0 auto;
   max-width: 1140px;
+  z-index: 5;
 }
 .leftBlock{
   /* border: 1px solid salmon; */

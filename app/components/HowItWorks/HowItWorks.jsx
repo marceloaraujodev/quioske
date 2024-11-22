@@ -3,7 +3,7 @@ import c from "./HowItWorks.module.css";
 
 export default function HowItWorks() {
   return (
-    <div className={c.cont}>
+    <div className={c.cont} id="recursos">
       <div className={c.title}>
         Reduza custos <br /> Aumente os pedidos!
       </div>

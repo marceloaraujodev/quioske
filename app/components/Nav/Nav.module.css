@@ -6,7 +6,7 @@
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.938);
+  background-color: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 20;
 }
 .innerCont{
   display: flex;
@@ -44,31 +43,20 @@
 
 .menu,
 .menuSmall{
+  /* border: 1px solid red; */
+  background-color: white;
   position: fixed;
   display: flex;
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
   left: 0;
-  z-index: 900;
+  top: 0px;
   flex-grow: 1;
-  border: 1px solid red;
+  z-index: 99999;
 }
-/* .menuSmall {
-  position: fixed;
-  border: 1px solid red;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  box-sizing: border-box;
-  z-index: -1;
-} */
-.closeIcon{
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 24px;
-}
+
+
 .ul{
   display: flex;
   flex-direction: column;

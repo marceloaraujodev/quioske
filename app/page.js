@@ -13,7 +13,7 @@ import FAQ from "./components/FAQ/FAQ";
 import Footer from "./components/Footer/Footer";
 import SalesIncrease from "./components/SalesIncrease/SalesIncrease";
 import { useOrderContext } from "./Providers/OrderContext";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function Home() {
   // const { isModalOpen, setIsModalOpen } = useOrderContext();
@@ -22,10 +22,10 @@ export default function Home() {
   return (
     <>
       <Nav
-        className={c.x}
         isMenuOpen={isMenuOpen}
         toggleMenu={toggleMenu}
         menuHeight={menuHeight}
+        // className={c.x}
         // onAnimationComplete={handleAnimationComplete}
       />
      <motion.div className={c.cont}
@@ -33,9 +33,6 @@ export default function Home() {
        animate={{ y: isMenuOpen ? menuHeight : 0 }}
        exit={{ y: 0}}
        transition={{ duration: 0.5 }}
-      //  style={{
-      //    backgroundColor: 'white',
-      //  }}
      >
       <Hero />
       <HowItWorks />
