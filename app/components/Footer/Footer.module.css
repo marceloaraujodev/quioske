@@ -1,120 +1,109 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css");
-
-.footer{
+.cont{
   width: 100%;
-  background-color: #000000;
-  padding: 30px 0;
-  /* margin-top: 100px; */
-  display: flex;
-  justify-content: center;
-}
-.container{
-
-  max-width: 1400px;
-  width: 100%;
-}
-.title{
-  text-align: center;
+  background-color: black;
   color: white;
-  font-weight: 600;
-  font-size: 1.5rem;
-}
-.row{
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-.footer a{
-  color: white;
-  text-decoration: none;
-}
-.footer span{
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  margin-left: 10px;
-}
-.footer h2{
-  font-size: 1.3rem;
-  font-weight: bold;
-  padding: 0;
-  margin: 0;
-  color: white;
-  margin-bottom: 10px;
-}
-.leftBox ul{
-  margin: 0;
-  padding: 0;
-}
-.leftBox ul li{
-  color: white;
-  text-decoration: none;
-  list-style: none;
-  margin-bottom: 5px;
-}
-.leftBox ul li svg{
-  height: 15px;
-  margin-right: 5px;
-}
-.leftBox span{
-  margin: 0;
-}
-.rightBox{
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  padding: 40px;
 }
-.rightBox span{
-  margin-left: 15px;
-  font-weight: 400px;
-  font-style: normal;
+.contato{
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
 }
+.wrapper{
+  /* height: 300px; */
+  /* border: 2px solid red; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 80px;
+  width: 100%;
+  max-width: 1440px;
+  padding: 20px;
+}
+
 .icons{
-  padding: 0 10px;
-  font-size: 1rem;
-  color: white;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 20px;
 }
-.formContainer{
-  min-width: 33%;
-  max-width: 330px;
+.iconCont{
+  /* border: 1px solid white; */
+  width: 300px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: .9rem;
+}
+.iconItem{
+  font-size: 20px;
+}
+.divider{
+  border-left: 1px solid white;
+  height: 200px
 }
 .form{
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+  max-width: 400px;
 }
-.newsLetter{
-  color: white;
-  font-weight: 600;
-  margin: 0;
+
+.form label{
+  display: flex;
+  flex-direction: column;
 }
-.form input{
-  max-width: 100%;
+.form label input,
+.form label textarea{
+  padding: 10px;
+  border-radius: 5px;
   border: none;
-  border-radius: 2px;
+  width: 100%;
+  color: black;
+}
+.form label input:focus,
+.form label textarea:focus{
   outline: none;
-  padding: 10px;
 }
-.form input:focus{
-  border: none;
+.name{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
-.form .btn{
+.form button{
+  padding: 10px 40px;
+  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid white;
   color: white;
-  border: 1px solid white;
-  background-color: black;
-  border-radius: 2px;
-  padding: 10px;
-  max-width: 100%;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
 }
-.form .btn:hover{
-  color: rgb(66, 173, 248);
-  border: 1px solid white;
+.iconCont a {
+  color: white;
+  text-decoration: none;
 }
-@media screen and (max-width: 768px){
-  .row{
+
+@media screen and (max-width: 768px) {
+  .cont{
+    margin-top: 50px;
+  }
+  .wrapper{
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
+    padding: 10px;
+  }
+  .name{
+    display: flex;
+    flex-direction: column;
   }
 }

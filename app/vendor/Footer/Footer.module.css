@@ -1,0 +1,120 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css");
+
+.footer{
+  width: 100%;
+  background-color: #000000;
+  padding: 30px 0;
+  /* margin-top: 100px; */
+  display: flex;
+  justify-content: center;
+}
+.container{
+
+  max-width: 1400px;
+  width: 100%;
+}
+.title{
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+.row{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+.footer a{
+  color: white;
+  text-decoration: none;
+}
+.footer span{
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  margin-left: 10px;
+}
+.footer h2{
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  color: white;
+  margin-bottom: 10px;
+}
+.leftBox ul{
+  margin: 0;
+  padding: 0;
+}
+.leftBox ul li{
+  color: white;
+  text-decoration: none;
+  list-style: none;
+  margin-bottom: 5px;
+}
+.leftBox ul li svg{
+  height: 15px;
+  margin-right: 5px;
+}
+.leftBox span{
+  margin: 0;
+}
+.rightBox{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rightBox span{
+  margin-left: 15px;
+  font-weight: 400px;
+  font-style: normal;
+}
+.icons{
+  padding: 0 10px;
+  font-size: 1rem;
+  color: white;
+}
+.formContainer{
+  min-width: 33%;
+  max-width: 330px;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.newsLetter{
+  color: white;
+  font-weight: 600;
+  margin: 0;
+}
+.form input{
+  max-width: 100%;
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  padding: 10px;
+}
+.form input:focus{
+  border: none;
+}
+.form .btn{
+  color: white;
+  border: 1px solid white;
+  background-color: black;
+  border-radius: 2px;
+  padding: 10px;
+  max-width: 100%;
+}
+.form .btn:hover{
+  color: rgb(66, 173, 248);
+  border: 1px solid white;
+}
+@media screen and (max-width: 768px){
+  .row{
+    flex-direction: column;
+    gap: 25px;
+  }
+}

@@ -20,7 +20,7 @@ export default function Hero() {
       </div>
       <div className={c.rightBlock}>
         <div className={c.imgCont}>
-          <img className={c.img} src="./businesswoman.webp" alt="img" />
+          <img className={c.img} src="./Business-Growing 1.png" alt="img" />
         </div>
       </div>
     </div>

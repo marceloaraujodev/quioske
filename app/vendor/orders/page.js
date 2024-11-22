@@ -1,13 +1,12 @@
-
-'use client'
-import OrdersPage from "@/app/components/OrdersPage/OrdersPage";
-import Footer from "@/app/components/Footer/Footer";
+'use client';
+import OrdersPage from '@/app/components/OrdersPage/OrdersPage';
+import Footer from '@/app/vendor/Footer/Footer';
 
 export default function page() {
   return (
     <>
-    <OrdersPage />
-    <Footer />
+      <OrdersPage />
+      <Footer />
     </>
-  )
+  );
 }

@@ -46,10 +46,10 @@ export default function Login() {
             )}
             <p className={c.text}>
               Don't have an account? Sign up{' '}
-              <a href="/#" onClick={() => setIsLogIn(false)}>
-                here
-              </a>
-              .
+              <span href="/#" onClick={() => setIsLogIn(false)}>
+                <span className={c.underline}>here.</span>
+              </span>
+              
             </p>
           </>
         ) : (
@@ -57,15 +57,13 @@ export default function Login() {
             <SignUpForm />
             <p className={c.text}>
               Already have an account? Log in{' '}
-              <a
-                href="/#"
+              <span
                 onClick={() => {
-                  setIsCredentials(false);
+                  // setIsCredentials(false);
                   setIsLogIn(true);
                 }}>
-                here
-              </a>
-              .
+                <span className={c.underline}>here.</span>
+              </span>
             </p>
           </>
         )}

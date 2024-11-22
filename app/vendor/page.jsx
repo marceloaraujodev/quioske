@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 // import Tables from '../components/Tables/Tables';
 import axios from 'axios';
 import MenuBtn from '../ui/Menu/Menu';
-import Footer from '../components/Footer/Footer';
+import Footer from './Footer/Footer';
 import Link from 'next/link';
 import c from './protected.module.css';
 

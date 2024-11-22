@@ -1,6 +1,6 @@
 .cont{
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   flex-grow: 1;
   flex-direction: column;
@@ -60,6 +60,11 @@
   width: 218px;
   margin: 0;
 }
-.text a{
+.text p{
   color: black;
+  margin: 0;
+}
+.underline{
+  text-decoration: underline;
+  cursor: pointer;
 }

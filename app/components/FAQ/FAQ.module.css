@@ -1,0 +1,104 @@
+.cont{
+  /* border: 1px solid red; */
+  margin: 100px 50px;
+  display: flex;
+}
+.wrapper{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 100px 30px;
+  border-radius: 10px;
+  width: 100%;
+  background-color: rgb(183, 180, 198);
+}
+.leftBlock{
+  /* border: 1px solid green; */
+  width: 100%;
+  max-width: 450px;
+}
+.title{
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.description{
+  max-width: 400px;
+}
+.rightBlock{
+  max-width: 450px;
+  /* border: 1px solid blue; */
+  width: 100%;
+  padding: 10px;
+}
+.box{
+  border: 1px solid black;
+  box-shadow: 2px 2px 0 rgb(0, 0, 0, 1);
+}
+
+.box details summary{
+  list-style: none; 
+  cursor: pointer;
+  position: relative; 
+  padding: 10px 0;
+  padding-left: 25px;
+  margin: 0;
+  border-bottom: 1px solid black;
+  font-size: 1.2rem;
+}
+.box details[open] summary{
+  border-bottom: none;
+}
+
+.box details p{
+  background-color: rgb(199, 199, 199);
+  margin: 0;
+  padding: 10px 0;
+  padding-left: 30px;
+}
+.box details[open] p{
+  border-bottom: 1px solid black;
+}
+.box details summary::before {
+  content: "+"; /* Default icon */
+  position: absolute;
+  left: 5px; 
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.box details[open] summary::before {
+  content: "-"; /* Icon when open */
+}
+@media screen and (max-width: 1050px){
+  .leftBlock{
+    padding-left: 10px;
+    max-width: 90%;
+  }
+  .rightBlock{
+    max-width: 90%;
+  }
+}
+@media screen and (max-width: 768px){
+  .cont{
+    margin: 50px 10px;
+  }
+  .wrapper{ 
+    /* border: 1px solid green; */
+    padding: 30px 10px;
+  }
+  .leftBlock{
+    padding-left: 10px;
+    max-width: 600px;
+    margin-bottom: 10px;
+  }
+  .title{
+    margin-top: 20px;
+  }
+  .rightBlock{
+    max-width: 600px;
+    margin: 20px 0;
+  }
+}

@@ -9,6 +9,9 @@ import OrdersPage from "./components/OrdersPage/OrdersPage";
 import Nav from "./components/Nav/Nav";
 import Hero from './components/Hero/Hero';
 import HowItWorks from "./components/HowItWorks/HowItWorks";
+import FAQ from "./components/FAQ/FAQ";
+import Footer from "./components/Footer/Footer";
+import SalesIncrease from "./components/SalesIncrease/SalesIncrease";
 import { useOrderContext } from "./Providers/OrderContext";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -36,6 +39,8 @@ export default function Home() {
      >
       <Hero />
       <HowItWorks />
+      <FAQ />
+      <SalesIncrease />
        {/* <Login /> */}
       {/* <Tables /> */}
       {/* <Cardapio 
@@ -44,6 +49,7 @@ export default function Home() {
       /> */}
       {/* <OrdersPage /> */}
      </motion.div>
+     <Footer />
     </>
   );
 }

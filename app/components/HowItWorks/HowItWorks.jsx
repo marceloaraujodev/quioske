@@ -12,21 +12,21 @@ export default function HowItWorks() {
           title="Pedidos Dinâmicos"
           description="Com menus acessíveis via QR Code, os clientes fazem pedidos direto do celular"
           btnArrowText="Saiba Mais"
-          imgUrl="./how-img-1.svg"
+          imgUrl="./QR-Code-Purchase-whitebg.jpg"
           bgColor="rgb(181, 198, 180)"
         />
         <Card
-          title="Mais Vendas, Menos Trabalho"
+          title="Mais Vendas, Menor Custo"
           description="Aumente a eficiência e reduza custos operacionais. Acabou a correria de levar e buscar menus."
           btnArrowText="Saiba Mais"
-          imgUrl="./how-img-2.svg"
+          imgUrl="./Financial-Analyst-whitebg.jpg"
           bgColor="rgb(181, 198, 180)"
         />
         <Card
           title="Atendimento  Ágil"
           description="Seu cliente faz o pedido em segundos. Um atendimento moderno e prático."
           btnArrowText="Saiba Mais"
-          imgUrl="./how-img-3.svg"
+          imgUrl="./Waiter-whitebg.jpg"
           bgColor="rgb(181, 198, 180)"
         />
       </div>
