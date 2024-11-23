@@ -48,7 +48,7 @@ export default function Footer() {
 
   return (
     <>
-    <div className={c.cont} id='contato'>
+    <div className={c.cont} id='contact'>
       <p className={c.contato}>Contato</p>
       <div className={c.wrapper}>
         <div className={c.icons}>
