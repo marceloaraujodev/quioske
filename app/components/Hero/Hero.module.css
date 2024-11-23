@@ -49,6 +49,8 @@
   display: flex;
   justify-content: center;
   gap: 10px;
+  text-decoration: none;
+  color: black;
 }
 .link:hover{
   color: red;
