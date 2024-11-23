@@ -12,7 +12,7 @@ export default function Testimonials() {
 
         <div className={c.rightBlock}>
           <div className={c.title}>
-          <h3>O que dizem os usuários </h3>
+          <h3 className={c.titleHeader}>O que dizem os usuários </h3>
           </div>
           <p className={c.description}>“Desde que migramos para a quioske, conseguimos aumentar nossas vendas, qualidade do serviço e ainda economizar tempo.”</p>
           <p className={c.owner}>Jonas, Proprietário Grill House</p>

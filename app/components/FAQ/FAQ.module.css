@@ -61,6 +61,7 @@
 .box details[open] p{
   border-bottom: 1px solid black;
 }
+
 .box details summary::before {
   content: "+"; /* Default icon */
   position: absolute;
@@ -72,6 +73,7 @@
 .box details[open] summary::before {
   content: "-"; /* Icon when open */
 }
+.box summary::-webkit-details-marker { display: none }
 @media screen and (max-width: 1050px){
   .leftBlock{
     padding-left: 10px;
