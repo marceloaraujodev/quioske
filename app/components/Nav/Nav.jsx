@@ -88,6 +88,9 @@ export default function Nav({ isMenuOpen, toggleMenu }) {
                 <li className={c.menuItems}><a 
                 // onClick={() => setIsMenuOpen(false)} 
                 href="#contact">Contato</a></li>
+                <li className={c.menuItems}><a 
+                // onClick={() => setIsMenuOpen(false)} 
+                href="/login">Login</a></li>
               </ul>
             </>
           )}

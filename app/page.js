@@ -25,8 +25,6 @@ export default function Home() {
         isMenuOpen={isMenuOpen}
         toggleMenu={toggleMenu}
         menuHeight={menuHeight}
-        // className={c.x}
-        // onAnimationComplete={handleAnimationComplete}
       />
      <motion.div className={c.cont}
        initial={{ y: 0 }}

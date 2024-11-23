@@ -1,4 +1,9 @@
-.test{
+.content{
   display: flex;
-  flex-grow: 1;
+  flex-direction: column;
+}
+.body{
+  margin-bottom: 100px;
+  /* border: 1px solid red; */
+  height: 100%;
 }

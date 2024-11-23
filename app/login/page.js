@@ -14,17 +14,18 @@ export default function LoginRoute() {
         toggleMenu={toggleMenu}
         menuHeight={menuHeight}
       />
-      <motion.div
-        className={c.test}
-        initial={{ y: 0 }}
-        animate={{ y: isMenuOpen ? menuHeight : 0 }}
-        exit={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-
-      <Login />
-      </motion.div>
-      <Footer />
+        <motion.div
+          className={c.content}
+          initial={{ y: 0 }}
+          animate={{ y: isMenuOpen ? menuHeight : 0 }}
+          exit={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+        <div className={c.body}>
+          <Login  />
+        </div>
+        <Footer />
+        </motion.div>
     </>
   );
 }

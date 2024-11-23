@@ -1,5 +1,5 @@
 'use client';
-import { useSession, signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation'; // Use 'next/navigation' for Next.js App Router
 import { useEffect, useState } from 'react';
 import SignInForm from './SignInForm/SignInForm';
@@ -35,6 +35,7 @@ export default function Login() {
   if (status === 'loading') return <p>Loading...</p>;
 
   return (
+    <>
     <div className={c.cont} >
       <div className={c.loginCont}>
         {isLogIn ? (
@@ -69,5 +70,6 @@ export default function Login() {
         )}
       </div>
     </div>
+    </>
   );
 }
