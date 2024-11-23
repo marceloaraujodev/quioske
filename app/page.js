@@ -12,7 +12,7 @@ import HowItWorks from "./components/HowItWorks/HowItWorks";
 import FAQ from "./components/FAQ/FAQ";
 import Footer from "./components/Footer/Footer";
 import SalesIncrease from "./components/SalesIncrease/SalesIncrease";
-import { useOrderContext } from "./Providers/OrderContext";
+import Testimonials from "./components/Testimonials/Testimonials";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -37,6 +37,7 @@ export default function Home() {
       <Hero />
       <HowItWorks />
       <FAQ />
+      <Testimonials />
       <SalesIncrease />
        {/* <Login /> */}
       {/* <Tables /> */}

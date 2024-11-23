@@ -15,7 +15,7 @@ export default function SalesIncrease() {
           <div className={c.title}>
           <h3>Otimizando o seu negócio</h3>
           </div>
-          <p className={c.description}>A Quioske economiza seu tempo e dinheiro para que você possa se concentrar no que realmente importa: proporcionar uma experiência excepcional aos seus clientes.</p>
+          <p className={c.description}>A Quioske agiliza pedidos e reduz custos, conectando seus clientes diretamente ao menu por QR Code. Simplifique operações e ofereça um atendimento rápido e eficiente</p>
 
           <div className={c.details}><FaRegCheckCircle size={22} />Redução de custos</div>
           <div className={c.details}><FaRegCheckCircle size={22} />Maior número de pedidos</div>

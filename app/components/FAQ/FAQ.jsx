@@ -15,12 +15,12 @@ export default function FAQ() {
           <div className={c.box}>
             <details>
               <summary >Como funciona os pedidos?</summary>
-              <p>O cliente scaneia o qr code, escolhe o que quer consumir e efetua o pedido. No mesmo instante o pedido é enviado para a aba de Pedidos, onde depois de despachar o pedido você o marca como despachado. O garçõm leva o pedido até o cliente e coleta o pagamento.</p>
+              <p>O cliente scaneia o qr code, escolhe o que quer consumir e efetua o pedido. No mesmo instante o pedido é enviado para a aba de Pedidos, onde depois de despachar o pedido você o marca como despachado. O garçom leva o pedido até o cliente e coleta o pagamento.</p>
             </details>
 
             <details>
               <summary>Como o quioske pode me ajudar?</summary>
-              <p>O quioske reduz o tempo de atendimento, deixando o cliente mais a vontade para pedir o que quer na hora que quer. Elimina o tempo que o garçõm teria que levar o menu até o cliente e retirar o pedido. Assim dando agilidade no atendimento, reduzindo o custo com empregados e aumentando o numero de pedidos que o seu estabelecimento consegue atender.</p>
+              <p>O quioske reduz o tempo de atendimento, deixando o cliente mais a vontade para pedir o que quer na hora que quer. Elimina o tempo que o garçom teria que levar o menu até o cliente e retirar o pedido. Assim dando agilidade no atendimento, reduzindo o custo com empregados e aumentando o numero de pedidos que o seu estabelecimento consegue atender.</p>
             </details>
 
             <details>
@@ -34,6 +34,10 @@ export default function FAQ() {
             <details>
               <summary>Quantos menus posso ter?</summary>
               <p>Vai depender do plano que você escolher</p>
+            </details>
+            <details>
+              <summary>Como cadastramos o qr code de uma mesa?</summary>
+              <p>No painel de controle você tem a opção de criar o qr code, nela você registra o numero da mesa e os pedidos que forem escaneados daquele qr code correspoderão a mesa em que o qr code foi registrado. </p>
             </details>
           </div>
         </div>

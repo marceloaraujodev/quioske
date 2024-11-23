@@ -16,14 +16,14 @@ export default function HowItWorks() {
           bgColor="rgb(181, 198, 180)"
         />
         <Card
-          title="Mais Vendas, Menor Custo"
+          title={<>Mais Vendas<br/> Menos Despesas</>}
           description="Aumente a eficiência e reduza custos operacionais. Acabou a correria de levar e buscar menus."
           btnArrowText="Saiba Mais"
           imgUrl="./Financial-Analyst-whitebg.jpg"
           bgColor="rgb(181, 198, 180)"
         />
         <Card
-          title="Atendimento  Ágil"
+          title={<>Atendimento <br/>Ágil</>}
           description="Seu cliente faz o pedido em segundos. Um atendimento moderno e prático."
           btnArrowText="Saiba Mais"
           imgUrl="./Waiter-whitebg.jpg"
