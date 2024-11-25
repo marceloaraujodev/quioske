@@ -9,7 +9,7 @@ import c from './Login.module.css';
 
 export default function Login() {
   const [isCredentials, setIsCredentials] = useState(false);
-  const [isLogIn, setIsLogIn] = useState(true);
+  const [isLogIn, setIsLogIn] = useState(true); // displays signup form if false
 
 
   const { data: session, status } = useSession();
@@ -26,6 +26,7 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
+    console.log('this is status ',status);
     if (status === 'authenticated') {
       router.push('/vendor');
     }
