@@ -29,21 +29,87 @@
 .subCategory{
   padding-left: 30px;
   /* border: 1px solid green; */
+  /* border: 1px solid purple; */
 }
 .label{
   margin-top: 20px;
 }
 .subCategoryItem{
-  padding-left: 50px;
+  margin-left: 50px;
+  padding-bottom: 10px;
+  border: 1px solid purple;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  margin-top: 10px;
 }
 .addItem{
   margin-top: 10px;
   margin-right: 10px;
 }
+.menuDisplay{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid black;
+  font-size: 1rem;
+  margin-top: 20px;
+}
+.menuDisplay > div {
+  border-right: 1px solid black;
+}
+
+.menuDisplay > div:nth-child(4n) {
+  border-right: none; /* Remove border for the last item in each row */
+}
+.header{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+.subCategoryDisplay{
+  border: 1px solid red;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 
+.itemWrapper{
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  /* height: 30px; */
+}
+.item{
+  /* width: fit-content; */
+  display: flex;
+}
+.itemName{
+  border-radius: 2px;
+  border: 1px solid rgb(204, 204, 204);
+  width: 250px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+}
 @media screen and (max-width: 768px) {
-  /* body{
-    padding: 0 5px;
-  } */
+  .cont{
+    padding: 5px;
+  }
+   .menuDisplay {
+    font-size: .8rem;
+   }
+   .subCategoryItem{
+    margin-left: 10px;
+    padding-bottom: 10px;
+    border: 1px solid purple;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    margin-top: 10px;
+  }
 }
