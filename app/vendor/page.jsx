@@ -44,6 +44,9 @@ export default function Protected() {
             <Link href="/vendor/qrcode">
               <div className={c.cardMenu}>Gerar QR</div>
             </Link>
+            <Link href="/vendor/menu">
+              <div className={c.cardMenu}>Criar Menu</div>
+            </Link>
           </div>
         </div>
         {/* <Tables empresa={user?.empresa}/> */}

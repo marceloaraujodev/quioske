@@ -1,0 +1,49 @@
+.cont{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 30px 20px;
+}
+.formCont{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex-grow: 1;
+  gap: 5px;
+  margin-top: 20px;
+  /* border: 1px solid red; */
+}
+.formCont label{
+  display: flex;
+  flex-direction: column;
+}
+.formCont input{
+  width: 100%;
+  max-width: 200px;
+  padding: 10px 0;
+}
+.catCont{
+  display: flex;
+  gap: 20px;
+}
+.subCategory{
+  padding-left: 30px;
+  /* border: 1px solid green; */
+}
+.label{
+  margin-top: 20px;
+}
+.subCategoryItem{
+  padding-left: 50px;
+}
+.addItem{
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+
+@media screen and (max-width: 768px) {
+  /* body{
+    padding: 0 5px;
+  } */
+}

@@ -103,7 +103,7 @@ export default function OrdersPage() {
     const unfulfilledItems = order.orderDetails.filter(
       (item) => !item.fulfilled
     );
-    console.log('this is unfulfilleditems: ', unfulfilledItems);
+    // console.log('this is unfulfilleditems: ', unfulfilledItems);
 
     // if one order has multiple items
     if (unfulfilledItems.length > 0) {
@@ -230,7 +230,7 @@ export default function OrdersPage() {
         <h2>Despachados</h2>
         <div className={`${c.wrapper} ${c.bottom}`}>
           <div className={c.unfilled}>
-            {filledOrders?.map((order, index) => {
+            {filledOrders?.slice().sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt)).map((order, index) => {
               return (
                 <div key={`${order._id}`} className={c.order}>
                   {order?.orderDetails?.map((item, index) => {
