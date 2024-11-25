@@ -289,8 +289,8 @@ export default function CriarMenu() {
 
                   {/* Display Items */}
                   {subCategory.items.map((item, itemIndex) => (
-                    <div className={c.itemWrapper}>
-                      <div key={itemIndex} className={c.item}>
+                    <div className={c.itemWrapper} key={itemIndex}>
+                      <div  className={c.item}>
                         <div className={c.itemName}>
                           {/* {console.log(item)} */}
                           {item.name} - ${item.price} -{' '}
