@@ -1,0 +1,82 @@
+.cont{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 30px 20px;
+  /* border: 1px solid red; */
+}
+.itemLabel{
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  /* border: 1px solid rgb(63, 27, 63); */
+  margin-top: 10px;
+  padding: 0 5px;
+  gap: 15px;
+  border-radius: 3px;
+}
+.itemLabel p{
+  margin: 0;
+}
+.itemCont{
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  border: 1px solid rgb(219, 219, 219);
+  border-radius: 3px;
+  margin-top: 10px;
+  padding: 0 5px;
+  gap: 15px;
+  position: relative;
+  border: 1px solid red;
+}
+.imgCont{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.img{
+  height: 48px;
+}
+.price{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.price span{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.modal{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.modalBody{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+.edit{
+  display: flex;
+  align-items: center;
+  justify-content: flex;
+  width: 90px;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .size{
+    display: flex;
+    justify-content: center;
+  
+  }
+  .price{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+}

@@ -196,7 +196,7 @@ export default function CriarMenu() {
                 className="btnLink"
                 onClick={addCategory} // Call addCategory directly
                 type="button">
-                Add Category
+                +
               </button>
             </div>
           </label>

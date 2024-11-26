@@ -1,0 +1,41 @@
+.cont{
+  display: flex;
+  flex-direction: column;
+  /* flex-grow: 1; */
+  padding: 30px 20px;
+}
+.formCont{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 5px;
+  margin-top: 20px;
+  /* border: 1px solid red; */
+}
+.formCont label{
+  display: flex;
+  flex-direction: column;
+}
+.formCont input{
+  width: 100%;
+  max-width: 200px;
+  padding: 10px 0;
+}
+.catCont{
+  display: flex;
+  gap: 10px;
+}
+.catListCont{
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.categoryItem{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  border: 1px solid rgb(223, 223, 223);
+  padding: 10px 5px;
+  border-radius: 5px;
+}
