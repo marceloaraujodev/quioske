@@ -3,21 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import {
-  Modal,
-  ButtonToolbar,
-  Button,
-  RadioGroup,
-  Radio,
-  Placeholder,
-} from 'rsuite';
 import { HiEllipsisVertical } from 'react-icons/hi2';
 import { CiEdit } from 'react-icons/ci';
 import { MdDeleteOutline } from 'react-icons/md';
 import 'rsuite/Modal/styles/index.css';
 import 'rsuite/Button/styles/index.css';
 import c from './Category.module.css';
+
+// to do: 1 update state after update not finished
 
 export default function Category() {
   // const { data: session, status } = useSession();
