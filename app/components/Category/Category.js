@@ -1,6 +1,6 @@
 // this should be a single category
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -47,22 +47,52 @@ export default function Category() {
   ]);
   const [isAddItem, setIsAddItem] = useState(false);
 
-  const iconRef = useRef(null);
-
   const [open, setOpen] = useState(false);
-  const [backdrop, setBackdrop] = useState('static');
-  const handleClose = () => setOpen(false);
-  const handleOpen = () => {
-    if (iconRef.current) {
-      const rect = iconRef.current.getBoundingClientRect();
-      setModalStyle({
-        position: 'absolute',
-        top: `${rect.bottom + window.scrollY}px`, // Position below the icon
-        left: `${rect.left + window.scrollX}px`, // Align with the icon
-        transform: 'none', // Override default centering
-      });
-    }
+  const [activeItem, setActiveItem] = useState(null);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+
+  }, [menu])
+
+  const handleOpenModal = (event, item) => {
+    const rect = event.target
+      .closest(`.${c.ellipsisCont}`)
+      .getBoundingClientRect();
+    setModalPosition({
+      top: rect.top + window.scrollY - 120,
+      left: rect.left + window.scrollX - 150,
+    });
+
+    setActiveItem(item); // Set the active item for the modal
     setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setActiveItem(null);
+  };
+
+  const handleDelete = () => {
+    console.log(activeItem);
+    setMenu((prevMenu) => {
+      return prevMenu.map((category) => {
+        // Filter out the item that matches the active item to be deleted
+        const updatedItems = category.items.filter(
+          (item) => item.itemId !== activeItem.itemId
+        );
+        console.log(category.items) // 
+        console.log(updatedItems)
+        // only return a new category object if the item was actually removed
+        if (updatedItems.length !== category.items.length) {
+          return { ...category, items: updatedItems };
+        }
+        
+        // Return the category unchanged if no items were removed
+        return category;
+      });
+    });
   };
 
   return (
@@ -84,44 +114,154 @@ export default function Category() {
           return item.items.map((item, index) => {
             return (
               <div key={index} className={c.itemCont}>
-                <div className={c.imgCont}>
-                  <img className={c.img} src={item.img} alt="item imag" />
-                  <span>{item.name}</span>
-                </div>
-                {/* <p>{item.itemId}</p> */}
-                <p className={c.size}>{item.ml}</p>
-                <p className={c.price}>
-                  R${item.price}{' '}
-                  <span onClick={() => setOpen(true)}>
-                    <HiEllipsisVertical />
-                  </span>
-                </p>
-                
-                <Modal
-                  className={c.modal}
-                  backdrop={backdrop}
-                  keyboard={false}
-                  open={open}
-                  size={180}
-                  onClose={handleClose}>
-                  <Modal.Header>
-                  </Modal.Header>
-                  <Modal.Body className={c.modalBody}>
-                    <div className={c.edit}>
-                      <CiEdit /> <span>Editar</span>
+                {isEditing ? (
+                  <>
+                    <div className={c.imgCont}>
+                      <img className={c.img} src={item.img} alt="item imag" />
+                      <span>
+                        <input
+                          type="text"
+                          value={item.name}
+                          onChange={(e) =>
+                            handleChange(item.itemId, 'name', e.target.value)
+                          }
+                        />
+                      </span>
                     </div>
-                    <div className={c.edit}>
-                      <MdDeleteOutline color="red" />
-                      <span>Deletar</span>
+                    <div className={c.size}>
+                      <input
+                        type="text"
+                        value={item.ml}
+                        onChange={(e) =>
+                          handleChange(item.itemId, 'ml', e.target.value)
+                        }
+                      />
                     </div>
-                  </Modal.Body>
-                  <Modal.Footer>
-                  </Modal.Footer>
-                </Modal>
+                    <div className={c.price}>
+                      R${' '}
+                      <input
+                        type="number"
+                        value={item.price}
+                        onChange={(e) =>
+                          handleChange(item.itemId, 'price', e.target.value)
+                        }
+                      />
+                      <div
+                        className={c.ellipsisCont}
+                        onClick={(e) => handleOpenModal(e, item)}>
+                        <HiEllipsisVertical />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  // not editing
+                  <>
+                    <div className={c.imgCont}>
+                      <img className={c.img} src={item.img} alt="item imag" />
+                      <span>{item.name}</span>
+                    </div>
+                    <div className={c.size}>{item.ml}</div>
+                    <div className={c.price}>
+                      <span>R$</span>
+                      {item.price}{' '}
+                      <div
+                        className={c.ellipsisCont}
+                        onClick={(e) => handleOpenModal(e, item)}>
+                        <HiEllipsisVertical />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             );
           });
         })}
+
+      {open && activeItem && (
+        <div
+          className={c.modal}
+          style={{
+            top: modalPosition.top,
+            left: modalPosition.left,
+          }}>
+          <div className={c.modalContentWrapper}>
+            <div className={c.modalIconWrapper}>
+              <div className={c.edit}>
+                <CiEdit />{' '}
+                <span
+                  onClick={() => {
+                    setIsEditing(true);
+                    handleClose();
+                  }}>
+                  Editar
+                </span>
+              </div>
+              <div className={c.edit}>
+                <MdDeleteOutline color="red" />
+                <span onClick={handleDelete}>Deletar</span>
+              </div>
+            </div>
+          </div>
+          <button onClick={handleClose} className={`btnLink ${c.modalBtn}`}>
+            x
+          </button>
+        </div>
+      )}
     </div>
   );
+}
+
+// modal
+
+// {open && activeItem && (
+//   <div
+//     className={c.modal}
+//     style={{
+//       top: modalPosition.top,
+//       left: modalPosition.left,
+//     }}
+//   >
+//     <div className={c.modalContentWrapper}>
+//       <div className={c.modalIconWrapper}>
+//         <div className={c.edit}>
+//           <CiEdit /> <span>Editar</span>
+//         </div>
+//         <div className={c.edit}>
+//           <MdDeleteOutline color="red" />
+//           <span>Deletar</span>
+//         </div>
+//       </div>
+//     </div>
+//       <button onClick={handleClose} className={`btnLink ${c.modalBtn}`}>
+//         x
+//       </button>
+//   </div>
+// )}
+
+{
+  /* <div>
+                <label>Name:</label>
+                <input
+                  type="text"
+                  value={item.name}
+                  onChange={(e) => handleChange(item.itemId, 'name', e.target.value)}
+                />
+              </div>
+              <div>
+                <label>Tamanho:</label>
+                <input
+                  type="text"
+                  value={item.ml}
+                  onChange={(e) => handleChange(item.itemId, 'ml', e.target.value)}
+                />
+              </div>
+              <div>
+                <label>Preço:</label>
+                <input
+                  type="number"
+                  value={item.price}
+                  onChange={(e) => handleChange(item.itemId, 'price', e.target.value)}
+                />
+              </div>
+            </div> */
 }

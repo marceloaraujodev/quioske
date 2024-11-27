@@ -25,8 +25,13 @@
   margin-top: 10px;
   padding: 0 5px;
   gap: 15px;
-  position: relative;
   border: 1px solid red;
+}
+.itemCont input{
+  border: none;
+  background-color: rgb(243, 243, 243);
+  border-radius: 4px;
+  padding: 5px 0;
 }
 .imgCont{
   display: flex;
@@ -36,27 +41,46 @@
 .img{
   height: 48px;
 }
+.size{
+  display: flex;
+  align-items: center;
+}
 .price{
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.price span{
+.ellipsisCont{
+  position: relative;
   display: flex;
   align-items: center;
   cursor: pointer;
+  /* border: 1px solid purple; */
 }
 
 .modal{
   position: absolute;
+  left: -200px;
   top: 0;
-  right: 0;
+  width: 160px;
+  background-color: white;
+  z-index: 500;
+  border: 1px solid lightgray;
+  border-radius: 4px;
 }
-.modalBody{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
+.modalContentWrapper{
+  margin-top: 30px;
+  padding: 5px;
+  padding-left: 10px;
+  position: relative;
+}
+
+.modalBtn{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 2px 5px;
+  border: none;
 }
 .edit{
   display: flex;
@@ -64,7 +88,9 @@
   justify-content: flex;
   width: 90px;
   gap: 10px;
-  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  /* margin-top: 20px; */
 }
 
 @media screen and (max-width: 768px) {
