@@ -40,10 +40,9 @@
   /* border: 1px solid green; */
   /* border: 1px solid purple; */
 }
-.label{
-  /* margin-top: 20px; */
-  /* padding: 5px; */
-}
+/* .label{
+
+} */
 .subCategoryItem{
   margin-left: 50px;
   padding-bottom: 10px;
@@ -56,10 +55,9 @@
   /* border: 1px solid red; */
   padding: 5px;
 }
-.addItem{
-  /* margin-top: 10px; */
-  /* margin-right: 10px; */
-}
+/* .addItem{
+
+} */
 .menuDisplay{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
