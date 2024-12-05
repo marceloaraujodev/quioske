@@ -1,0 +1,169 @@
+.cardapioCont {
+  padding: 0 20px;
+}
+
+.category {
+  background-color: #272727;
+  color: white;
+  padding: 8px 0;
+  text-align: center;
+  border-radius: 5px;
+  margin: 30px 0;
+}
+
+/* Keep subCategory styles but comment them out in the JSX rendering */
+.subCategory {
+  /* Styles for potential future use with subcategories */
+  padding: 8px 0;
+  text-align: center;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgb(180, 180, 180);
+  border-radius: 5px;
+  max-width: 60%;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-bottom: 45px;
+  color: white;
+}
+
+.itemsCont:last-child {
+  margin-bottom: 15px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px solid green; */
+  border-bottom: 1px solid rgb(228, 228, 228);
+  margin-bottom: 25px;
+}
+
+/* .item p {
+  margin: 5px;
+} */
+
+.imgCont {
+  /* border: 1px solid green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 160px;
+}
+
+.itemImg {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.itemName {
+  /* border: 1px solid red; */
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  margin-left: -3px;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 0;
+}
+
+.description {
+  width: 30%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.itemDescription {
+  padding: 0;
+}
+
+.itemDetails {
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+  max-width: 230px;
+  gap: 5px;
+  padding: 5px 0;
+  /* border: 1px solid green; */
+}
+.priceCont{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.priceCont p {
+  margin: 0;
+  text-align: center;
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* gap: 5px; */
+}
+
+.label button {
+  padding: 10px 10px;
+  margin: 0;
+  border: none;
+}
+
+.btnMinus {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.btnPlus {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.label input {
+  max-width: 30px;
+  padding: 10px 10px;
+  text-align: center;
+  border: none;
+}
+
+.label input[type="number"]::-webkit-inner-spin-button,
+.label input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.label input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+.label input[type="number"] {
+  width: 50px;
+  text-align: center;
+}
+
+.btnCont {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.btnOrder {
+  padding: 10px 45px;
+}
+
+.addImgIcon{
+  cursor: pointer;
+}
