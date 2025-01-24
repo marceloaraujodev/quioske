@@ -51,44 +51,47 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
   }, [tableNumber, quioskeName, _id]);
 
 
-  // console.log('this is from Cardapio, Table Number:', tableNumber)
+  console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
+    console.log('this id data onSubmit function', data)
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
       
       const [itemId, itemName, itemPrice] = key.split('_');
       // items with quantity greater than 1
       if (quantity > 0) {
         // console.log('itemId from items clicked:', itemId);
+        console.log(order)
 
-        // console.log(menuData)
+        console.log('menuData:', menuData)
         // Find the item in menuData that matches this itemId and itemName
         const category = menuData.category.find((cat) =>
           cat.subCategory.some((subCat) =>
             subCat.items.some((item) => item.itemId === itemId)
           )
         );
-        // console.log(category);
+        console.log('category:', category);
 
-        const subCategory = category?.subCategory.find((subCat) =>
-          subCat.items.some((item) => item.itemId === itemId)
-        );
-        // console.log(subCategory);
+        // const subCategory = category?.subCategory.find((subCat) =>
+        //   subCat.items.some((item) => item.itemId === itemId)
+        // );
+        // console.log('subCategory:', subCategory);
 
-        const item = subCategory?.items.find((item) => item.itemId === itemId);
+        // const item = subCategory?.items.find((item) => item.itemId === itemId);
         // console.log('this is item------', item);
         const uniqueItemId = uuidv4();
         order.push({ itemId: uniqueItemId, itemName, price: itemPrice, quantity, img: item.img });
       }
       return order;
     }, []);
-    // console.log(newOrder);
-    // addOrder(newOrder);
-    // setOrders((prevOrders) => [...prevOrders, ...newOrder]);
+    console.log(newOrder);
+    addOrder(newOrder);
+    setOrders((prevOrders) => [...prevOrders, ...newOrder]);
     setOrders([...newOrder]);
     setIsModalOpen(true);
     
   };
+
   async function confirmOrder(name) {
     try {
       const res = await axios.post('/api/createorder', {
