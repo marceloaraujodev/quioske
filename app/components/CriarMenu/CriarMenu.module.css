@@ -4,6 +4,12 @@
   flex-grow: 1;
   padding: 30px 20px;
 }
+.wrapper{
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 .formCont{
   display: flex;
   flex-direction: column;
@@ -11,11 +17,14 @@
   flex-grow: 1;
   gap: 5px;
   margin-top: 20px;
+  padding: 0 5px;
   /* border: 1px solid red; */
 }
 .formCont label{
+  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
+  padding: 10px 0;
 }
 .formCont input{
   width: 100%;
@@ -31,9 +40,9 @@
   /* border: 1px solid green; */
   /* border: 1px solid purple; */
 }
-.label{
-  margin-top: 20px;
-}
+/* .label{
+
+} */
 .subCategoryItem{
   margin-left: 50px;
   padding-bottom: 10px;
@@ -42,10 +51,13 @@
   border-radius: 5px;
   margin-top: 10px;
 }
-.addItem{
-  margin-top: 10px;
-  margin-right: 10px;
+.categoryItem{
+  /* border: 1px solid red; */
+  padding: 5px;
 }
+/* .addItem{
+
+} */
 .menuDisplay{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -60,10 +72,11 @@
 .menuDisplay > div:nth-child(4n) {
   border-right: none; /* Remove border for the last item in each row */
 }
-.header{
+.catBtns{
   display: flex;
   gap: 10px;
   align-items: center;
+  margin-bottom: 10px;
   /* border: 1px solid red; */
 }
 
