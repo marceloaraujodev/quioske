@@ -15,7 +15,7 @@ const inter = Inter({
 
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
 
   // if(session){
   //   Signed in as {session.user.email} <br />
@@ -25,7 +25,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProviderWrapper session={session}>
+        <SessionProviderWrapper >
           <OrderProvider>
             {/* Nav can go here */}
             {children}

@@ -12,7 +12,7 @@ import c from './Cardapio.module.css';
 // quioske name userId and table number will come from the qrcode link that it will be open by the client
 export default function Cardapio({ tableNumber, quioskeName, _id }) {
   const [menuData, setMenuData] = useState(null);
-  const [orders, setOrders] = useState(null);
+  // const [orders, setOrders] = useState(null);
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -21,8 +21,8 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
 
   const {
     // addOrder,
-    // orders,
-    // setOrders,
+    orders,
+    setOrders,
     // resetOrders,
     isModalOpen,
     setIsModalOpen,
@@ -51,45 +51,59 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
   }, [tableNumber, quioskeName, _id]);
 
 
-  console.log('this is from Cardapio, Table Number:', tableNumber)
+  // console.log('this is from Cardapio, Table Number:', tableNumber)
 
   const onSubmit = (data) => {
-    console.log('this id data onSubmit function', data)
+    console.log('Data from onSubmit function:', data);
+    setName('') // resets name
+  
     const newOrder = Object.entries(data).reduce((order, [key, quantity]) => {
-      
+      console.log('Key:', key);
+      console.log('Quantity:', quantity);
+  
       const [itemId, itemName, itemPrice] = key.split('_');
-      // items with quantity greater than 1
+  
+      // Only process items with quantity greater than 0
       if (quantity > 0) {
-        // console.log('itemId from items clicked:', itemId);
-        console.log(order)
-
-        console.log('menuData:', menuData)
-        // Find the item in menuData that matches this itemId and itemName
-        const category = menuData.category.find((cat) =>
-          cat.subCategory.some((subCat) =>
-            subCat.items.some((item) => item.itemId === itemId)
-          )
-        );
-        console.log('category:', category);
-
-        // const subCategory = category?.subCategory.find((subCat) =>
-        //   subCat.items.some((item) => item.itemId === itemId)
-        // );
-        // console.log('subCategory:', subCategory);
-
-        // const item = subCategory?.items.find((item) => item.itemId === itemId);
-        // console.log('this is item------', item);
-        const uniqueItemId = uuidv4();
-        order.push({ itemId: uniqueItemId, itemName, price: itemPrice, quantity, img: item.img });
+        console.log('Item ID from items clicked:', itemId);
+  
+        // Find the item in menuData
+        let foundItem = null;
+  
+        // Traverse the menuData structure to find the item
+        for (const category of menuData.category) {
+          for (const subCategory of category.subCategory) {
+            foundItem = subCategory.items.find((item) => {
+              return item.itemId === +itemId // itemId is a string
+            });
+            if (foundItem) break; // Exit loop if item is found
+          }
+          if (foundItem) break; // Exit loop if item is found
+        }
+  
+        if (foundItem) {
+          console.log('Found item:', foundItem);
+          const uniqueItemId = uuidv4();
+          order.push({
+            itemId: uniqueItemId,
+            itemName: foundItem.name, // Use the name from the found item
+            price: parseFloat(itemPrice), // Ensure price is a number
+            quantity,
+            img: foundItem.img, // Use the img from the found item
+          });
+        } else {
+          console.error('Item not found in menuData:', itemId);
+        }
       }
+  
       return order;
     }, []);
-    console.log(newOrder);
-    addOrder(newOrder);
+  
+    console.log('New Order:', newOrder);
+  
+    // Add the new order to the context or state
     setOrders((prevOrders) => [...prevOrders, ...newOrder]);
-    setOrders([...newOrder]);
     setIsModalOpen(true);
-    
   };
 
   async function confirmOrder(name) {

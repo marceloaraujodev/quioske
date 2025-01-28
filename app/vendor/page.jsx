@@ -14,18 +14,17 @@ export default function Protected() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (session.user.email) {
-        try {
-          const res = await axios.get(`/api/user?email=${session.user.email}`);
-          // console.log(res.data.user);
-          setUser(res.data.user);
-          console.log('this is session inside useeffect', session);
-        } catch (error) {
-          console.log(error);
+        if (session?.user?.email) { // Check if session and session.user exist
+          try {
+            const res = await axios.get(`/api/user?email=${session.user.email}`);
+            setUser(res.data.user);
+            console.log('this is session inside useeffect', session);
+          } catch (error) {
+            console.log(error);
+          }
         }
-      }
-    };
-    fetchData();
+      };
+      fetchData();
   }, [session]);
 
   // if (status === "loading") return <p>Loading...</p>;
