@@ -20,7 +20,7 @@ const OrderItemSchema = new mongoose.Schema({
     img: {
       type: String
     },
-    fulfilled: {
+    status: {
       type: Boolean,
       default: false,
     },
@@ -42,7 +42,7 @@ const OrderSchema = new mongoose.Schema({
   empresa: {
   type: String,
   },
-  orderDetails: {
+  orderItems: {
     type: [OrderItemSchema], 
     default: [],
   },

@@ -46,6 +46,9 @@ export default function Protected() {
             <Link href="/vendor/menu">
               <div className={c.cardMenu}>Criar Menu</div>
             </Link>
+            <Link href="/vendor/tables">
+              <div className={c.cardMenu}>Mesas</div>
+            </Link>
           </div>
         </div>
         {/* <Tables empresa={user?.empresa}/> */}
