@@ -36,7 +36,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
     formState: { errors },
   } = useForm();
 
-  // console.log(tableNumber, quioskeName, _id);
+  console.log('on cardapio component', tableNumber, quioskeName, _id);
 
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Cardapio({ tableNumber, quioskeName, _id }) {
         params: { _id, tableNumber, quioskeName },
       });
       setMenuData(res.data.menu);
-      // console.log(res.data.menu);
+      console.log(res.data.menu);
     };
     fetchMenu();
   }, [tableNumber, quioskeName, _id]);

@@ -1,0 +1,7 @@
+use google email
+
+and to see the menu from qr code use this 
+/customer/table/1_quioske1_672e136e012211bba5defa5b
+
+generate qrcode from menu
+https://localhost:3000/customer/table/{tableNumber}_{quioskeName}_{menuId}

@@ -20,7 +20,7 @@ export default function Menu({params}) {
     }
     fetchParams();
   }, [params]);
-  // console.log(tableNumber, quioskeName, _id);
+  console.log(tableNumber, quioskeName, _id);
 
   return (
     <div className={c.cont}>

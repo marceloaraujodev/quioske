@@ -13,6 +13,7 @@ export async function GET(req) {
     const _id = searchParams.get('_id');
     const tableNumber = searchParams.get('tableNumber');
     const quioskeName = searchParams.get('quioskeName');
+    console.log('quioskeName:', quioskeName);
 
     // console.log('_id, tableNumber, quioskename,--------:', _id, tableNumber, quioskeName);
       // Check if the _id is a valid ObjectId string (24 characters, hex)
@@ -23,8 +24,8 @@ export async function GET(req) {
       // Convert _id to ObjectId before using it in the query
       const objectId = new mongoose.Types.ObjectId(_id);
     
-    const menu = await Menu.findOne({user: objectId});
-    // console.log('this is menu------------', menu);
+    const menu = await Menu.findById(_id);
+    console.log('this is menu------------', menu);
 
     return NextResponse.json({ message: 'success', menu });
   } catch (error) {
